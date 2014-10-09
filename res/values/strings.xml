@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Penasehat Akademik</string>
+    <string name="about">About Apps</string>
+    <string name="imgdesc">imgdesc</string>
+    <string name="drawer_open">Buka</string>
+    <string name="drawer_close">Tutup</string>
+    
+    
+    <!-- Title -->
+    <string-array name="titles">
+        <item>Profil</item>
+        <item>Cek Nilai</item>
+        <item>Rekomendasi Mata Kuliah</item>
+        <item>Settings</item> 
+    </string-array>
+            
+	<!-- Icon -->
+    <array name="icons">
+        <item>@drawable/ic_profil</item>
+        <item>@drawable/ic_ceknilai</item>
+        <item>@drawable/ic_krs</item>
+        <item>@drawable/ic_settings</item>
+    </array>
+
+
+</resources>
