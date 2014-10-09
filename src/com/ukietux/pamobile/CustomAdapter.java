@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,12 @@ public class CustomAdapter extends BaseAdapter {
 
 			RowItem row_pos = rowItem.get(position);
 			// setting the image resource and title
+			Typeface myFont = Typeface.createFromAsset(context.getAssets(),
+					"fonts/manteka.ttf");
+
 			holder.icon.setImageResource(row_pos.getIcon());
 			holder.title.setText(row_pos.getTitle());
+			holder.title.setTypeface(myFont);
 			convertView.setTag(holder);
 
 		}
@@ -59,12 +64,12 @@ public class CustomAdapter extends BaseAdapter {
 			// grep row item text to set gravity center
 			RowItem row_pos = rowItem.get(position);
 			String mTitle = row_pos.getTitle();
+			convertView.setBackgroundResource(R.drawable.bg_list_selected);
+			holder.title.setPadding(12, 12, 5, 0);
+			holder.title.setFocusable(true);
+			holder.title.setSelected(true);
 			holder.title.setText(mTitle);
 
-			convertView.setBackgroundResource(R.drawable.bg_list_selected);
-			convertView.setPadding(0, 0, 0, 0);
-			holder.title.setTypeface(null, Typeface.BOLD);
-			holder.icon.setPadding(0, 0, 0, 8);
 		} else {
 			convertView.setBackgroundResource(R.drawable.bg_list_normal);
 		}

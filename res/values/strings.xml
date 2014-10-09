@@ -6,23 +6,21 @@
     <string name="imgdesc">imgdesc</string>
     <string name="drawer_open">Buka</string>
     <string name="drawer_close">Tutup</string>
-    
-    
+
     <!-- Title -->
     <string-array name="titles">
         <item>Profil</item>
         <item>Cek Nilai</item>
         <item>Rekomendasi Mata Kuliah</item>
-        <item>Settings</item> 
+        <item>Pengaturan</item>
     </string-array>
-            
-	<!-- Icon -->
+
+    <!-- Icon -->
     <array name="icons">
         <item>@drawable/ic_profil</item>
         <item>@drawable/ic_ceknilai</item>
         <item>@drawable/ic_krs</item>
         <item>@drawable/ic_settings</item>
     </array>
-
 
 </resources>

@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
-public class Fragment_CekNilai extends  Fragment {
-	  @Override
-	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	      Bundle savedInstanceState) {
-	    final View v = inflater.inflate(R.layout.cek_nilai, container, false);
-	    return v;
-	  }
+public class Fragment_CekNilai extends Fragment {
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		final View v = inflater.inflate(R.layout.cek_nilai, container, false);
+		return v;
+	}
 }

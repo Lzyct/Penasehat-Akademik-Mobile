@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:text="Profil"
+        android:text="Profil Mahasiswa"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold" />
 

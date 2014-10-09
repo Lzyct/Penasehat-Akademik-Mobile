@@ -2,6 +2,7 @@ package com.ukietux.pamobile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -9,13 +10,17 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.TextPaint;
+import android.text.style.MetricAffectingSpan;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -84,17 +89,37 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
 
+			@SuppressLint("ResourceAsColor")
 			public void onDrawerClosed(View view) {
 				(new Handler()).postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						String mTitleFix = (String) mTitle;
-						String judul = mTitleFix.replaceAll("\t", "");
-						// getSupportActionBar().setTitle(judul);
 
-						getSupportActionBar().setTitle(
-								(Html.fromHtml("<font color=\"#FFFFFF\">"
-										+ judul + "</font>")));
+						final Typeface myFont = Typeface.createFromAsset(
+								getAssets(), "fonts/manteka.ttf");
+						// mengirim value string mtitle ke update display
+						String mTitleFix = (String) mTitle;
+						String str = String.valueOf(mTitleFix);
+
+						str = str.toUpperCase(Locale.getDefault());
+						SpannableString s = new SpannableString(str);
+						MetricAffectingSpan span = new MetricAffectingSpan() {
+							@Override
+							public void updateMeasureState(TextPaint p) {
+								p.setTypeface(myFont);
+								p.setColor(R.color.white);
+							}
+
+							@Override
+							public void updateDrawState(TextPaint tp) {
+								tp.setTypeface(myFont);
+								tp.setColor(R.color.white);
+							}
+						};
+
+						s.setSpan(span, 0, s.length(),
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						getSupportActionBar().setTitle(s);
 						// calling onPrepareOptionsMenu() to show action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -102,16 +127,36 @@ public class MainActivity extends ActionBarActivity {
 				}, 200);
 			}
 
+			@SuppressLint("ResourceAsColor")
 			public void onDrawerOpened(View drawerView) {
 				(new Handler()).postDelayed(new Runnable() {
 					@Override
 					public void run() {
-						String mTitleFix = (String) mTitle;
-						String judul = mTitleFix.replaceAll("\t", "");
-						// getSupportActionBar().setTitle(judul);
-						getSupportActionBar().setTitle(
-								(Html.fromHtml("<font color=\"#FFFFFF\">"
-										+ judul + "</font>")));
+						final Typeface myFont = Typeface.createFromAsset(
+								getAssets(), "fonts/manteka.ttf");
+						// mengirim value string mtitle ke update display
+
+						String str = String.valueOf("(PA) Mobile");
+						str = str.toUpperCase(Locale.getDefault());
+						SpannableString s = new SpannableString(str);
+						MetricAffectingSpan span = new MetricAffectingSpan() {
+							@Override
+							public void updateMeasureState(TextPaint p) {
+								p.setTypeface(myFont);
+								p.setColor(R.color.white);
+							}
+
+							@Override
+							public void updateDrawState(TextPaint tp) {
+								tp.setTypeface(myFont);
+								tp.setColor(R.color.white);
+							}
+						};
+
+						s.setSpan(span, 0, s.length(),
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						getSupportActionBar().setTitle(s);
+
 						// calling onPrepareOptionsMenu() to hide action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -183,15 +228,34 @@ public class MainActivity extends ActionBarActivity {
 
 	}
 
+	@SuppressLint("ResourceAsColor")
 	@Override
 	public void setTitle(CharSequence title) {
 
-		// mengirim value string mtitle ke update display
 		mTitle = title;
-		getSupportActionBar()
-				.setTitle(
-						(Html.fromHtml("<font color=\"#FFFFFF\">" + mTitle
-								+ "</font>")));
+		final Typeface myFont = Typeface.createFromAsset(getAssets(),
+				"fonts/manteka.ttf");
+		// mengirim value string mtitle ke update display
+		String str = String.valueOf(mTitle);
+		str = str.toUpperCase(Locale.getDefault());
+		SpannableString s = new SpannableString(str);
+		MetricAffectingSpan span = new MetricAffectingSpan() {
+			@Override
+			public void updateMeasureState(TextPaint p) {
+				p.setTypeface(myFont);
+				p.setColor(R.color.white);
+			}
+
+			@Override
+			public void updateDrawState(TextPaint tp) {
+				tp.setTypeface(myFont);
+				tp.setColor(R.color.white);
+			}
+		};
+
+		s.setSpan(span, 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		getSupportActionBar().setTitle(s);
+
 	}
 
 	@Override
@@ -222,8 +286,8 @@ public class MainActivity extends ActionBarActivity {
 
 		// menampilkan web view fragment ke activity_main.xml
 		android.support.v4.app.FragmentManager profil_manager = getSupportFragmentManager();
-		profil_manager.beginTransaction()
-				.replace(R.id.content_frame, profil).commit();
+		profil_manager.beginTransaction().replace(R.id.content_frame, profil)
+				.commit();
 	}
 
 	public void CekNilai() {
@@ -243,8 +307,8 @@ public class MainActivity extends ActionBarActivity {
 
 		// menampilkan web view fragment ke activity_main.xml
 		android.support.v4.app.FragmentManager KRS_manager = getSupportFragmentManager();
-		KRS_manager.beginTransaction()
-				.replace(R.id.content_frame, KRS).commit();
+		KRS_manager.beginTransaction().replace(R.id.content_frame, KRS)
+				.commit();
 	}
 
 	public void Settings() {
@@ -253,32 +317,32 @@ public class MainActivity extends ActionBarActivity {
 
 		// menampilkan web view fragment ke activity_main.xml
 		android.support.v4.app.FragmentManager Setting_manager = getSupportFragmentManager();
-		Setting_manager.beginTransaction().replace(R.id.content_frame, Settings)
-				.commit();
+		Setting_manager.beginTransaction()
+				.replace(R.id.content_frame, Settings).commit();
 	}
 
 	// showing about on pop up notification
 
-	 public void about() {
-	 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-	 builder.setCancelable(false)
-	 .setTitle("About")
-	 .setMessage(
-	 "Penasehat Akademik Mobile 1.0\n"
-	 + "Development by : Mudassir\n\n\n\n\n\n\n"
-	 + "+--------------------------------+\n"
-	 + "   Contact Developer:\n"
-	 + "   ukie.tux@gmail.com\n"
-	 + "+--------------------------------+")
-	 .setIcon(R.drawable.ic_about)
-	 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-	 public void onClick(DialogInterface dialog, int id) {
-	 dialog.cancel();
-	 }
-	 });
-	 AlertDialog alert = builder.create();
-	 alert.show();
-	 }
+	public void about() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setCancelable(false)
+				.setTitle("About")
+				.setMessage(
+						"Penasehat Akademik Mobile 1.0\n"
+								+ "Development by : Mudassir\n\n\n\n\n\n\n"
+								+ "+--------------------------------+\n"
+								+ "   Contact Developer:\n"
+								+ "   ukie.tux@gmail.com\n"
+								+ "+--------------------------------+")
+				.setIcon(R.drawable.ic_about)
+				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int id) {
+						dialog.cancel();
+					}
+				});
+		AlertDialog alert = builder.create();
+		alert.show();
+	}
 
 	/** Called whenever we call supportInvalidateOptionsMenu(); */
 	@Override

@@ -5,29 +5,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity" >
- 
+
     <!-- Content Utama -->
 
-    <FrameLayout 
+    <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
- 
-    <!-- Navigation Drawer -->
 
- 	<ListView
-        android:id="@+id/drawer_list"
-        android:layout_width="240dp"
-        android:layout_height="match_parent"
+    <!--
+         Navigation Drawer 
+    
         android:paddingTop="10dip"
         android:paddingLeft="0.0dip"
         android:paddingRight="0.0dip"
         android:paddingBottom="10dip"
+    -->
+
+    <ListView
+        android:id="@+id/drawer_list"
+        android:layout_width="240dp"
+        android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="#00b16a"
-        android:divider="@android:color/transparent"
-        android:dividerHeight="0dp"
-        android:choiceMode="singleChoice"/>
- 		
- 
+        android:background="@drawable/drawer_bg"
+        android:choiceMode="singleChoice"
+        android:divider="@drawable/divider"
+        android:dividerHeight="0dp" />
+
 </android.support.v4.widget.DrawerLayout>
