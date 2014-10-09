@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import com.ukietux.pamobile.fragment.CekNilai;
+import com.ukietux.pamobile.fragment.KRS;
+import com.ukietux.pamobile.fragment.Profil;
+import com.ukietux.pamobile.fragment.Settings;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -15,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.Spannable;
@@ -201,23 +207,25 @@ public class MainActivity extends ActionBarActivity {
 	}
 
 	private void updateDisplay(int position) {
-
+		final Fragment f;
 		switch (position) {
 		case 0:
-			Profil();
+			f = new Profil();
 			break;
 		case 1:
-			CekNilai();
+			f = new CekNilai();
 			break;
 		case 2:
-			KRS();
+			f = new KRS();
 			break;
 		case 3:
-			Settings();
+			f = new Settings();
 			break;
 		default:
 			return;
 		}
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.content_frame, f).commit();
 
 		// set title action bar dari method set title
 
@@ -277,48 +285,6 @@ public class MainActivity extends ActionBarActivity {
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-	}
-
-	public void Profil() {
-
-		// initialisasi web view fragment
-		android.support.v4.app.Fragment profil = new Fragment_Profil();
-
-		// menampilkan web view fragment ke activity_main.xml
-		android.support.v4.app.FragmentManager profil_manager = getSupportFragmentManager();
-		profil_manager.beginTransaction().replace(R.id.content_frame, profil)
-				.commit();
-	}
-
-	public void CekNilai() {
-
-		// initialisasi web view fragment
-		android.support.v4.app.Fragment CekNilai = new Fragment_CekNilai();
-
-		// menampilkan web view fragment ke activity_main.xml
-		android.support.v4.app.FragmentManager CekNilai_manager = getSupportFragmentManager();
-		CekNilai_manager.beginTransaction()
-				.replace(R.id.content_frame, CekNilai).commit();
-	}
-
-	public void KRS() {
-		// initialisasi web view fragment
-		android.support.v4.app.Fragment KRS = new Fragment_KRS();
-
-		// menampilkan web view fragment ke activity_main.xml
-		android.support.v4.app.FragmentManager KRS_manager = getSupportFragmentManager();
-		KRS_manager.beginTransaction().replace(R.id.content_frame, KRS)
-				.commit();
-	}
-
-	public void Settings() {
-		// initialisasi web view fragment
-		android.support.v4.app.Fragment Settings = new Fragment_Settings();
-
-		// menampilkan web view fragment ke activity_main.xml
-		android.support.v4.app.FragmentManager Setting_manager = getSupportFragmentManager();
-		Setting_manager.beginTransaction()
-				.replace(R.id.content_frame, Settings).commit();
 	}
 
 	// showing about on pop up notification

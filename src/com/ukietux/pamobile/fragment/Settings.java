@@ -1,4 +1,6 @@
-package com.ukietux.pamobile;
+package com.ukietux.pamobile.fragment;
+
+import com.ukietux.pamobile.R;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,7 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Fragment_Settings extends Fragment {
+public class Settings extends Fragment {
 	  @Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
