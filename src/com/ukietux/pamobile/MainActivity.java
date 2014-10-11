@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
 		// Enabling Up navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.parseColor("#00b16a")));
+				new ColorDrawable(Color.parseColor("#68c3a3")));
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {

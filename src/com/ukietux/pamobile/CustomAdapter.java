@@ -65,7 +65,6 @@ public class CustomAdapter extends BaseAdapter {
 			RowItem row_pos = rowItem.get(position);
 			String mTitle = row_pos.getTitle();
 			convertView.setBackgroundResource(R.drawable.bg_list_selected);
-			holder.title.setPadding(12, 12, 5, 0);
 			holder.title.setFocusable(true);
 			holder.title.setSelected(true);
 			holder.title.setText(mTitle);
