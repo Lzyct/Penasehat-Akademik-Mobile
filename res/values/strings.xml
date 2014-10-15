@@ -9,10 +9,10 @@
 
     <!-- Title -->
     <string-array name="titles">
-        <item>Profil</item>
-        <item>Cek Nilai</item>
-        <item>Rekomendasi Mata Kuliah</item>
-        <item>Pengaturan</item>
+        <item>PROFIL</item>
+        <item>CEK NILAI</item>
+        <item>REKOMENDASI MATA KULIAH</item>
+        <item>PENGATURAN</item>
     </string-array>
 
     <!-- Icon -->

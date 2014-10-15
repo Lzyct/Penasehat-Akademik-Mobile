@@ -4,7 +4,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,7 +50,7 @@ public class CustomAdapter extends BaseAdapter {
 			RowItem row_pos = rowItem.get(position);
 			// setting the image resource and title
 			Typeface myFont = Typeface.createFromAsset(context.getAssets(),
-					"fonts/manteka.ttf");
+					"fonts/Roboto.ttf");
 
 			holder.icon.setImageResource(row_pos.getIcon());
 			holder.title.setText(row_pos.getTitle());

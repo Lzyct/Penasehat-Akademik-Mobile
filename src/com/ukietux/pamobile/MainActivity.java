@@ -90,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
 		// Enabling Up navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.parseColor("#68c3a3")));
+				new ColorDrawable(Color.parseColor("#87cfd5")));
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
@@ -102,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
 					public void run() {
 
 						final Typeface myFont = Typeface.createFromAsset(
-								getAssets(), "fonts/manteka.ttf");
+								getAssets(), "fonts/Roboto.ttf");
 						// mengirim value string mtitle ke update display
 						String mTitleFix = (String) mTitle;
 						String str = String.valueOf(mTitleFix);
@@ -114,12 +114,14 @@ public class MainActivity extends ActionBarActivity {
 							public void updateMeasureState(TextPaint p) {
 								p.setTypeface(myFont);
 								p.setColor(R.color.white);
+								p.setTextSize((float) 20.0);
 							}
 
 							@Override
 							public void updateDrawState(TextPaint tp) {
 								tp.setTypeface(myFont);
 								tp.setColor(R.color.white);
+								tp.setTextSize((float) 20.0);
 							}
 						};
 
@@ -139,10 +141,10 @@ public class MainActivity extends ActionBarActivity {
 					@Override
 					public void run() {
 						final Typeface myFont = Typeface.createFromAsset(
-								getAssets(), "fonts/manteka.ttf");
+								getAssets(), "fonts/Roboto.ttf");
 						// mengirim value string mtitle ke update display
 
-						String str = String.valueOf("(PA) Mobile");
+						String str = String.valueOf("PENASEHAT AKADEMIK");
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
 						MetricAffectingSpan span = new MetricAffectingSpan() {
@@ -150,12 +152,14 @@ public class MainActivity extends ActionBarActivity {
 							public void updateMeasureState(TextPaint p) {
 								p.setTypeface(myFont);
 								p.setColor(R.color.white);
+								p.setTextSize((float) 20.0);
 							}
 
 							@Override
 							public void updateDrawState(TextPaint tp) {
 								tp.setTypeface(myFont);
 								tp.setColor(R.color.white);
+								tp.setTextSize((float) 20.0);
 							}
 						};
 
@@ -242,7 +246,7 @@ public class MainActivity extends ActionBarActivity {
 
 		mTitle = title;
 		final Typeface myFont = Typeface.createFromAsset(getAssets(),
-				"fonts/manteka.ttf");
+				"fonts/Roboto.ttf");
 		// mengirim value string mtitle ke update display
 		String str = String.valueOf(mTitle);
 		str = str.toUpperCase(Locale.getDefault());
@@ -252,12 +256,14 @@ public class MainActivity extends ActionBarActivity {
 			public void updateMeasureState(TextPaint p) {
 				p.setTypeface(myFont);
 				p.setColor(R.color.white);
+				p.setTextSize((float) 20.0);
 			}
 
 			@Override
 			public void updateDrawState(TextPaint tp) {
 				tp.setTypeface(myFont);
 				tp.setColor(R.color.white);
+				tp.setTextSize((float) 20.0);
 			}
 		};
 

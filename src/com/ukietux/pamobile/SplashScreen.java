@@ -9,7 +9,7 @@ import android.view.Window;
 public class SplashScreen extends Activity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 1500;
+    private final int SPLASH_DISPLAY_LENGTH = 2000;
 
     /** Called when the activity is first created. */
     @Override
@@ -26,7 +26,7 @@ public class SplashScreen extends Activity {
                 /* Create an Intent that will start the Menu-Activity. */
                 Intent mainIntent = new Intent(SplashScreen.this,MainActivity.class);
                 SplashScreen.this.startActivity(mainIntent);
-                SplashScreen.this.overridePendingTransition(R.anim.mainfadein,R.anim.splashfadeout);
+                SplashScreen.this.overridePendingTransition(R.anim.animpertama,R.anim.animkedua);
                 SplashScreen.this.finish();
             }
         }, SPLASH_DISPLAY_LENGTH);
