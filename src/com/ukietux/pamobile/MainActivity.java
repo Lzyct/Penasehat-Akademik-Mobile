@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+
 import com.ukietux.pamobile.fragment.CekNilai;
 import com.ukietux.pamobile.fragment.KRS;
 import com.ukietux.pamobile.fragment.Profil;
@@ -19,10 +20,11 @@ import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
@@ -46,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
 	private ActionBarDrawerToggle mDrawerToggle;
 	private ListView sliding_listview;
 
+	private Toolbar toolbar;
 	private CharSequence mTitle;
 
 	private List<RowItem> rowItems;
@@ -67,6 +70,13 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		sliding_listview = (ListView) findViewById(R.id.drawer_list);
 
+		//toolbar
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+	    if (toolbar != null) {
+	        toolbar.setTitle(null);
+	        setSupportActionBar(toolbar);
+	    }
+	    
 		rowItems = new ArrayList<RowItem>();
 		// add menu menggunakan list view custom adapter
 		for (int i = 0; i < menutitles.length; i++) {
@@ -93,7 +103,7 @@ public class MainActivity extends ActionBarActivity {
 				new ColorDrawable(Color.parseColor("#87cfd5")));
 
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.ic_drawer, R.string.app_name, R.string.app_name) {
+				R.string.app_name, R.string.app_name) {
 
 			@SuppressLint("ResourceAsColor")
 			public void onDrawerClosed(View view) {
@@ -109,25 +119,8 @@ public class MainActivity extends ActionBarActivity {
 
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
-						MetricAffectingSpan span = new MetricAffectingSpan() {
-							@Override
-							public void updateMeasureState(TextPaint p) {
-								p.setTypeface(myFont);
-								p.setColor(R.color.white);
-								p.setTextSize((float) 20.0);
-							}
 
-							@Override
-							public void updateDrawState(TextPaint tp) {
-								tp.setTypeface(myFont);
-								tp.setColor(R.color.white);
-								tp.setTextSize((float) 20.0);
-							}
-						};
-
-						s.setSpan(span, 0, s.length(),
-								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						getSupportActionBar().setTitle(s);
+						toolbar.setTitle(s);
 						// calling onPrepareOptionsMenu() to show action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -147,26 +140,8 @@ public class MainActivity extends ActionBarActivity {
 						String str = String.valueOf("PENASEHAT AKADEMIK");
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
-						MetricAffectingSpan span = new MetricAffectingSpan() {
-							@Override
-							public void updateMeasureState(TextPaint p) {
-								p.setTypeface(myFont);
-								p.setColor(R.color.white);
-								p.setTextSize((float) 20.0);
-							}
 
-							@Override
-							public void updateDrawState(TextPaint tp) {
-								tp.setTypeface(myFont);
-								tp.setColor(R.color.white);
-								tp.setTextSize((float) 20.0);
-							}
-						};
-
-						s.setSpan(span, 0, s.length(),
-								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-						getSupportActionBar().setTitle(s);
-
+						toolbar.setTitle(s);
 						// calling onPrepareOptionsMenu() to hide action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -251,25 +226,8 @@ public class MainActivity extends ActionBarActivity {
 		String str = String.valueOf(mTitle);
 		str = str.toUpperCase(Locale.getDefault());
 		SpannableString s = new SpannableString(str);
-		MetricAffectingSpan span = new MetricAffectingSpan() {
-			@Override
-			public void updateMeasureState(TextPaint p) {
-				p.setTypeface(myFont);
-				p.setColor(R.color.white);
-				p.setTextSize((float) 20.0);
-			}
 
-			@Override
-			public void updateDrawState(TextPaint tp) {
-				tp.setTypeface(myFont);
-				tp.setColor(R.color.white);
-				tp.setTextSize((float) 20.0);
-			}
-		};
-
-		s.setSpan(span, 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		getSupportActionBar().setTitle(s);
-
+		toolbar.setTitle(s);
 	}
 
 	@Override
@@ -287,6 +245,7 @@ public class MainActivity extends ActionBarActivity {
 		// Handle action bar actions click
 		switch (item.getItemId()) {
 		case R.id.about:
+			about();
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
