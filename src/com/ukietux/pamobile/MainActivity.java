@@ -1,9 +1,11 @@
 package com.ukietux.pamobile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import org.json.JSONArray;
 
 import com.ukietux.pamobile.fragment.CekNilai;
 import com.ukietux.pamobile.fragment.KRS;
@@ -35,6 +37,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -54,12 +58,31 @@ public class MainActivity extends ActionBarActivity {
 	private List<RowItem> rowItems;
 	private CustomAdapter adapter;
 
+	//get session
+	SessionManager session;
+	JSONArray contacts = null;
+	String nim;
+	
+	
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
+		//get session
+		session = new SessionManager(getApplicationContext());
+		Toast.makeText(getApplicationContext(),
+				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+				.show();
+
+		session.checkLogin();
+
+		HashMap<String, String> user = session.getUserDetails();
+
+		nim = user.get(SessionManager.KEY_NIM);
+		// id = user.get(SessionManager.KEY_ID);
+		
 		mTitle = getTitle();
 
 		// menampung string array ke variable
@@ -187,6 +210,7 @@ public class MainActivity extends ActionBarActivity {
 
 	private void updateDisplay(int position) {
 		final Fragment f;
+		
 		switch (position) {
 		case 0:
 			f = new Profil();
