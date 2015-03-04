@@ -11,36 +11,44 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 public class DBController extends SQLiteOpenHelper {
-	
+
 	public DBController(Context applicationcontext) {
-        super(applicationcontext, "Skripsi.db", null, 1);
-        Log.d("Skripsi","membuat database");
-    }
-	//Creates Table
+		super(applicationcontext, "Skripsi.db", null, 1);
+		Log.d("Skripsi", "membuat database");
+	}
+
+	// Creates Table
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		String query;
-		query = "CREATE TABLE DataMHS (Nim TEXT, Nama TEXT, NamaMaKul TEXT, NilaiHuruf TEXT, Semester TEXT, SKS TXT)";
-        database.execSQL(query);
-        Log.d("Skripsi","membuat table DataMHS");
+		String DataMHS, NamaMaKul;
+		DataMHS = "CREATE TABLE DataMHS (Nim TEXT, Nama TEXT, NamaMaKul TEXT, NilaiHuruf TEXT, Semester TEXT, SKS INT)";
+		database.execSQL(DataMHS);
+
+		NamaMaKul = "CREATE TABLE MataKuliah (NamaMaKul TEXT, SKSTeori INT, SKSPraktikum INT, PaketSemester TEXT, SifatMaKul TEXT, JKurikulum TXT)";
+		database.execSQL(NamaMaKul);
+
+		Log.d("Skripsi", "membuat table DataMHS");
 	}
+
 	@Override
-	public void onUpgrade(SQLiteDatabase database, int version_old, int current_version) {
-		String query;
-		query = "DROP TABLE IF EXISTS DataMHS";
-		database.execSQL(query);
-        onCreate(database);
+	public void onUpgrade(SQLiteDatabase database, int version_old,
+			int current_version) {
+		String DataMHS, NamaMaKul;
+		DataMHS = "DROP TABLE IF EXISTS DataMHS";
+		database.execSQL(DataMHS);
+		NamaMaKul = "DROP TABLE IF EXISTS MataKuliah ";
+		database.execSQL(NamaMaKul);
+
+		onCreate(database);
 	}
-	
+
+
 	/**
-	 * Inserts User into SQLite DB
+	 * Inserts DataMHS into SQLite DB
+	 * 
 	 * @param queryValues
 	 */
-	/**
-	 * Inserts User into SQLite DB
-	 * @param queryValues
-	 */
-	public void insertUser(HashMap<String, String> queryValues) {
+	public void insertDataMHS(HashMap<String, String> queryValues) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("Nama", queryValues.get("Nama"));
@@ -51,59 +59,87 @@ public class DBController extends SQLiteOpenHelper {
 		values.put("SKS", queryValues.get("SKS"));
 		database.insert("DataMHS", null, values);
 		database.close();
-		Log.d("Skripsi","Insert dataMHS ke SQLite");
+		Log.d("Skripsi", "Insert dataMHS ke SQLite");
 	}
 	
 	/**
-	 * Get list of Users from SQLite DB as Array List
-	 * @return
+	 * Inserts User into SQLite DB
+	 * 
+	 * @param queryValues
 	 */
-//	public String ambilDataMHS(String Nim) {
-//		String i = "Error";
-//		try {
-//			Cursor c = null;
-//			c = mDb.rawQuery("select * from DataMHS where Nim=" + Nim, null);
-//			c.moveToFirst();
-//			i = c.getString(c.getColumnIndex("soal"));
-//			c.close();
-//			return i;
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//		return i;
-//	}
-	
-	/* getAlldataMHS
-	 * menampilkan data seluruh dataMHS ke listview 
-	 *   
+	public void insertMataKuliah(HashMap<String, String> queryValues) {
+		SQLiteDatabase database = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("NamaMaKul", queryValues.get("NamaMaKul"));
+		values.put("SKSTeori", queryValues.get("SKSTeori"));
+		values.put("SKSPraktikum", queryValues.get("SKSPraktikum"));
+		values.put("PaketSemester", queryValues.get("PaketSemester"));
+		values.put("SifatMaKul", queryValues.get("SifatMaKul"));
+		values.put("JKurikulum", queryValues.get("JKurikulum"));
+		database.insert("MataKuliah", null, values);
+		database.close();
+		Log.d("Skripsi", "Insert MataKuliah ke SQLite");
+	}
+
+
+
+	/*
+	 * getAlldataMHS menampilkan data seluruh dataMHS ke listview
 	 */
-	  public ArrayList<HashMap<String, String>> getdataMHS() {
-	    ArrayList<HashMap<String, String>> dataMHS;
-	    dataMHS = new ArrayList<HashMap<String, String>>();
-	    String selectQuery = "select * from DataMHS";
-	      SQLiteDatabase database = this.getWritableDatabase();
-	      Cursor cursor = database.rawQuery(selectQuery, null);
-	      if (cursor.moveToFirst()) {
-	          do {
-	            HashMap<String, String> map = new HashMap<String, String>();
-	            map.put("Nim", cursor.getString(0));
-	            map.put("Nama", cursor.getString(1));
-	            map.put("NamaMaKul", cursor.getString(2));
-	            map.put("NilaiHuruf", cursor.getString(3));
-	            map.put("Semester", cursor.getString(4));
-	            map.put("SKS", cursor.getString(5));
-	                dataMHS.add(map);
-	          } while (cursor.moveToNext());
-	      }
-	    
-	      // return contact list
-	      return dataMHS;
-	  }
-	  
-	  //delete All
-		public void deleteAll() {
-			SQLiteDatabase database = this.getWritableDatabase();
-			database.delete("DataMHS", null, null);
+	public ArrayList<HashMap<String, String>> getdataMHS() {
+		ArrayList<HashMap<String, String>> dataMHS;
+		dataMHS = new ArrayList<HashMap<String, String>>();
+		String selectQuery = "select * from DataMHS";
+		SQLiteDatabase database = this.getWritableDatabase();
+		Cursor cursor = database.rawQuery(selectQuery, null);
+		if (cursor.moveToFirst()) {
+			do {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("Nim", cursor.getString(0));
+				map.put("Nama", cursor.getString(1));
+				map.put("NamaMaKul", cursor.getString(2));
+				map.put("NilaiHuruf", cursor.getString(3));
+				map.put("Semester", cursor.getString(4));
+				map.put("SKS", cursor.getString(5));
+				dataMHS.add(map);
+			} while (cursor.moveToNext());
 		}
+
+		// return contact list
+		return dataMHS;
+	}
+	
+	/*
+	 * getMataKuliah menampilkan data seluruh dataMHS ke listview
+	 */
+	public ArrayList<HashMap<String, String>> getMataKuliah() {
+		ArrayList<HashMap<String, String>> dataMHS;
+		dataMHS = new ArrayList<HashMap<String, String>>();
+		String selectQuery = "select * from DataMHS";
+		SQLiteDatabase database = this.getWritableDatabase();
+		Cursor cursor = database.rawQuery(selectQuery, null);
+		if (cursor.moveToFirst()) {
+			do {
+				HashMap<String, String> map = new HashMap<String, String>();
+				map.put("NamaMaKul", cursor.getString(0));
+				map.put("SKSTeori", cursor.getString(1));
+				map.put("SKSPraktikum", cursor.getString(2));
+				map.put("PaketSemester", cursor.getString(3));
+				map.put("SifatMaKul", cursor.getString(4));
+				map.put("JKurikulum", cursor.getString(5));
+				dataMHS.add(map);
+			} while (cursor.moveToNext());
+		}
+
+		// return contact list
+		return dataMHS;
+	}
+
+	// delete All
+	public void deleteAll() {
+		SQLiteDatabase database = this.getWritableDatabase();
+		database.delete("DataMHS", null, null);
+		database.delete("MataKuliah",null,null);
+	}
 
 }
