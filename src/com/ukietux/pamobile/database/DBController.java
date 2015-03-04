@@ -99,5 +99,11 @@ public class DBController extends SQLiteOpenHelper {
 	      // return contact list
 	      return dataMHS;
 	  }
+	  
+	  //delete All
+		public void deleteAll() {
+			SQLiteDatabase database = this.getWritableDatabase();
+			database.delete("DataMHS", null, null);
+		}
 
 }

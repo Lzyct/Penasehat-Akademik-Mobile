@@ -53,7 +53,7 @@ public class Login extends ActionBarActivity  {
 			
 			@Override
 			public void onClick(View v) {
-				url = "http://192.168.0.101/PAMobile/masuk.php?" + "Nim="
+				url = "http://192.168.0.102/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
 
 				if (nim.getText().toString().trim().length() > 0) 
@@ -158,6 +158,8 @@ public class Login extends ActionBarActivity  {
 		protected void onPostExecute(String result) {
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
+			Log.d("Skripsi","On PostExecute");
+			
 			pDialog.dismiss();
 			if (success.equals("1")) {
 				a = new Intent(Login.this, MainActivity.class);
