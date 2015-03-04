@@ -13,12 +13,13 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class Settings extends Fragment {
+public class Keluar extends Fragment {
 
 	SQLiteDatabase db;
 
@@ -50,11 +51,12 @@ public class Settings extends Fragment {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, close
 								// current activity
-								Log.d("Skripsi","delete table");
+								Log.d("Skripsi", "delete table");
 								controler.deleteAll();
-								Log.d("Skripsi","hapus session");
+								Log.d("Skripsi", "hapus session");
 								session.logoutUser();
-								Log.d("Skripsi","berhasil di hapus dan memulai kembali ke login");
+								Log.d("Skripsi",
+										"berhasil di hapus dan memulai kembali ke login");
 								Intent intent = new Intent(getActivity(),
 										Login.class);
 								startActivity(intent);
@@ -65,7 +67,15 @@ public class Settings extends Fragment {
 							public void onClick(DialogInterface dialog, int id) {
 								// if this button is clicked, just close
 								// the dialog box and do nothing
+								Fragment newFragment = new Profil();
+								// consider using Java coding conventions (upper
+								// first char class names!!!)
+								getFragmentManager().beginTransaction()
+								.replace(R.id.content_frame, newFragment).commit();
+
+								// Commit the transaction
 								dialog.cancel();
+
 							}
 						});
 		AlertDialog alert = builder.create();

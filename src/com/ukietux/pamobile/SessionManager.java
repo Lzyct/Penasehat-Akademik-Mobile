@@ -4,6 +4,7 @@ package com.ukietux.pamobile;
 import java.util.HashMap;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -85,10 +86,12 @@ public class SessionManager {
 		editor.clear();
 		editor.commit();
 		
-		Intent i = new Intent(_context, MainActivity.class);
+		Intent i = new Intent(_context, Login.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		_context.startActivity(i);
+		((Activity) _context).finish();
 	}
 	
 	public boolean isLoggedIn(){

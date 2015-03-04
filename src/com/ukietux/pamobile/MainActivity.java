@@ -10,7 +10,7 @@ import org.json.JSONArray;
 import com.ukietux.pamobile.fragment.CekNilai;
 import com.ukietux.pamobile.fragment.KRS;
 import com.ukietux.pamobile.fragment.Profil;
-import com.ukietux.pamobile.fragment.Settings;
+import com.ukietux.pamobile.fragment.Keluar;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -222,7 +222,7 @@ public class MainActivity extends ActionBarActivity {
 			f = new KRS();
 			break;
 		case 3:
-			f = new Settings();
+			f = new Keluar();
 			break;
 		default:
 			return;
@@ -231,8 +231,9 @@ public class MainActivity extends ActionBarActivity {
 				.replace(R.id.content_frame, f).commit();
 
 		// set title action bar dari method set title
-
+		
 		setTitle(menutitles[position]);
+		
 
 		// close sliding menu setelah link list view di klik
 		mDrawerLayout.closeDrawer(sliding_listview);

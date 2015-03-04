@@ -8,9 +8,4 @@
         android:orderInCategory="500"
         android:title="@string/about"
         app:showAsAction="never"/>
-	<item
-        android:id="@+id/refresh"
-        android:orderInCategory="500"
-        android:title="@string/about"
-        app:showAsAction="never"/>
 </menu>
