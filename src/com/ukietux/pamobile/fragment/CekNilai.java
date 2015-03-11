@@ -3,6 +3,7 @@ package com.ukietux.pamobile.fragment;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -18,11 +19,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
+@SuppressLint("InlinedApi")
 public class CekNilai extends Fragment {
 	SQLiteDatabase database, db;
 
-	TableLayout tableLayout;
-	TableRow row;
+	TableLayout tableLayout, tableIPK;
+	TableRow row, rowIPK;
 	TextView ColomnNim;
 	TextView ColomnNama;
 	TextView ColomnNamaMaKul;
@@ -30,11 +32,14 @@ public class CekNilai extends Fragment {
 	TextView ColomnSemester;
 	TextView ColomnSKS;
 
+	TextView NHuruf, SKSx, totIPK, totSKS;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final View view = inflater
 				.inflate(R.layout.cek_nilai, container, false);
+
 		tableLayout = (TableLayout) view.findViewById(R.id.TBLdataMHS);
 
 		Log.d("Skripsi", "memanggil DBController");
@@ -54,7 +59,9 @@ public class CekNilai extends Fragment {
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	private void displayDB() {
 		Log.d("Skripsi", "query ke dataMHS");
-		Cursor c = db.rawQuery("SELECT * FROM DataMHS ORDER BY Semester", null);
+		Cursor c = db.rawQuery(
+				"SELECT * FROM DataMHS Where NilaiHuruf!='' ORDER BY Semester",
+				null);
 		Integer Nim = c.getColumnIndex("Nim");
 		Integer Nama = c.getColumnIndex("Nama");
 		Integer NamaMaKul = c.getColumnIndex("NamaMaKul");
@@ -146,5 +153,7 @@ public class CekNilai extends Fragment {
 			// Toast.makeText(getActivity().getApplicationContext(),
 			// "Event occurred.", Toast.LENGTH_LONG).show();
 		}
+
 	}
+
 }
