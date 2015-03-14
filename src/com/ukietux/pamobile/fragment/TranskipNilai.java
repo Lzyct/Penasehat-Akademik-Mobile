@@ -20,7 +20,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 
 @SuppressLint("InlinedApi")
-public class CekNilai extends Fragment {
+public class TranskipNilai extends Fragment {
 	SQLiteDatabase database, db;
 
 	TableLayout tableLayout, tableIPK;

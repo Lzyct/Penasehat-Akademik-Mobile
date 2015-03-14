@@ -7,16 +7,20 @@ import java.util.Locale;
 
 import org.json.JSONArray;
 
-import com.ukietux.pamobile.fragment.CekNilai;
+import com.ukietux.pamobile.database.DBController;
+import com.ukietux.pamobile.fragment.TranskipNilai;
 import com.ukietux.pamobile.fragment.KRS;
 import com.ukietux.pamobile.fragment.Profil;
-import com.ukietux.pamobile.fragment.Keluar;
+import com.ukietux.pamobile.fragment.KHS;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -31,6 +35,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextPaint;
 import android.text.style.MetricAffectingSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,19 +63,21 @@ public class MainActivity extends ActionBarActivity {
 	private List<RowItem> rowItems;
 	private CustomAdapter adapter;
 
-	//get session
+	// get session
 	SessionManager session;
+	DBController controler;
 	JSONArray contacts = null;
 	String nim;
-	
-	
+
+	SQLiteDatabase db;
+
 	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		//get session
+		// get session
 		session = new SessionManager(getApplicationContext());
 		Toast.makeText(getApplicationContext(),
 				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
@@ -82,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
 
 		nim = user.get(SessionManager.KEY_NIM);
 		// id = user.get(SessionManager.KEY_ID);
-		
+
 		mTitle = getTitle();
 
 		// menampung string array ke variable
@@ -93,13 +100,13 @@ public class MainActivity extends ActionBarActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 		sliding_listview = (ListView) findViewById(R.id.drawer_list);
 
-		//toolbar
+		// toolbar
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
-	    if (toolbar != null) {
-	        toolbar.setTitle(null);
-	        setSupportActionBar(toolbar);
-	    }
-	    
+		if (toolbar != null) {
+			toolbar.setTitle(null);
+			setSupportActionBar(toolbar);
+		}
+
 		rowItems = new ArrayList<RowItem>();
 		// add menu menggunakan list view custom adapter
 		for (int i = 0; i < menutitles.length; i++) {
@@ -210,19 +217,19 @@ public class MainActivity extends ActionBarActivity {
 
 	private void updateDisplay(int position) {
 		final Fragment f;
-		
+
 		switch (position) {
 		case 0:
 			f = new Profil();
 			break;
 		case 1:
-			f = new CekNilai();
+			f = new KHS();
 			break;
 		case 2:
-			f = new KRS();
+			f = new TranskipNilai();
 			break;
 		case 3:
-			f = new Keluar();
+			f = new KRS();
 			break;
 		default:
 			return;
@@ -231,9 +238,8 @@ public class MainActivity extends ActionBarActivity {
 				.replace(R.id.content_frame, f).commit();
 
 		// set title action bar dari method set title
-		
+
 		setTitle(menutitles[position]);
-		
 
 		// close sliding menu setelah link list view di klik
 		mDrawerLayout.closeDrawer(sliding_listview);
@@ -269,6 +275,9 @@ public class MainActivity extends ActionBarActivity {
 		}
 		// Handle action bar actions click
 		switch (item.getItemId()) {
+		case R.id.keluar:
+			Keluar();
+			return true;
 		case R.id.about:
 			about();
 			return true;
@@ -298,6 +307,49 @@ public class MainActivity extends ActionBarActivity {
 				});
 		AlertDialog alert = builder.create();
 		alert.show();
+	}
+
+	public void Keluar() {
+
+		// connect to dbcontroller
+
+		controler = new DBController(getApplicationContext());
+		Log.d("Skripsi", "mengakses database");
+		db = controler.getWritableDatabase();
+
+		Context context = MainActivity.this;
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(false)
+				.setTitle("Peringatan!")
+				.setMessage("Yakin ingin keluar")
+				.setIcon(R.drawable.ic_warning)
+				.setCancelable(false)
+				.setPositiveButton("Keluar",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, close
+								// current activity
+								Log.d("Skripsi", "delete table");
+								controler.deleteAll();
+								Log.d("Skripsi", "hapus session");
+								session.logoutUser();
+								Log.d("Skripsi",
+										"berhasil di hapus dan memulai kembali ke login");
+								finish();
+							}
+						})
+				.setNegativeButton("Batal",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+
+							}
+						});
+		AlertDialog alert = builder.create();
+		alert.show();
+
 	}
 
 	/** Called whenever we call supportInvalidateOptionsMenu(); */

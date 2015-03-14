@@ -91,7 +91,6 @@ public class SessionManager {
 		i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
 		i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		_context.startActivity(i);
-		((Activity) _context).finish();
 	}
 	
 	public boolean isLoggedIn(){

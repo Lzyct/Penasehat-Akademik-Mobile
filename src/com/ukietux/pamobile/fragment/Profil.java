@@ -26,13 +26,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ukietux.pamobile.CustomImageView;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
 public class Profil extends Fragment {
 	SQLiteDatabase database, db;
 	TextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
-	ImageView PP;
+	CustomImageView  ProfileImage;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,19 +45,19 @@ public class Profil extends Fragment {
 		JumSKSx = (TextView) v.findViewById(R.id.JumSKS);
 		SMTx = (TextView) v.findViewById(R.id.Semester);
 
-		PP = (ImageView) v.findViewById(R.id.ProfilPicture);
+		ProfileImage = (CustomImageView ) v.findViewById(R.id.profilImage);
 
 		SharedPreferences pref = getActivity().getPreferences(0);
 		String profil = pref.getString("profil_pic", "empty");
 
 		if (profil == "empty") {
-			PP.setImageResource(R.drawable.profil);
+			ProfileImage.setImageResource(R.drawable.profil);
 		} else {
 			
-			PP.setImageBitmap(BitmapFactory.decodeFile(profil));
+			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(profil));
 		}
 
-		PP.setOnClickListener(new View.OnClickListener() {
+		ProfileImage.setOnClickListener(new View.OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -92,7 +93,7 @@ public class Profil extends Fragment {
 			cursor.moveToFirst();
 			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
 			String picturePath = cursor.getString(columnIndex);
-			PP.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
 			SharedPreferences pref = getActivity().getPreferences(0);
 			SharedPreferences.Editor edt = pref.edit();

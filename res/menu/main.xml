@@ -4,8 +4,14 @@
     tools:context="com.sendmedia.opiummks.MainActivity" >
 
     <item
+        android:id="@+id/keluar"
+        android:orderInCategory="400"
+        android:title="@string/exit"
+        app:showAsAction="never"/>
+    <item
         android:id="@+id/about"
         android:orderInCategory="500"
         android:title="@string/about"
         app:showAsAction="never"/>
+
 </menu>

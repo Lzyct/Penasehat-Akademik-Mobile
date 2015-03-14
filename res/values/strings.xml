@@ -2,7 +2,8 @@
 <resources>
 
     <string name="app_name">Penasehat Akademik</string>
-    <string name="about">About Apps</string>
+    <string name="about">Tentang Aplikasi</string>
+    <string name="exit">Keluar</string>
     <string name="imgdesc">imgdesc</string>
     <string name="drawer_open">Buka</string>
     <string name="drawer_close">Tutup</string>
@@ -10,17 +11,17 @@
     <!-- Title -->
     <string-array name="titles">
         <item>PROFIL</item>
-        <item>CEK NILAI</item>
+        <item>KARTU HASIL STUDI</item>
+        <item>TRANSKIP NILAI</item>
         <item>REKOMENDASI MATA KULIAH</item>
-        <item>KELUAR</item>
     </string-array>
 
     <!-- Icon -->
     <array name="icons">
         <item>@drawable/ic_profil</item>
         <item>@drawable/ic_ceknilai</item>
-        <item>@drawable/ic_krs</item>
         <item>@drawable/ic_settings</item>
+        <item>@drawable/ic_krs</item>
     </array>
 
     <string name="action_settings">Settings</string>
