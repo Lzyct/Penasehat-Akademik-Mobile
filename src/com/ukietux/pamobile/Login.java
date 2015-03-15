@@ -48,9 +48,9 @@ public class Login extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				url = "http://36314f43.ngrok.com//PAMobile/masuk.php?" + "Nim="
+				url = "http://1467fb1b.ngrok.com/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
-				url1 = "http://36314f43.ngrok.com//PAMobile/matakuliah.php";
+				url1 = "http://1467fb1b.ngrok.com/PAMobile/matakuliah.php";
 
 				if (nim.getText().toString().trim().length() > 0) {
 					new Masuk().execute();

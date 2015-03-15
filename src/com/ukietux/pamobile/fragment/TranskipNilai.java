@@ -7,9 +7,11 @@ import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -38,7 +40,7 @@ public class TranskipNilai extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final View view = inflater
-				.inflate(R.layout.cek_nilai, container, false);
+				.inflate(R.layout.transkip, container, false);
 
 		tableLayout = (TableLayout) view.findViewById(R.id.TBLdataMHS);
 
@@ -69,38 +71,26 @@ public class TranskipNilai extends Fragment {
 		Integer Semester = c.getColumnIndex("Semester");
 		Integer SKS = c.getColumnIndex("SKS");
 
+		
+		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
+				TableLayout.LayoutParams.FILL_PARENT,
+				TableLayout.LayoutParams.FILL_PARENT);
+		tableLayout.setLayoutParams(lp);
+		tableLayout.setStretchAllColumns(true);
+		TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
+				TableLayout.LayoutParams.FILL_PARENT,
+				TableLayout.LayoutParams.FILL_PARENT, 1.0f);
+		TableRow.LayoutParams cellLp = new TableRow.LayoutParams(
+				TableRow.LayoutParams.FILL_PARENT,
+				TableRow.LayoutParams.FILL_PARENT, 1.0f);
+		
 		if (c.getCount() > 0) {
 			// Scanning value field by raw Cursor
 			c.moveToFirst();
 			do {
 				row = new TableRow(getActivity());
 				row.setId(100);
-				row.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT));
 
-				// Setting up the ColomnNim parameters
-				Log.d("Skripsi", "mengambil data colom nim");
-				ColomnNim = new TextView(getActivity());
-				ColomnNim.setText(c.getString(Nim));
-				ColomnNim.setTextSize(14);
-				ColomnNim.setTextColor(Color.BLACK);
-				ColomnNim.setVisibility(View.GONE);
-				ColomnNim.setPadding(5, 5, 5, 5);
-				ColomnNim.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnNim);
-				Log.d("Skripsi", c.getString(Nim));
-
-				// Setting up the ColomnNama parameters
-				Log.d("Skripsi", "mengambil data colom Nama");
-				ColomnNama = new TextView(getActivity());
-				ColomnNama.setText(c.getString(Nama));
-				ColomnNama.setTextColor(Color.BLACK);
-				ColomnNama.setTextSize(14);
-				ColomnNama.setPadding(5, 5, 5, 5);
-				ColomnNama.setVisibility(View.GONE);
-				ColomnNama.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnNama); // adding coloumn to row
-				Log.d("Skripsi", c.getString(Nama));
 
 				// Setting up the ColomnNamaMaKul parameters
 				Log.d("Skripsi", "mengambil data colom NamaMakul");
@@ -108,9 +98,9 @@ public class TranskipNilai extends Fragment {
 				ColomnNamaMaKul.setText(c.getString(NamaMaKul));
 				ColomnNamaMaKul.setTextColor(Color.BLACK);
 				ColomnNamaMaKul.setTextSize(14);
-				ColomnNamaMaKul.setPadding(5, 5, 2, 5);
+				ColomnNamaMaKul.setPadding(20, 5, 20, 5);
 				ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnNamaMaKul); // adding column to row
+				row.addView(ColomnNamaMaKul, cellLp); // adding column to row
 				Log.d("Skripsi", c.getString(NamaMaKul));
 
 				// Setting up ColomnNilaiHuruf parameters
@@ -118,10 +108,11 @@ public class TranskipNilai extends Fragment {
 				ColomnNilaiHuruf = new TextView(getActivity());
 				ColomnNilaiHuruf.setText(c.getString(NilaiHuruf));
 				ColomnNilaiHuruf.setTextColor(Color.BLACK);
+				ColomnNilaiHuruf.setGravity(Gravity.CENTER);
 				ColomnNilaiHuruf.setTextSize(14);
-				ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
+//				ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
 				ColomnNilaiHuruf.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnNilaiHuruf);
+				row.addView(ColomnNilaiHuruf, cellLp);
 				Log.d("Skripsi", c.getString(NilaiHuruf));
 
 				// Setting up ColomnSemester parameters
@@ -130,9 +121,10 @@ public class TranskipNilai extends Fragment {
 				ColomnSemester.setText(c.getString(Semester));
 				ColomnSemester.setTextColor(Color.BLACK);
 				ColomnSemester.setTextSize(14);
-				ColomnSemester.setPadding(20, 5, 20, 5);
+				ColomnSemester.setGravity(Gravity.CENTER);
+//				ColomnSemester.setPadding(20, 5, 20, 5);
 				ColomnSemester.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnSemester);
+				row.addView(ColomnSemester, cellLp);
 				Log.d("Skripsi", c.getString(Semester));
 
 				// Setting up ColomnSKS parameters
@@ -140,13 +132,13 @@ public class TranskipNilai extends Fragment {
 				ColomnSKS = new TextView(getActivity());
 				ColomnSKS.setText(c.getString(SKS));
 				ColomnSKS.setTextColor(Color.BLACK);
+				ColomnSKS.setGravity(Gravity.CENTER);
 				ColomnSKS.setTextSize(14);
-				ColomnSKS.setPadding(20, 5, 20, 5);
+//				ColomnSKS.setPadding(20, 5, 20, 5);
 				ColomnSKS.setBackgroundResource(R.drawable.garis);
-				row.addView(ColomnSKS);
+				row.addView(ColomnSKS, cellLp);
 				Log.d("Skripsi", c.getString(SKS));
-				tableLayout.addView(row, new TableLayout.LayoutParams(
-						LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+				tableLayout.addView(row, rowLp);
 			} while (c.moveToNext());
 			db.close();
 		} else {

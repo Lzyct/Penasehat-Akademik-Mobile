@@ -75,7 +75,7 @@ public class Profil extends Fragment {
 		Log.d("Skripsi", "mengakses database");
 		db = controler.getWritableDatabase();
 
-		displayIPK();
+		displayProfil();
 		return v;
 
 	}
@@ -109,9 +109,21 @@ public class Profil extends Fragment {
 	}
 
 	@SuppressLint({ "InlinedApi", "NewApi" })
-	private void displayIPK() {
+	private void displayProfil() {
 		Log.d("Skripsix", "query ke dataMHS");
-		String query = "SELECT Nama,Nim,NilaiHuruf,SKS,SUM(SKS) as JumSKS,count(distinct Semester)+1 as Semester,SUM(CASE WHEN NilaiHuruf= 'A' THEN 4*SKS WHEN NilaiHuruf= 'B' THEN 3*SKS WHEN NilaiHuruf= 'C' THEN 2*SKS WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 AS IPK FROM DataMHS WHERE NilaiHuruf!=''";
+		String query = "SELECT "
+				+ "Nama,"
+				+ "Nim,"
+				+ "NilaiHuruf,"
+				+ "SKS,"
+				+ "SUM(SKS) as JumSKS,"
+				+ "count(distinct Semester)+1 as Semester,"
+				+ "SUM(CASE WHEN NilaiHuruf= 'A' THEN 4*SKS "
+				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
+				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
+				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
+				+ "AS IPK "
+				+ "FROM DataMHS WHERE NilaiHuruf!=''";
 		Cursor a = db.rawQuery(query, null);
 		Integer Nim = a.getColumnIndex("Nim");
 		Integer Nama = a.getColumnIndex("Nama");
