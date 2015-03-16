@@ -26,7 +26,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ukietux.pamobile.CustomImageView;
+import com.ukietux.pamobile.utils.CustomImageView;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
@@ -48,9 +48,14 @@ public class Profil extends Fragment {
 		ProfileImage = (CustomImageView ) v.findViewById(R.id.profilImage);
 
 		SharedPreferences pref = getActivity().getPreferences(0);
-		String profil = pref.getString("profil_pic", "empty");
+		SharedPreferences.Editor edt = pref.edit();
+		edt.putString("profil_pic", null);
+		edt.commit();
+		
+		
+		String profil = pref.getString("profil_pic", null);
 
-		if (profil == "empty") {
+		if (profil == null) {
 			ProfileImage.setImageResource(R.drawable.profil);
 		} else {
 			

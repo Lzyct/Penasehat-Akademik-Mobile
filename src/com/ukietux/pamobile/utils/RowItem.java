@@ -1,4 +1,4 @@
-package com.ukietux.pamobile;
+package com.ukietux.pamobile.utils;
 
 public class RowItem {
 

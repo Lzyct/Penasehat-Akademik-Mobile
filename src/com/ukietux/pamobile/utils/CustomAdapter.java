@@ -1,6 +1,8 @@
-package com.ukietux.pamobile;
+package com.ukietux.pamobile.utils;
 
 import java.util.List;
+
+import com.ukietux.pamobile.R;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,7 +21,7 @@ public class CustomAdapter extends BaseAdapter {
 
 	private int selectedItemPosition = -1;
 
-	CustomAdapter(Context context, List<RowItem> rowItem) {
+	public CustomAdapter(Context context, List<RowItem> rowItem) {
 		this.context = context;
 		this.rowItem = rowItem;
 	}

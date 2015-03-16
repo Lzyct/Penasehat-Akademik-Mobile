@@ -12,12 +12,13 @@ import com.ukietux.pamobile.fragment.TranskipNilai;
 import com.ukietux.pamobile.fragment.KRS;
 import com.ukietux.pamobile.fragment.Profil;
 import com.ukietux.pamobile.fragment.KHS;
+import com.ukietux.pamobile.utils.CustomAdapter;
+import com.ukietux.pamobile.utils.RowItem;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
@@ -31,10 +32,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextPaint;
-import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -42,7 +40,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends ActionBarActivity {

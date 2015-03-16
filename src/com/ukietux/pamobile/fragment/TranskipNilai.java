@@ -70,6 +70,7 @@ public class TranskipNilai extends Fragment {
 		Integer NilaiHuruf = c.getColumnIndex("NilaiHuruf");
 		Integer Semester = c.getColumnIndex("Semester");
 		Integer SKS = c.getColumnIndex("SKS");
+		Integer KodeMakul = c.getColumnIndex("KodeMaKul");
 
 		
 		FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
@@ -102,6 +103,7 @@ public class TranskipNilai extends Fragment {
 				ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnNamaMaKul, cellLp); // adding column to row
 				Log.d("Skripsi", c.getString(NamaMaKul));
+				Log.d("KodeMaKul", c.getString(KodeMakul));
 
 				// Setting up ColomnNilaiHuruf parameters
 				Log.d("Skripsi", "mengambil data colom NilaiHuruf");

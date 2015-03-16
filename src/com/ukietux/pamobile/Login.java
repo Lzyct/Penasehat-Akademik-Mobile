@@ -9,8 +9,10 @@ import org.json.JSONObject;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 import com.ukietux.pamobile.database.JSONParser;
+import com.ukietux.pamobile.utils.ConnectionStatus;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -41,6 +43,8 @@ public class Login extends ActionBarActivity {
 				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
 				.show();
 
+
+
 		login = (Button) findViewById(R.id.login);
 		nim = (EditText) findViewById(R.id.nim);
 
@@ -48,18 +52,28 @@ public class Login extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				url = "http://1467fb1b.ngrok.com/PAMobile/masuk.php?" + "Nim="
+				url = "http://skripsi.ngrok.com/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
-				url1 = "http://1467fb1b.ngrok.com/PAMobile/matakuliah.php";
+				url1 = "http://skripsi.ngrok.com/PAMobile/matakuliah.php";
+				
+				ConnectionStatus cs = new ConnectionStatus(getApplicationContext());
 
-				if (nim.getText().toString().trim().length() > 0) {
-					new Masuk().execute();
+				Boolean isInternetPresent = cs.isConnectingToInternet();
+
+				if (isInternetPresent == true) {
+					if (nim.getText().toString().trim().length() > 0) {
+						new Masuk().execute();
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Masukkan Nim yang benar", Toast.LENGTH_LONG)
+								.show();
+					}
 				} else {
-					Toast.makeText(getApplicationContext(),
-							"Masukkan Nim yang benar", Toast.LENGTH_LONG)
-							.show();
+					Toast.makeText(
+							getApplicationContext(),
+							"Tidak dapat terhubung ke server pastikan Anda terhubung dengan Internet",
+							Toast.LENGTH_LONG).show();
 				}
-
 			}
 		});
 
@@ -113,6 +127,9 @@ public class Login extends ActionBarActivity {
 					// Add NamaMaKul extracted from Object
 					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
 							.toString());
+					// Add KodeNamaMaKul extracted from Object
+					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+							.toString());
 					// Add NilaiHuruf extracted from Object
 					queryValues.put("NilaiHuruf", jsonobj.get("NilaiHuruf")
 							.toString());
@@ -125,25 +142,30 @@ public class Login extends ActionBarActivity {
 					controller.insertDataMHS(queryValues);
 					Log.d("Skripsi", "insert data ke dataMHS");
 				}
-				
+
 				for (int i = 0; i < hasil1.length(); i++) {
 					JSONObject jsonobj = hasil1.getJSONObject(i);
 					queryValues = new HashMap<String, String>();
 					// Add nim extracted from Object
-					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul").toString());
+					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+							.toString());
+					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
+							.toString());
 					// Add Nama extracted from Object
-					queryValues.put("SKSTeori", jsonobj.get("SKSTeori").toString());
+					queryValues.put("SKSTeori", jsonobj.get("SKSTeori")
+							.toString());
 					// Add NamaMaKul extracted from Object
 					queryValues.put("SKSPraktikum", jsonobj.get("SKSPraktikum")
 							.toString());
 					// Add NilaiHuruf extracted from Object
-					queryValues.put("PaketSemester", jsonobj.get("PaketSemester")
-							.toString());
+					queryValues.put("PaketSemester",
+							jsonobj.get("PaketSemester").toString());
 					// Add Semester extracted from Object
 					queryValues.put("SifatMaKul", jsonobj.get("SifatMaKul")
 							.toString());
 					// Add SKS extracted from Object
-					queryValues.put("JKurikulum", jsonobj.get("JKurikulum").toString());
+					queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
+							.toString());
 					// Insert User into SQLite DB
 					controller.insertMataKuliah(queryValues);
 					Log.d("Skripsi", "insert data ke MataKuliah");
@@ -167,6 +189,7 @@ public class Login extends ActionBarActivity {
 			} catch (Exception e) {
 				// TODO: handle exception
 				Log.e("erro", "tidak bisa ambil data 1");
+
 			}
 
 			return null;
