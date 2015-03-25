@@ -1,5 +1,7 @@
 package com.ukietux.pamobile.fragment;
 
+import java.text.DecimalFormat;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -31,7 +33,7 @@ import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
 public class Profil extends Fragment {
-	SQLiteDatabase database, db;
+	SQLiteDatabase  db;
 	TextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
 	CustomImageView  ProfileImage;
 
@@ -155,7 +157,9 @@ public class Profil extends Fragment {
 				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
 
 				Log.d("Skripsi", "mengambil data colom nim");
-				NilaiIPKx.setText("IPK = " + a.getString(IPK));
+				
+				Double IPKx = Double.valueOf(a.getString(IPK));
+				NilaiIPKx.setText("IPK = " + new DecimalFormat("#.##").format(IPKx));
 				NilaiIPKx.setTextColor(Color.BLACK);
 				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPK));

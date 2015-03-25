@@ -188,6 +188,10 @@ public class Login extends ActionBarActivity {
 
 			} catch (Exception e) {
 				// TODO: handle exception
+				Toast.makeText(
+						getApplicationContext(),
+						"Server sedang down",
+						Toast.LENGTH_LONG).show();
 				Log.e("erro", "tidak bisa ambil data 1");
 
 			}

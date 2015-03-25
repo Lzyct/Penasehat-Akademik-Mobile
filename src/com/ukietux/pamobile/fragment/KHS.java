@@ -1,5 +1,6 @@
 package com.ukietux.pamobile.fragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import com.ukietux.pamobile.R;
@@ -11,6 +12,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.Sampler.Value;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -88,8 +90,7 @@ public class KHS extends Fragment {
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS "
-				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
-				+ "AS IPS FROM DataMHS "
+				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 " + "AS IPS FROM DataMHS "
 				+ "WHERE NilaiHuruf!='' and Semester=" + Semester;
 		Cursor a = db.rawQuery(query, null);
 		Integer IPS = a.getColumnIndex("IPS");
@@ -100,14 +101,16 @@ public class KHS extends Fragment {
 			do {
 
 				Log.d("Skripsi", "mengambil data colom Nama");
-				IPSx.setText("IPS : " + a.getString(IPS));
+
+				Double IPSter = Double.valueOf(a.getString(IPS));
+				IPSx.setText("IPS : " + new DecimalFormat("#.##").format(IPSter));
 				IPSx.setTextColor(Color.BLACK);
 				IPSx.setPadding(20, 5, 20, 5);
 				IPSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPS));
 
 			} while (a.moveToNext());
-//			db.close();
+			// db.close();
 		} else {
 			// Toast.makeText(getActivity().getApplicationContext(),
 			// "Event occurred.", Toast.LENGTH_LONG).show();
@@ -165,7 +168,7 @@ public class KHS extends Fragment {
 				ColomnNilaiHuruf.setTextColor(Color.BLACK);
 				ColomnNilaiHuruf.setTextSize(14);
 				ColomnNilaiHuruf.setGravity(Gravity.CENTER);
-//				ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
+				// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
 				ColomnNilaiHuruf.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnNilaiHuruf, cellLp);
 				Log.d("skripsi", c.getString(NilaiHuruf));
@@ -177,7 +180,7 @@ public class KHS extends Fragment {
 				ColomnSKS.setTextColor(Color.BLACK);
 				ColomnSKS.setTextSize(14);
 				ColomnSKS.setGravity(Gravity.CENTER);
-//				ColomnSKS.setPadding(20, 5, 20, 5);
+				// ColomnSKS.setPadding(20, 5, 20, 5);
 				ColomnSKS.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnSKS, cellLp);
 				Log.d("skripsi", c.getString(SKS));
@@ -191,7 +194,7 @@ public class KHS extends Fragment {
 
 	}
 
-	// THIS FUNCTION SHOWS DATA FROM THE DATABASE
+
 	public ArrayList<String> getTableValues() {
 
 		ArrayList<String> my_array = new ArrayList<String>();

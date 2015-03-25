@@ -3,7 +3,7 @@ package com.ukietux.pamobile.fragment;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
-import android.opengl.Visibility;
+
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -16,7 +16,6 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
