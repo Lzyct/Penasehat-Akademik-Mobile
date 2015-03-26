@@ -6,25 +6,32 @@ import java.util.List;
 import java.util.Locale;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
+import com.ukietux.pamobile.Login.Masuk;
 import com.ukietux.pamobile.database.DBController;
+import com.ukietux.pamobile.database.JSONParser;
 import com.ukietux.pamobile.fragment.TranskipNilai;
 import com.ukietux.pamobile.fragment.KRS;
 import com.ukietux.pamobile.fragment.Profil;
 import com.ukietux.pamobile.fragment.KHS;
+import com.ukietux.pamobile.utils.ConnectionStatus;
 import com.ukietux.pamobile.utils.CustomAdapter;
 import com.ukietux.pamobile.utils.RowItem;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -65,8 +72,10 @@ public class MainActivity extends ActionBarActivity {
 	DBController controler;
 	JSONArray contacts = null;
 	String nim;
+	String url, url1, success;
 
 	SQLiteDatabase db;
+	HashMap<String, String> queryValues;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -86,6 +95,9 @@ public class MainActivity extends ActionBarActivity {
 
 		nim = user.get(SessionManager.KEY_NIM);
 		// id = user.get(SessionManager.KEY_ID);
+
+		url = "http://skripsi.ngrok.com/PAMobile/masuk.php?" + "Nim=" + nim;
+		url1 = "http://skripsi.ngrok.com/PAMobile/matakuliah.php";
 
 		mTitle = getTitle();
 
@@ -275,6 +287,9 @@ public class MainActivity extends ActionBarActivity {
 		case R.id.keluar:
 			Keluar();
 			return true;
+		case R.id.update:
+			Update();
+			return true;
 		case R.id.about:
 			about();
 			return true;
@@ -346,6 +361,164 @@ public class MainActivity extends ActionBarActivity {
 						});
 		AlertDialog alert = builder.create();
 		alert.show();
+
+	}
+
+	public void Update() {
+		controler = new DBController(getApplicationContext());
+		Log.d("Skripsi", "mengakses database");
+		db = controler.getWritableDatabase();
+		ConnectionStatus cs = new ConnectionStatus(getApplicationContext());
+
+		Boolean isInternetPresent = cs.isConnectingToInternet();
+
+		if (isInternetPresent == true) {
+				controler.deleteAll();
+				new Masuk().execute();
+		
+		} else {
+			Toast.makeText(
+					getApplicationContext(),
+					"Tidak dapat terhubung ke server pastikan Anda terhubung dengan Internet",
+					Toast.LENGTH_LONG).show();
+		}
+		Log.d("Skripsi", "delete table");
+
+	}
+
+	public class Masuk extends AsyncTask<String, String, String> {
+		ArrayList<HashMap<String, String>> contactList = new ArrayList<HashMap<String, String>>();
+		ProgressDialog pDialog;
+
+		@Override
+		protected void onPreExecute() {
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			pDialog = new ProgressDialog(MainActivity.this);
+			pDialog.setMessage("Mengambil data dari server");
+			pDialog.setIndeterminate(false);
+			pDialog.setCancelable(true);
+			pDialog.show();
+		}
+
+		@Override
+		protected String doInBackground(String... arg0) {
+			Log.d("Skripsi", "insert data ke dataMHS");
+			JSONParser jParser = new JSONParser();
+
+			JSONObject json = jParser.getJSONFromUrl(url);
+			JSONObject json1 = jParser.getJSONFromUrl(url1);
+
+			try {
+				success = json.getString("success");
+
+				Log.e("error", "nilai sukses=" + success);
+
+				JSONArray hasil = json.getJSONArray("login");
+				JSONArray hasil1 = json1.getJSONArray("matakuliah");
+
+				Log.d("Skripsi", "insert looping data ke dataMHS");
+				for (int i = 0; i < hasil.length(); i++) {
+					JSONObject jsonobj = hasil.getJSONObject(i);
+					queryValues = new HashMap<String, String>();
+					// Add nim extracted from Object
+					queryValues.put("Nim", jsonobj.get("Nim").toString());
+					// Add Nama extracted from Object
+					queryValues.put("Nama", jsonobj.get("Nama").toString());
+					// Add NamaMaKul extracted from Object
+					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
+							.toString());
+					// Add KodeNamaMaKul extracted from Object
+					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+							.toString());
+					// Add NilaiHuruf extracted from Object
+					queryValues.put("NilaiHuruf", jsonobj.get("NilaiHuruf")
+							.toString());
+					// Add Semester extracted from Object
+					queryValues.put("Semester", jsonobj.get("Semester")
+							.toString());
+					// Add SKS extracted from Object
+					queryValues.put("SKS", jsonobj.get("SKS").toString());
+					// Insert User into SQLite DB
+					controler.insertDataMHS(queryValues);
+					Log.d("Skripsi", "insert data ke dataMHS");
+				}
+
+				for (int i = 0; i < hasil1.length(); i++) {
+					JSONObject jsonobj = hasil1.getJSONObject(i);
+					queryValues = new HashMap<String, String>();
+					// Add nim extracted from Object
+					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+							.toString());
+					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
+							.toString());
+					// Add Nama extracted from Object
+					queryValues.put("SKSTeori", jsonobj.get("SKSTeori")
+							.toString());
+					// Add NamaMaKul extracted from Object
+					queryValues.put("SKSPraktikum", jsonobj.get("SKSPraktikum")
+							.toString());
+					// Add NilaiHuruf extracted from Object
+					queryValues.put("PaketSemester",
+							jsonobj.get("PaketSemester").toString());
+					// Add Semester extracted from Object
+					queryValues.put("SifatMaKul", jsonobj.get("SifatMaKul")
+							.toString());
+					// Add SKS extracted from Object
+					queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
+							.toString());
+					// Insert User into SQLite DB
+					controler.insertMataKuliah(queryValues);
+					Log.d("Skripsi", "insert data ke MataKuliah");
+				}
+
+				if (success.equals("1")) {
+
+					for (int i = 0; i < hasil.length(); i++) {
+
+						JSONObject c = hasil.getJSONObject(i);
+
+						String nim = c.getString("Nim").trim();
+						session.createLoginSession(nim);
+						Log.e("ok", " ambil data");
+
+					}
+				} else {
+					Toast.makeText(getApplicationContext(),
+							"Server sedang down", Toast.LENGTH_LONG).show();
+					Log.e("erro", "tidak bisa ambil data 0");
+				}
+
+			} catch (Exception e) {
+				// TODO: handle exception
+				Toast.makeText(getApplicationContext(), "Server sedang down",
+						Toast.LENGTH_LONG).show();
+				Log.e("erro", "tidak bisa ambil data 1");
+
+			}
+
+			return null;
+
+		}
+
+		@Override
+		protected void onPostExecute(String result) {
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			Log.d("Skripsi", "On PostExecute");
+
+			pDialog.dismiss();
+			if (success.equals("1")) {
+				Toast.makeText(getApplicationContext(),
+						"Berhasil Memperbarui Data ", Toast.LENGTH_LONG).show();
+			} else {
+
+				Toast.makeText(getApplicationContext(), "Masukkan Nim Anda",
+						Toast.LENGTH_LONG).show();
+			}
+
+		}
 
 	}
 

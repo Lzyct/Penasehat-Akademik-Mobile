@@ -8,9 +8,14 @@
         android:orderInCategory="400"
         android:title="@string/exit"
         app:showAsAction="never"/>
+        <item
+        android:id="@+id/update"
+        android:orderInCategory="500"
+        android:title="@string/update"
+        app:showAsAction="never"/>
     <item
         android:id="@+id/about"
-        android:orderInCategory="500"
+        android:orderInCategory="600"
         android:title="@string/about"
         app:showAsAction="never"/>
 
