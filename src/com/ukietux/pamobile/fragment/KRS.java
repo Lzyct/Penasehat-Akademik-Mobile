@@ -11,7 +11,6 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -33,17 +32,18 @@ public class KRS extends Fragment {
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listSemesterGanjil = new ArrayList<String>();
 	List<String> listSemesterGenap = new ArrayList<String>();
-	TableLayout tableLayout, tableLayoutCurrent;
-	TableRow row, rowCurrent, rowHeader1, rowHeader2;
-	TextView ColomnNamaMakul, ColomnNamaMakulSekW,ColomnNamaMakulSekP;
-	TextView ColomnKodeMAkul, ColomnSifatMAkulSekW,ColomnSifatMAkulSekP;
-	TextView ColomnSemester, ColomnSemesterSekW,ColomnSemesterSekP;
-	TextView ColomnSKS, ColomnSKSSekW,ColomnSKSSekP, ColomnNilaiHuruf;
-	TextView Notif1, Notif2, TotSKSLalu, TotSKSSekar;
+	TableLayout tableLayout, tableLayoutCurrent, tableLayoutCurrentPilihan;
+	TableRow row, rowCurrent, rowPilihan;
+	TableRow rowHeader1, rowHeader2, rowHeader3;
+	TextView ColomnNamaMakul,ColomnKodeMAkul,ColomnSemester,ColomnSKS, ColomnNilaiHuruf;
+	TextView  ColomnNamaMakulSekW, ColomnSifatMAkulSekW, ColomnSemesterSekW, ColomnSKSSekW;
+	TextView  ColomnNamaMakulSekP, ColomnSifatMAkulSekP, ColomnSemesterSekP, ColomnSKSSekP;
+	TextView Notif1, Notif2, Notif3;
+	TextView TotSKSLalu, TotSKSSekar, TotSKSSekarP;
 	Double NilaiIPKx;
 	Integer JumSKSx, SMTx;
 	Integer Semes, CurSemester;
-	String QueryKRS, cek;
+	String QueryKRS, QueryKRSPilihan, cek;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -55,17 +55,18 @@ public class KRS extends Fragment {
 		IPSTerakhir = (TextView) v.findViewById(R.id.ips);
 		Semesterx = (TextView) v.findViewById(R.id.semester);
 		MaksimumSKS = (TextView) v.findViewById(R.id.MaksimumSKS);
-		ListSemester = (TextView) v.findViewById(R.id.listSemester);
 
 		Notif1 = (TextView) v.findViewById(R.id.Notif1);
 		Notif2 = (TextView) v.findViewById(R.id.Notif2);
+		Notif3 = (TextView) v.findViewById(R.id.Notif3);
+		
 		TotSKSLalu = (TextView) v.findViewById(R.id.TotSKSLalu);
 		TotSKSSekar = (TextView) v.findViewById(R.id.TotSKSSek);
+		TotSKSSekarP = (TextView) v.findViewById(R.id.TotSKSSekP);
 
-		// tableSemesterLalu = (TableLayout) v.findViewById(R.id.semesterLalu);
 		tableLayout = (TableLayout) v.findViewById(R.id.semesterLalu);
-		tableLayoutCurrent = (TableLayout) v
-				.findViewById(R.id.semesterSekarang);
+		tableLayoutCurrent = (TableLayout) v.findViewById(R.id.semesterSekarang);
+		tableLayoutCurrentPilihan = (TableLayout) v.findViewById(R.id.semesterSekarangPilihan);
 		CekKRS();
 		getLastSemester();
 		getLastIPS();
@@ -83,8 +84,6 @@ public class KRS extends Fragment {
 
 		allrows.moveToLast();
 		Semester = allrows.getString(0);
-		// return Semester;
-		// Semester.setText(NAME);
 	}
 
 	public void getLastIPS() {
@@ -107,11 +106,9 @@ public class KRS extends Fragment {
 				Log.d("Skripsi", "mengambil data colom Nama");
 				Double IPSx = Double.valueOf(a.getString(IPS));
 
-				IPSTerakhir.setText("IPS Semester Lalu: "
+				IPSTerakhir.setText("IPS Semester Lalu : "
 						+ new DecimalFormat("#.##").format(IPSx));
 				IPSTerakhir.setTextColor(Color.BLACK);
-				IPSTerakhir.setPadding(20, 5, 20, 5);
-				IPSTerakhir.setGravity(Gravity.CENTER_HORIZONTAL);
 				// Log.d("Skripsix", a.getString(IPS));
 
 				LastIPS = a.getString(IPS);
@@ -166,54 +163,21 @@ public class KRS extends Fragment {
 
 			Semes = listSemester.size();
 			if (Semes % 2 == 0) {
-				Semesterx.setText(Semes + " Semester Genap");
+				Semesterx.setText("Semester "+Semes + " (Genap)");
 				Notif1.setText("Rekomendasi Matakuliah yang diprogramkan ulang pada Semester Ganjil");
 				UlangKRSGanjil();
-				Notif2.setText("Rekomendasi Matakuliah yang diprogramkan pada Semester Ganjil");
+				Notif2.setText("Rekomendasi Matakuliah Wajib yang diprogramkan pada Semester Ganjil");
 				AllKRSWajib();
-
-				if (CGenap.getCount() > 0) {
-					CGenap.moveToFirst();
-					do {
-						StringBuilder SemesterGenap = new StringBuilder();
-						listSemesterGenap.add(CGenap.getString(SmtrGenap));
-						for (String s : listSemesterGenap) {
-							if (SemesterGenap.length() > 0) {
-								SemesterGenap.append(" ");
-							}
-							SemesterGenap.append(s);
-						}
-
-						ListSemester.setText(SemesterGenap.toString());
-
-					} while (CGenap.moveToNext());
-				}
-
+				Notif3.setText("Rekomendasi Matakuliah Pilihan yang diprogramkan pada Semester Ganjil");
+				AllKRSPilihan();
 			} else {
-				Semesterx.setText(Semes + " Semester Ganjil");
+				Semesterx.setText("Semester "+Semes + " (Ganjil)");
 				Notif1.setText("Rekomendasi Matakuliah yang diprogramkan ulang pada Semester Genap");
 				UlangKRSGenap();
-				Notif2.setText("Rekomendasi Matakuliah yang diprogramkan pada Semester Genap");
-
+				Notif2.setText("Rekomendasi Matakuliah Wajib yang diprogramkan pada Semester Genap");
 				AllKRSWajib();
-				if (CGanjil.getCount() > 0) {
-
-					CGanjil.moveToFirst();
-					do {
-						StringBuilder SemesterGanjil = new StringBuilder();
-						listSemesterGanjil.add(CGanjil.getString(SmtrGanjil));
-						for (String s : listSemesterGanjil) {
-							if (SemesterGanjil.length() > 0) {
-								SemesterGanjil.append(" ");
-							}
-							SemesterGanjil.append(s);
-						}
-
-						ListSemester.setText(SemesterGanjil.toString());
-
-					} while (CGanjil.moveToNext());
-
-				}
+				Notif3.setText("Rekomendasi Matakuliah Pilihan yang diprogramkan pada Semester Genap");
+				AllKRSPilihan();
 			}
 		}
 	}
@@ -244,18 +208,13 @@ public class KRS extends Fragment {
 			do {
 				cek = UINTotSKS.getString(TotSKS);
 			} while (UINTotSKS.moveToNext());
-			if (cek==null) {
+			if (cek == null) {
 				TotSKSLalu.setVisibility(View.GONE);
 			} else {
 				TotSKSLalu.setText("Total SKS : " + cek);
 			}
 		}
 
-		// FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-		// TableLayout.LayoutParams.FILL_PARENT,
-		// TableLayout.LayoutParams.FILL_PARENT);
-		//
-		// tableLayout.setLayoutParams(lp);
 		tableLayout.setStretchAllColumns(true);
 		TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
 				TableLayout.LayoutParams.FILL_PARENT,
@@ -335,7 +294,7 @@ public class KRS extends Fragment {
 				ColomnNamaMakul.setText(UIN.getString(NamaMaKul));
 				ColomnNamaMakul.setTextColor(Color.BLACK);
 				ColomnNamaMakul.setTextSize(14);
-				ColomnNamaMakul.setPadding(20, 5, 20, 5);
+				ColomnNamaMakul.setPadding(5, 5, 5, 5);
 				ColomnNamaMakul.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnNamaMakul, cellLp); // adding column to row
 
@@ -420,18 +379,13 @@ public class KRS extends Fragment {
 			do {
 				cek = UINTotSKS.getString(TotSKS);
 			} while (UINTotSKS.moveToNext());
-			if (cek==null) {
+			if (cek == null) {
 				TotSKSLalu.setVisibility(View.GONE);
 			} else {
 				TotSKSLalu.setText("Total SKS : " + cek);
 			}
 		}
 
-		// FrameLayout.LayoutParams lp = new FrameLayout.LayoutParams(
-		// TableLayout.LayoutParams.FILL_PARENT,
-		// TableLayout.LayoutParams.FILL_PARENT);
-		//
-		// tableLayout.setLayoutParams(lp);
 		tableLayout.setStretchAllColumns(true);
 		TableLayout.LayoutParams rowLp = new TableLayout.LayoutParams(
 				TableLayout.LayoutParams.FILL_PARENT,
@@ -452,6 +406,7 @@ public class KRS extends Fragment {
 			ColomnNamaMakul.setTextColor(Color.BLACK);
 			ColomnNamaMakul.setTextSize(14);
 			ColomnNamaMakul.setGravity(Gravity.CENTER);
+			ColomnNamaMakul.setPadding(5, 5, 5, 5);
 			ColomnNamaMakul.setBackgroundResource(R.drawable.garis);
 			rowHeader1.addView(ColomnNamaMakul, cellLp); // adding column to row
 
@@ -512,6 +467,7 @@ public class KRS extends Fragment {
 				ColomnNamaMakul.setText(UIN.getString(NamaMaKul));
 				ColomnNamaMakul.setTextColor(Color.BLACK);
 				ColomnNamaMakul.setTextSize(14);
+				ColomnNamaMakul.setPadding(5, 5, 5, 5);
 				ColomnNamaMakul.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnNamaMakul, cellLp); // adding column to row
 
@@ -686,24 +642,19 @@ public class KRS extends Fragment {
 			Integer SemesterJ = AllKRS.getColumnIndex("PaketSemester");
 
 			Integer TotSKSSek = TotSKSSekarang.getColumnIndex("TotSKS");
-			
+
 			if (TotSKSSekarang.getCount() > 0) {
 				TotSKSSekarang.moveToFirst();
 				do {
 					cek = TotSKSSekarang.getString(TotSKSSek);
 				} while (TotSKSSekarang.moveToNext());
-				if (cek==null) {
+				if (cek == null) {
 					TotSKSSekar.setVisibility(View.GONE);
 				} else {
 					TotSKSSekar.setText("Total SKS : " + cek);
 				}
 			}
 
-			// FrameLayout.LayoutParams lpx = new FrameLayout.LayoutParams(
-			// TableLayout.LayoutParams.FILL_PARENT,
-			// TableLayout.LayoutParams.FILL_PARENT);
-			//
-			// tableLayoutCurrent.setLayoutParams(lpx);
 			tableLayoutCurrent.setStretchAllColumns(true);
 			TableLayout.LayoutParams rowLpx = new TableLayout.LayoutParams(
 					TableLayout.LayoutParams.FILL_PARENT,
@@ -723,6 +674,7 @@ public class KRS extends Fragment {
 				ColomnNamaMakulSekW.setTextColor(Color.BLACK);
 				ColomnNamaMakulSekW.setTextSize(14);
 				ColomnNamaMakulSekW.setGravity(Gravity.CENTER);
+				ColomnNamaMakulSekW.setPadding(5, 5, 5, 5);
 				ColomnNamaMakulSekW.setBackgroundResource(R.drawable.garis);
 				rowHeader2.addView(ColomnNamaMakulSekW, cellLpx);
 
@@ -770,6 +722,7 @@ public class KRS extends Fragment {
 					ColomnNamaMakulSekW.setText(AllKRS.getString(NamaMaKul));
 					ColomnNamaMakulSekW.setTextColor(Color.BLACK);
 					ColomnNamaMakulSekW.setTextSize(14);
+					ColomnNamaMakulSekW.setPadding(5, 5, 5, 5);
 					ColomnNamaMakulSekW.setBackgroundResource(R.drawable.garis);
 					rowCurrent.addView(ColomnNamaMakulSekW, cellLpx);
 
@@ -792,7 +745,8 @@ public class KRS extends Fragment {
 					ColomnSifatMAkulSekW.setGravity(Gravity.CENTER);
 					ColomnSifatMAkulSekW.setTextSize(14);
 					// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
-					ColomnSifatMAkulSekW.setBackgroundResource(R.drawable.garis);
+					ColomnSifatMAkulSekW
+							.setBackgroundResource(R.drawable.garis);
 					rowCurrent.addView(ColomnSifatMAkulSekW, cellLpx);
 
 					// Setting up ColomnSemester parameters
@@ -814,6 +768,155 @@ public class KRS extends Fragment {
 				// "Event occurred.", Toast.LENGTH_LONG).show();
 				Notif2.setText("Tidak ada rekomendasi matakuliah yang perlu diprogramkan");
 			}
+		}
+	}
+
+	public void AllKRSPilihan() {
+
+		String QueryKRSPilihan = "select KodeMaKul," + "NamaMakul"
+				+ ",SKSTeori + SKSPraktikum as SKS " + ",SifatMakul"
+				+ ",PaketSemester " + "from MataKuliah "
+				+ "where PaketSemester=" + SMTx
+				+ " and  SifatMakul='P' and JKurikulum='B'";
+
+		String TotQuery = "select sum(SKSTeori + SKSPraktikum) as TotSKS "
+				+ "from MataKuliah " + "where PaketSemester=" + SMTx
+				+ " and  SifatMakul='P' and JKurikulum='B'";
+		Cursor AllKRSPilihan = db.rawQuery(QueryKRSPilihan, null);
+
+		Cursor TotSKSSekarangPilihan = db.rawQuery(TotQuery, null);
+		// untuk MakulUIN
+		Integer NamaMaKul = AllKRSPilihan.getColumnIndex("NamaMaKul");
+		Integer SKS = AllKRSPilihan.getColumnIndex("SKS");
+		Integer SifatMakul = AllKRSPilihan.getColumnIndex("SifatMaKul");
+		Integer SemesterJ = AllKRSPilihan.getColumnIndex("PaketSemester");
+
+		Integer TotSKSSekPil = TotSKSSekarangPilihan.getColumnIndex("TotSKS");
+
+		if (TotSKSSekarangPilihan.getCount() > 0) {
+			TotSKSSekarangPilihan.moveToFirst();
+			do {
+				cek = TotSKSSekarangPilihan.getString(TotSKSSekPil);
+			} while (TotSKSSekarangPilihan.moveToNext());
+			if (cek == null) {
+				TotSKSSekarP.setVisibility(View.GONE);
+			} else {
+				TotSKSSekarP.setText("Total SKS : " + cek);
+			}
+		}
+
+		tableLayoutCurrent.setStretchAllColumns(true);
+		TableLayout.LayoutParams rowLpx = new TableLayout.LayoutParams(
+				TableLayout.LayoutParams.FILL_PARENT,
+				TableLayout.LayoutParams.FILL_PARENT, 1.0f);
+		TableRow.LayoutParams cellLpx = new TableRow.LayoutParams(
+				TableRow.LayoutParams.FILL_PARENT,
+				TableRow.LayoutParams.FILL_PARENT, 1.0f);
+
+		if (AllKRSPilihan.getCount() > 0) {
+			// Setting Up Header table
+			rowHeader3 = new TableRow(getActivity());
+			rowHeader3.setId(300);
+
+			Log.d("Skripsi", "mengambil data colom NamaMakul");
+			ColomnNamaMakulSekP = new TextView(getActivity());
+			ColomnNamaMakulSekP.setText("Nama Matakuliah");
+			ColomnNamaMakulSekP.setTextColor(Color.BLACK);
+			ColomnNamaMakulSekP.setTextSize(14);
+			ColomnNamaMakulSekP.setGravity(Gravity.CENTER);
+			ColomnNamaMakulSekP.setPadding(5, 5, 5, 5);
+			ColomnNamaMakulSekP.setBackgroundResource(R.drawable.garis);
+			rowHeader3.addView(ColomnNamaMakulSekP, cellLpx);
+
+			// Setting up ColomnSKS parameters
+			Log.d("Skripsi", "mengambil data colom SKS");
+			ColomnSKSSekP = new TextView(getActivity());
+			ColomnSKSSekP.setText("SKS");
+			ColomnSKSSekP.setTextColor(Color.BLACK);
+			ColomnSKSSekP.setGravity(Gravity.CENTER);
+			ColomnSKSSekP.setTextSize(14);
+			// ColomnSKS.setPadding(20, 5, 20, 5);
+			ColomnSKSSekP.setBackgroundResource(R.drawable.garis);
+			rowHeader3.addView(ColomnSKSSekP, cellLpx);
+
+			// Setting up ColomnNilaiHuruf parameters
+			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
+			ColomnSifatMAkulSekP = new TextView(getActivity());
+			ColomnSifatMAkulSekP.setText("Sifat Matakuliah");
+			ColomnSifatMAkulSekP.setTextColor(Color.BLACK);
+			ColomnSifatMAkulSekP.setGravity(Gravity.CENTER);
+			ColomnSifatMAkulSekP.setTextSize(14);
+			// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
+			ColomnSifatMAkulSekP.setBackgroundResource(R.drawable.garis);
+			rowHeader3.addView(ColomnSifatMAkulSekP, cellLpx);
+
+			// Setting up ColomnSemester parameters
+			Log.d("Skripsi", "mengambil data colom Semester");
+			ColomnSemesterSekP = new TextView(getActivity());
+			ColomnSemesterSekP.setText("Semester");
+			ColomnSemesterSekP.setTextColor(Color.BLACK);
+			ColomnSemesterSekP.setTextSize(14);
+			ColomnSemesterSekP.setGravity(Gravity.CENTER);
+			// ColomnSemester.setPadding(20, 5, 20, 5);
+			ColomnSemesterSekP.setBackgroundResource(R.drawable.garis);
+			rowHeader3.addView(ColomnSemesterSekP, cellLpx);
+			tableLayoutCurrentPilihan.addView(rowHeader3, rowLpx);
+
+			AllKRSPilihan.moveToFirst();
+			do {
+				rowPilihan = new TableRow(getActivity());
+				rowPilihan.setId(300);
+				// Setting up the ColomnNamaMaKul parameters
+				Log.d("Skripsi", "mengambil data colom NamaMakul");
+				ColomnNamaMakulSekP = new TextView(getActivity());
+				ColomnNamaMakulSekP.setText(AllKRSPilihan.getString(NamaMaKul));
+				ColomnNamaMakulSekP.setTextColor(Color.BLACK);
+				ColomnNamaMakulSekP.setTextSize(14);
+				ColomnNamaMakulSekP.setPadding(5, 5, 5, 5);
+				ColomnNamaMakulSekP.setBackgroundResource(R.drawable.garis);
+				rowPilihan.addView(ColomnNamaMakulSekP, cellLpx);
+
+				// Setting up ColomnSKS parameters
+				Log.d("Skripsi", "mengambil data colom SKS");
+				ColomnSKSSekP = new TextView(getActivity());
+				ColomnSKSSekP.setText(AllKRSPilihan.getString(SKS));
+				ColomnSKSSekP.setTextColor(Color.BLACK);
+				ColomnSKSSekP.setGravity(Gravity.CENTER);
+				ColomnSKSSekP.setTextSize(14);
+				// ColomnSKS.setPadding(20, 5, 20, 5);
+				ColomnSKSSekP.setBackgroundResource(R.drawable.garis);
+				rowPilihan.addView(ColomnSKSSekP, cellLpx);
+
+				// Setting up ColomnNilaiHuruf parameters
+				Log.d("Skripsi", "mengambil data colom NilaiHuruf");
+				ColomnSifatMAkulSekP = new TextView(getActivity());
+				ColomnSifatMAkulSekP.setText(AllKRSPilihan
+						.getString(SifatMakul));
+				ColomnSifatMAkulSekP.setTextColor(Color.BLACK);
+				ColomnSifatMAkulSekP.setGravity(Gravity.CENTER);
+				ColomnSifatMAkulSekP.setTextSize(14);
+				// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
+				ColomnSifatMAkulSekP.setBackgroundResource(R.drawable.garis);
+				rowPilihan.addView(ColomnSifatMAkulSekP, cellLpx);
+
+				// Setting up ColomnSemester parameters
+				Log.d("Skripsi", "mengambil data colom Semester");
+				ColomnSemesterSekP = new TextView(getActivity());
+				ColomnSemesterSekP.setText(AllKRSPilihan.getString(SemesterJ));
+				ColomnSemesterSekP.setTextColor(Color.BLACK);
+				ColomnSemesterSekP.setTextSize(14);
+				ColomnSemesterSekP.setGravity(Gravity.CENTER);
+				// ColomnSemester.setPadding(20, 5, 20, 5);
+				ColomnSemesterSekP.setBackgroundResource(R.drawable.garis);
+				rowPilihan.addView(ColomnSemesterSekP, cellLpx);
+
+				tableLayoutCurrentPilihan.addView(rowPilihan, rowLpx);
+			} while (AllKRSPilihan.moveToNext());
+			// db.close();
+		} else {
+			// Toast.makeText(getActivity().getApplicationContext(),
+			// "Event occurred.", Toast.LENGTH_LONG).show();
+			Notif3.setText("Tidak ada rekomendasi matakuliah yang perlu diprogramkan");
 		}
 	}
 }
