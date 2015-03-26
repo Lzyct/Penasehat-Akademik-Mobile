@@ -33,9 +33,9 @@ import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
 public class Profil extends Fragment {
-	SQLiteDatabase  db;
+	SQLiteDatabase db;
 	TextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
-	CustomImageView  ProfileImage;
+	CustomImageView ProfileImage;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -47,20 +47,19 @@ public class Profil extends Fragment {
 		JumSKSx = (TextView) v.findViewById(R.id.JumSKS);
 		SMTx = (TextView) v.findViewById(R.id.Semester);
 
-		ProfileImage = (CustomImageView ) v.findViewById(R.id.profilImage);
+		ProfileImage = (CustomImageView) v.findViewById(R.id.profilImage);
 
 		SharedPreferences pref = getActivity().getPreferences(0);
 		SharedPreferences.Editor edt = pref.edit();
 		edt.putString("profil_pic", null);
 		edt.commit();
-		
-		
+
 		String profil = pref.getString("profil_pic", null);
 
 		if (profil == null) {
 			ProfileImage.setImageResource(R.drawable.profil);
 		} else {
-			
+
 			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(profil));
 		}
 
@@ -129,8 +128,7 @@ public class Profil extends Fragment {
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
-				+ "AS IPK "
-				+ "FROM DataMHS WHERE NilaiHuruf!=''";
+				+ "AS IPK " + "FROM DataMHS WHERE NilaiHuruf!=''";
 		Cursor a = db.rawQuery(query, null);
 		Integer Nim = a.getColumnIndex("Nim");
 		Integer Nama = a.getColumnIndex("Nama");
@@ -147,19 +145,20 @@ public class Profil extends Fragment {
 				Log.d("Skripsi", "mengambil data colom nim");
 				Nimx.setText("Nim : " + a.getString(Nim));
 				Nimx.setTextColor(Color.BLACK);
-				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
+				Nimx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(Nim));
 
 				// Setting up the ColomnNama parameters
 				Log.d("Skripsi", "mengambil data colom Nama");
 				Namax.setText("Nama : " + a.getString(Nama));
 				Namax.setTextColor(Color.BLACK);
-				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
+				Namax.setGravity(Gravity.CENTER_HORIZONTAL);
 
 				Log.d("Skripsi", "mengambil data colom nim");
-				
+
 				Double IPKx = Double.valueOf(a.getString(IPK));
-				NilaiIPKx.setText("IPK = " + new DecimalFormat("#.##").format(IPKx));
+				NilaiIPKx.setText("IPK = "
+						+ new DecimalFormat("#.##").format(IPKx));
 				NilaiIPKx.setTextColor(Color.BLACK);
 				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPK));
@@ -168,7 +167,7 @@ public class Profil extends Fragment {
 				Log.d("Skripsi", "mengambil data colom Nama");
 				JumSKSx.setText("SKS Dilulusi : " + a.getString(JumSKS));
 				JumSKSx.setTextColor(Color.BLACK);
-				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
+				JumSKSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(JumSKS));
 
 				Log.d("Skripsi", "mengambil data colom Nama");

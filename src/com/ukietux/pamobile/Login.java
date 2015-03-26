@@ -43,8 +43,6 @@ public class Login extends ActionBarActivity {
 				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
 				.show();
 
-
-
 		login = (Button) findViewById(R.id.login);
 		nim = (EditText) findViewById(R.id.nim);
 
@@ -55,8 +53,9 @@ public class Login extends ActionBarActivity {
 				url = "http://skripsi.ngrok.com/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
 				url1 = "http://skripsi.ngrok.com/PAMobile/matakuliah.php";
-				
-				ConnectionStatus cs = new ConnectionStatus(getApplicationContext());
+
+				ConnectionStatus cs = new ConnectionStatus(
+						getApplicationContext());
 
 				Boolean isInternetPresent = cs.isConnectingToInternet();
 
@@ -183,14 +182,14 @@ public class Login extends ActionBarActivity {
 
 					}
 				} else {
+					Toast.makeText(getApplicationContext(),
+							"Server sedang down", Toast.LENGTH_LONG).show();
 					Log.e("erro", "tidak bisa ambil data 0");
 				}
 
 			} catch (Exception e) {
 				// TODO: handle exception
-				Toast.makeText(
-						getApplicationContext(),
-						"Server sedang down",
+				Toast.makeText(getApplicationContext(), "Server sedang down",
 						Toast.LENGTH_LONG).show();
 				Log.e("erro", "tidak bisa ambil data 1");
 

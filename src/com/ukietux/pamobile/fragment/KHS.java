@@ -35,7 +35,7 @@ public class KHS extends Fragment {
 	TextView ColomnNilaiHuruf;
 	TextView ColomnSKS;
 	TextView IPSx;
-	TableRow row, rowIPK;
+	TableRow row, rowIPK, rowHeader;
 	TableLayout tableLayout, tableIPK;
 	String Semester;
 
@@ -103,7 +103,8 @@ public class KHS extends Fragment {
 				Log.d("Skripsi", "mengambil data colom Nama");
 
 				Double IPSter = Double.valueOf(a.getString(IPS));
-				IPSx.setText("IPS : " + new DecimalFormat("#.##").format(IPSter));
+				IPSx.setText("IPS : "
+						+ new DecimalFormat("#.##").format(IPSter));
 				IPSx.setTextColor(Color.BLACK);
 				IPSx.setPadding(20, 5, 20, 5);
 				IPSx.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -143,6 +144,45 @@ public class KHS extends Fragment {
 
 		if (c.getCount() > 0) {
 			// Scanning value field by raw Cursor
+			rowHeader = new TableRow(getActivity());
+			rowHeader.setId(100);
+
+			// Clean All View before display dataMHS
+
+			// Setting up the ColomnNamaMaKul parameters
+			Log.d("Skripsi", "mengambil data colom NamaMakul");
+			ColomnNamaMaKul = new TextView(getActivity());
+			ColomnNamaMaKul.setText("Nama Matakuliah");
+			ColomnNamaMaKul.setTextColor(Color.BLACK);
+			ColomnNamaMaKul.setTextSize(14);
+			ColomnNamaMaKul.setPadding(20, 5, 10, 5);
+			ColomnNamaMaKul.setGravity(Gravity.CENTER);
+			ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
+			rowHeader.addView(ColomnNamaMaKul, cellLp);
+
+			// Setting up ColomnNilaiHuruf parameters
+			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
+			ColomnNilaiHuruf = new TextView(getActivity());
+			ColomnNilaiHuruf.setText("Nilai Huruf");
+			ColomnNilaiHuruf.setTextColor(Color.BLACK);
+			ColomnNilaiHuruf.setTextSize(14);
+			ColomnNilaiHuruf.setGravity(Gravity.CENTER);
+			// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
+			ColomnNilaiHuruf.setBackgroundResource(R.drawable.garis);
+			rowHeader.addView(ColomnNilaiHuruf, cellLp);
+
+			// Setting up ColomnSKS parameters
+			Log.d("Skripsi", "mengambil data colom SKS");
+			ColomnSKS = new TextView(getActivity());
+			ColomnSKS.setText("SKS");
+			ColomnSKS.setTextColor(Color.BLACK);
+			ColomnSKS.setTextSize(14);
+			ColomnSKS.setGravity(Gravity.CENTER);
+			// ColomnSKS.setPadding(20, 5, 20, 5);
+			ColomnSKS.setBackgroundResource(R.drawable.garis);
+			rowHeader.addView(ColomnSKS, cellLp);
+			tableLayout.addView(rowHeader, rowLp);
+
 			c.moveToFirst();
 			do {
 				row = new TableRow(getActivity());
@@ -156,7 +196,7 @@ public class KHS extends Fragment {
 				ColomnNamaMaKul.setText(c.getString(NamaMaKul));
 				ColomnNamaMaKul.setTextColor(Color.BLACK);
 				ColomnNamaMaKul.setTextSize(14);
-				ColomnNamaMaKul.setPadding(20, 5, 20, 5);
+				ColomnNamaMaKul.setPadding(20, 5, 10, 5);
 				ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
 				row.addView(ColomnNamaMaKul, cellLp); // adding column to row
 				Log.d("skripsi", c.getString(NamaMaKul));
@@ -193,7 +233,6 @@ public class KHS extends Fragment {
 		}
 
 	}
-
 
 	public ArrayList<String> getTableValues() {
 
