@@ -39,9 +39,9 @@ public class Login extends ActionBarActivity {
 		setContentView(R.layout.login);
 
 		session = new SessionManager(getApplicationContext());
-		Toast.makeText(getApplicationContext(),
-				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
-				.show();
+//		Toast.makeText(getApplicationContext(),
+//				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+//				.show();
 
 		login = (Button) findViewById(R.id.login);
 		nim = (EditText) findViewById(R.id.nim);

@@ -39,7 +39,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -85,9 +88,9 @@ public class MainActivity extends ActionBarActivity {
 
 		// get session
 		session = new SessionManager(getApplicationContext());
-		Toast.makeText(getApplicationContext(),
-				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
-				.show();
+//		Toast.makeText(getApplicationContext(),
+//				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+//				.show();
 
 		session.checkLogin();
 
@@ -139,10 +142,9 @@ public class MainActivity extends ActionBarActivity {
 		// Enabling Up navigation
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(
-				new ColorDrawable(Color.parseColor("#87cfd5")));
-
+				new ColorDrawable(Color.parseColor("#8E44AD")));
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.string.app_name, R.string.app_name) {
+				R.string.exit, R.string.exit) {
 
 			@SuppressLint("ResourceAsColor")
 			public void onDrawerClosed(View view) {
@@ -158,8 +160,11 @@ public class MainActivity extends ActionBarActivity {
 
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
+						s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
+						        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-						toolbar.setTitle(s);
+						toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
+						
 						// calling onPrepareOptionsMenu() to show action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -179,8 +184,10 @@ public class MainActivity extends ActionBarActivity {
 						String str = String.valueOf("PENASEHAT AKADEMIK");
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
+						s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
+						        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-						toolbar.setTitle(s);
+						toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
 						// calling onPrepareOptionsMenu() to hide action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -266,8 +273,10 @@ public class MainActivity extends ActionBarActivity {
 		String str = String.valueOf(mTitle);
 		str = str.toUpperCase(Locale.getDefault());
 		SpannableString s = new SpannableString(str);
+		s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
+		        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
-		toolbar.setTitle(s);
+		toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
 	}
 
 	@Override

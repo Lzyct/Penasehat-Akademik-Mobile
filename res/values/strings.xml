@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Penasehat Akademik</string>
+    
+    <string name="app_name">PENASEHAT AKADEMIK</string>
     <string name="about">Tentang Aplikasi</string>
     <string name="exit">Keluar</string>
     <string name="update">Perbarui Data</string>
