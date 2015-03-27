@@ -17,6 +17,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -49,14 +50,12 @@ public class Profil extends Fragment {
 
 		ProfileImage = (CustomImageView) v.findViewById(R.id.profilImage);
 
-		SharedPreferences pref = getActivity().getPreferences(0);
-		SharedPreferences.Editor edt = pref.edit();
-		edt.putString("profil_pic", null);
-		edt.commit();
+		SharedPreferences pref = getActivity().getSharedPreferences("Profil", 0); 
+		String profil = pref.getString("profil_pic", "empty");
 
-		String profil = pref.getString("profil_pic", null);
 
-		if (profil == null) {
+		Log.d("Cekidot",profil);
+		if (profil == "empty") {
 			ProfileImage.setImageResource(R.drawable.profil);
 		} else {
 
@@ -101,7 +100,7 @@ public class Profil extends Fragment {
 			String picturePath = cursor.getString(columnIndex);
 			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
 
-			SharedPreferences pref = getActivity().getPreferences(0);
+			SharedPreferences pref = getActivity().getSharedPreferences("Profil", 0); 
 			SharedPreferences.Editor edt = pref.edit();
 			edt.putString("profil_pic", picturePath);
 			edt.commit();

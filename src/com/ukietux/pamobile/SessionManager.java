@@ -10,14 +10,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 @SuppressLint("CommitPrefEdits")
 public class SessionManager {
 	// Shared Preferences
-	SharedPreferences pref;
+	SharedPreferences pref,prefProfil;
 
 	// Editor for Shared preferences
-	Editor editor;
+	Editor editor,editorProfil;
 
 	// Context
 	Context _context;
@@ -27,6 +28,7 @@ public class SessionManager {
 
 	// nama sharepreference
 	private static final String PREF_NAME = "Sesi";
+	private static final String PREF_PROFIL = "Profil";
 
 	// All Shared Preferences Keys
 	private static final String IS_LOGIN = "IsLoggedIn";
@@ -36,7 +38,11 @@ public class SessionManager {
 	public SessionManager(Context context) {
 		this._context = context;
 		pref = _context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+
+		prefProfil = _context.getSharedPreferences(PREF_PROFIL, 0);
 		editor = pref.edit();
+		editorProfil = prefProfil.edit();
+		
 	}
 
 	/**
@@ -83,7 +89,15 @@ public class SessionManager {
 		// Clearing all data from Shared Preferences
 
 		editor.clear().commit();
+		editorProfil.clear().commit();
 
+//		SharedPreferences.Editor edt = pref.edit();
+//		edt.putString("profil_pic", "empty");
+//		edt.commit();
+//
+//		String profil = pref.getString("profil_pic", "empty");
+//		Log.d("Cekidot", profil);
+		
 		Intent i = new Intent(_context, Login.class);
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		i.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
