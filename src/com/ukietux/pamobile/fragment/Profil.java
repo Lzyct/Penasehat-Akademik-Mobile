@@ -1,9 +1,12 @@
 package com.ukietux.pamobile.fragment;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -17,6 +20,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
@@ -26,10 +30,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ukietux.pamobile.utils.CustomImageView;
+import com.ukietux.pamobile.utils.GalleryUtil;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
@@ -38,28 +44,33 @@ public class Profil extends Fragment {
 	TextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
 	CustomImageView ProfileImage;
 
+	private String selectedImagePath;
+	private static final int SELECT_PICTURE = 1;
+	private Uri mCropImagedUri;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.profil, container, false);
-		Nimx = (TextView) v.findViewById(R.id.Nim);
+		v.setBackgroundResource(R.drawable.profil_bg);
 		Namax = (TextView) v.findViewById(R.id.Nama);
+		Nimx = (TextView) v.findViewById(R.id.Nim);
 		NilaiIPKx = (TextView) v.findViewById(R.id.IPK);
 		JumSKSx = (TextView) v.findViewById(R.id.JumSKS);
 		SMTx = (TextView) v.findViewById(R.id.Semester);
 
 		ProfileImage = (CustomImageView) v.findViewById(R.id.profilImage);
 
-		SharedPreferences pref = getActivity().getSharedPreferences("Profil", 0); 
-		String profil = pref.getString("profil_pic", "empty");
+		SharedPreferences pref = getActivity()
+				.getSharedPreferences("Profil", 0);
+		String profilPath = pref.getString("profil_pic", "empty");
 
-
-		Log.d("Cekidot",profil);
-		if (profil == "empty") {
+		Log.d("Cekidot", profilPath);
+		if (profilPath == "empty") {
 			ProfileImage.setImageResource(R.drawable.profil);
 		} else {
 
-			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(profil));
+			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(profilPath));
 		}
 
 		ProfileImage.setOnClickListener(new View.OnClickListener() {
@@ -67,10 +78,35 @@ public class Profil extends Fragment {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				Intent i = new Intent(
-						Intent.ACTION_PICK,
-						android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-				startActivityForResult(i, 1);
+				try {
+					// cropping image
+					Intent intent = new Intent();
+					intent.setType("image/*");
+					intent.setAction(Intent.ACTION_GET_CONTENT);
+					intent.putExtra("crop", "true");
+					intent.putExtra("aspectX", 0);
+					intent.putExtra("aspectY", 0);
+					// set resolution 400x400
+					intent.putExtra("outputX", 400);
+					intent.putExtra("outputY", 400);
+					intent.putExtra("return-data", false);
+
+					File f = createNewFile("PROFIL_");
+					try {
+						f.createNewFile();
+					} catch (IOException ex) {
+						Log.e("io", ex.getMessage());
+					}
+
+					mCropImagedUri = Uri.fromFile(f);
+					intent.putExtra(MediaStore.EXTRA_OUTPUT, mCropImagedUri);
+					// start the activity - we handle returning in
+					// onActivityResult
+					startActivityForResult(intent, SELECT_PICTURE);
+				} catch (ActivityNotFoundException anfe) {
+					// display an error message
+
+				}
 			}
 
 		});
@@ -85,30 +121,52 @@ public class Profil extends Fragment {
 
 	}
 
+	private File createNewFile(String prefix) {
+		if (prefix == null || "".equalsIgnoreCase(prefix)) {
+			prefix = "IMG_";
+		}
+		// Saved Crop Image Directory
+		File newDirectory = new File(Environment.getExternalStorageDirectory()
+				+ "/DCIM/PAMOBILE/");
+		if (!newDirectory.exists()) {
+			if (newDirectory.mkdir()) {
+				Log.d(this.getClass().getName(), newDirectory.getAbsolutePath()
+						+ " directory created");
+			}
+		}
+		File file = new File(newDirectory,
+				(prefix + System.currentTimeMillis() + ".png"));
+		if (file.exists()) {
+			// this wont be executed
+			file.delete();
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return file;
+	}
+
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 
-		if (data != null) {
-			Uri selectedImage = data.getData();
-			String[] filePathColumn = { MediaStore.Images.Media.DATA };
-			Activity act = getActivity();
-			Cursor cursor = act.managedQuery(selectedImage, filePathColumn,
-					null, null, null);
+		if (resultCode == Activity.RESULT_OK) {
+			if (requestCode == SELECT_PICTURE) {
 
-			cursor.moveToFirst();
-			int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-			String picturePath = cursor.getString(columnIndex);
-			ProfileImage.setImageBitmap(BitmapFactory.decodeFile(picturePath));
+				selectedImagePath = mCropImagedUri.getPath(); // To get image path															// path
+				SharedPreferences pref = getActivity().getSharedPreferences(
+						"Profil", 0);
+				SharedPreferences.Editor edt = pref.edit();
+				edt.putString("profil_pic", selectedImagePath);
+				edt.commit();
 
-			SharedPreferences pref = getActivity().getSharedPreferences("Profil", 0); 
-			SharedPreferences.Editor edt = pref.edit();
-			edt.putString("profil_pic", picturePath);
-			edt.commit();
+				ProfileImage.setImageBitmap(BitmapFactory
+						.decodeFile(selectedImagePath));
+				Log.d("cekgambar", "Image Path : " + selectedImagePath);
 
-			cursor.close();
-		} else {
-			Toast.makeText(getActivity(), "Try Again!!", Toast.LENGTH_SHORT)
-					.show();
+			}
 		}
 
 	}
@@ -140,6 +198,10 @@ public class Profil extends Fragment {
 			a.moveToFirst();
 			do {
 
+				Log.d("Skripsi", "mengambil data colom Nama");
+				Namax.setText("Nama : " + a.getString(Nama));
+				Namax.setTextColor(Color.BLACK);
+				Namax.setGravity(Gravity.CENTER_HORIZONTAL);
 				// Setting up the ColomnNim parameters
 				Log.d("Skripsi", "mengambil data colom nim");
 				Nimx.setText("Nim : " + a.getString(Nim));
@@ -148,10 +210,6 @@ public class Profil extends Fragment {
 				Log.d("Skripsix", a.getString(Nim));
 
 				// Setting up the ColomnNama parameters
-				Log.d("Skripsi", "mengambil data colom Nama");
-				Namax.setText("Nama : " + a.getString(Nama));
-				Namax.setTextColor(Color.BLACK);
-				Namax.setGravity(Gravity.CENTER_HORIZONTAL);
 
 				Log.d("Skripsi", "mengambil data colom nim");
 
