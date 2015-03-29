@@ -50,9 +50,9 @@ public class Login extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				url = "http://skripsi.ngrok.com/PAMobile/masuk.php?" + "Nim="
+				url = "http://192.168.0.101/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
-				url1 = "http://skripsi.ngrok.com/PAMobile/matakuliah.php";
+				url1 = "http://192.168.0.101/PAMobile/matakuliah.php";
 
 				ConnectionStatus cs = new ConnectionStatus(
 						getApplicationContext());
@@ -189,9 +189,9 @@ public class Login extends ActionBarActivity {
 
 			} catch (Exception e) {
 				// TODO: handle exception
-				Toast.makeText(getApplicationContext(), "Server sedang down",
-						Toast.LENGTH_LONG).show();
-				Log.e("erro", "tidak bisa ambil data 1");
+//				Toast.makeText(getApplicationContext(), "Server sedang down",
+//						Toast.LENGTH_LONG).show();
+				Log.d("gagal", "tidak bisa ambil data 1");
 
 			}
 
@@ -212,7 +212,8 @@ public class Login extends ActionBarActivity {
 				finish();
 			} else {
 
-				Toast.makeText(getApplicationContext(), "Masukkan Nim Anda",
+				Toast.makeText(getApplicationContext(), "Maaf, untuk sementara aplikasi ini hanya untuk \n"
+						+ "Mahasiswa Teknik Informatika angkatan 2012 kebawah",
 						Toast.LENGTH_LONG).show();
 			}
 

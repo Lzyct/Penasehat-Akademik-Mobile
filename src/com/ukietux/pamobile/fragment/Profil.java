@@ -35,7 +35,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ukietux.pamobile.utils.CustomImageView;
-import com.ukietux.pamobile.utils.GalleryUtil;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
@@ -86,9 +85,9 @@ public class Profil extends Fragment {
 					intent.putExtra("crop", "true");
 					intent.putExtra("aspectX", 0);
 					intent.putExtra("aspectY", 0);
-					// set resolution 400x400
-					intent.putExtra("outputX", 400);
-					intent.putExtra("outputY", 400);
+					// set resolution 200x200
+					intent.putExtra("outputX", 200);
+					intent.putExtra("outputY", 200);
 					intent.putExtra("return-data", false);
 
 					File f = createNewFile("PROFIL_");
@@ -199,13 +198,14 @@ public class Profil extends Fragment {
 			do {
 
 				Log.d("Skripsi", "mengambil data colom Nama");
-				Namax.setText("Nama : " + a.getString(Nama));
-				Namax.setTextColor(Color.BLACK);
+				Namax.setText(a.getString(Nama));
 				Namax.setGravity(Gravity.CENTER_HORIZONTAL);
+				
 				// Setting up the ColomnNim parameters
+				
+				
 				Log.d("Skripsi", "mengambil data colom nim");
-				Nimx.setText("Nim : " + a.getString(Nim));
-				Nimx.setTextColor(Color.BLACK);
+				Nimx.setText("NIM \n" + a.getString(Nim));
 				Nimx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(Nim));
 
@@ -214,22 +214,19 @@ public class Profil extends Fragment {
 				Log.d("Skripsi", "mengambil data colom nim");
 
 				Double IPKx = Double.valueOf(a.getString(IPK));
-				NilaiIPKx.setText("IPK = "
+				NilaiIPKx.setText("IPK \n"
 						+ new DecimalFormat("#.##").format(IPKx));
-				NilaiIPKx.setTextColor(Color.BLACK);
 				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPK));
 
 				// Setting up the ColomnNama parameters
 				Log.d("Skripsi", "mengambil data colom Nama");
-				JumSKSx.setText("SKS Dilulusi : " + a.getString(JumSKS));
-				JumSKSx.setTextColor(Color.BLACK);
+				JumSKSx.setText("SKS DILUSUSI \n" + a.getString(JumSKS));
 				JumSKSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(JumSKS));
 
 				Log.d("Skripsi", "mengambil data colom Nama");
-				SMTx.setText("Semester : " + a.getString(Semester));
-				SMTx.setTextColor(Color.BLACK);
+				SMTx.setText("SEMESTER \n" + a.getString(Semester));
 				SMTx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(Semester));
 

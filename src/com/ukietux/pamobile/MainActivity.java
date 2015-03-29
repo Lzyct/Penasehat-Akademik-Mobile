@@ -17,6 +17,7 @@ import com.ukietux.pamobile.fragment.Profil;
 import com.ukietux.pamobile.fragment.KHS;
 import com.ukietux.pamobile.utils.ConnectionStatus;
 import com.ukietux.pamobile.utils.CustomAdapter;
+import com.ukietux.pamobile.utils.CustomImageView;
 import com.ukietux.pamobile.utils.RowItem;
 
 import android.annotation.SuppressLint;
@@ -24,10 +25,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -39,10 +42,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.style.TypefaceSpan;
+import android.text.TextPaint;
+import android.text.style.MetricAffectingSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
@@ -52,6 +55,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+@SuppressLint("ResourceAsColor")
 public class MainActivity extends ActionBarActivity {
 
 	// deklarasi title, icon dan url menggunakan string array
@@ -88,9 +92,9 @@ public class MainActivity extends ActionBarActivity {
 
 		// get session
 		session = new SessionManager(getApplicationContext());
-//		Toast.makeText(getApplicationContext(),
-//				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
-//				.show();
+		// Toast.makeText(getApplicationContext(),
+		// "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+		// .show();
 
 		session.checkLogin();
 
@@ -99,10 +103,12 @@ public class MainActivity extends ActionBarActivity {
 		nim = user.get(SessionManager.KEY_NIM);
 		// id = user.get(SessionManager.KEY_ID);
 
-		url = "http://skripsi.ngrok.com/PAMobile/masuk.php?" + "Nim=" + nim;
-		url1 = "http://skripsi.ngrok.com/PAMobile/matakuliah.php";
+		url = "http://192.168.0.101/PAMobile/masuk.php?" + "Nim=" + nim;
+		url1 = "http://192.168.0.101/PAMobile/matakuliah.php";
 
 		mTitle = getTitle();
+		
+		
 
 		// menampung string array ke variable
 		menutitles = getResources().getStringArray(R.array.titles);
@@ -143,8 +149,9 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setBackgroundDrawable(
 				new ColorDrawable(Color.parseColor("#8E44AD")));
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.string.exit, R.string.exit) {
+		getSupportActionBar().setTitle("PENASEHAT AKADEMIK");
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,
+				R.string.test, R.string.test) {
 
 			@SuppressLint("ResourceAsColor")
 			public void onDrawerClosed(View view) {
@@ -160,11 +167,24 @@ public class MainActivity extends ActionBarActivity {
 
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
-						s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
-						        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						MetricAffectingSpan span = new MetricAffectingSpan() {
+							@Override
+							public void updateMeasureState(TextPaint p) {
+								p.setTypeface(myFont);
+								p.setTextSize((float) 40.0);
+							}
 
-						toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
-						
+							@Override
+							public void updateDrawState(TextPaint tp) {
+								tp.setTypeface(myFont);
+								tp.setTextSize((float) 40.0);
+							}
+						};
+
+						s.setSpan(span, 0, s.length(),
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						toolbar.setTitle(s);
+
 						// calling onPrepareOptionsMenu() to show action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -184,10 +204,23 @@ public class MainActivity extends ActionBarActivity {
 						String str = String.valueOf("PENASEHAT AKADEMIK");
 						str = str.toUpperCase(Locale.getDefault());
 						SpannableString s = new SpannableString(str);
-						s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
-						        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						MetricAffectingSpan span = new MetricAffectingSpan() {
+							@Override
+							public void updateMeasureState(TextPaint p) {
+								p.setTypeface(myFont);
+								p.setTextSize((float) 40.0);
+							}
 
-						toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
+							@Override
+							public void updateDrawState(TextPaint tp) {
+								tp.setTypeface(myFont);
+								tp.setTextSize((float) 40.0);
+							}
+						};
+
+						s.setSpan(span, 0, s.length(),
+								Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+						toolbar.setTitle(s);
 						// calling onPrepareOptionsMenu() to hide action bar
 						// icons
 						supportInvalidateOptionsMenu();
@@ -273,10 +306,22 @@ public class MainActivity extends ActionBarActivity {
 		String str = String.valueOf(mTitle);
 		str = str.toUpperCase(Locale.getDefault());
 		SpannableString s = new SpannableString(str);
-		s.setSpan(new TypefaceSpan("fonts/Roboto.ttf"), 0, s.length(),
-		        Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		MetricAffectingSpan span = new MetricAffectingSpan() {
+			@Override
+			public void updateMeasureState(TextPaint p) {
+				p.setTypeface(myFont);
+				p.setTextSize((float) 40.0);
+			}
 
-		toolbar.setTitle(Html.fromHtml("<font color=\"#FFFFFF\">" + s + "</font>"));
+			@Override
+			public void updateDrawState(TextPaint tp) {
+				tp.setTypeface(myFont);
+				tp.setTextSize((float) 40.0);
+			}
+		};
+
+		s.setSpan(span, 0, s.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		toolbar.setTitle(s);
 	}
 
 	@Override
@@ -382,9 +427,9 @@ public class MainActivity extends ActionBarActivity {
 		Boolean isInternetPresent = cs.isConnectingToInternet();
 
 		if (isInternetPresent == true) {
-				controler.deleteAll();
-				new Masuk().execute();
-		
+			controler.deleteAll();
+			new Masuk().execute();
+
 		} else {
 			Toast.makeText(
 					getApplicationContext(),

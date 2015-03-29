@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
+import com.ukietux.pamobile.utils.CustomTextView;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
@@ -31,10 +32,10 @@ import android.widget.TextView;
 public class KHS extends Fragment {
 
 	SQLiteDatabase db;
-	TextView ColomnNamaMaKul;
-	TextView ColomnNilaiHuruf;
-	TextView ColomnSKS;
-	TextView IPSx;
+	CustomTextView ColomnNamaMaKul;
+	CustomTextView ColomnNilaiHuruf;
+	CustomTextView ColomnSKS;
+	CustomTextView IPSx;
 	TableRow row, rowIPK, rowHeader;
 	TableLayout tableLayout, tableIPK;
 	String Semester;
@@ -50,7 +51,7 @@ public class KHS extends Fragment {
 
 		tableLayout = (TableLayout) v.findViewById(R.id.khs);
 
-		IPSx = (TextView) v.findViewById(R.id.IPS);
+		IPSx = (CustomTextView) v.findViewById(R.id.IPS);
 
 		ArrayList<String> my_array = new ArrayList<String>();
 		my_array = getTableValues();
@@ -105,8 +106,8 @@ public class KHS extends Fragment {
 				Double IPSter = Double.valueOf(a.getString(IPS));
 				IPSx.setText("IPS : "
 						+ new DecimalFormat("#.##").format(IPSter));
-				IPSx.setTextColor(Color.BLACK);
-				IPSx.setPadding(20, 5, 20, 5);
+				IPSx.setTextColor(Color.WHITE);
+				IPSx.setBackgroundResource(R.drawable.tv_bg);
 				IPSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPS));
 
@@ -151,35 +152,32 @@ public class KHS extends Fragment {
 
 			// Setting up the ColomnNamaMaKul parameters
 			Log.d("Skripsi", "mengambil data colom NamaMakul");
-			ColomnNamaMaKul = new TextView(getActivity());
-			ColomnNamaMaKul.setText("Nama Matakuliah");
-			ColomnNamaMaKul.setTextColor(Color.BLACK);
+			ColomnNamaMaKul = new CustomTextView(getActivity());
+			ColomnNamaMaKul.setText("NAMA MATAKULIAH");
+			ColomnNamaMaKul.setTextColor(Color.WHITE);
 			ColomnNamaMaKul.setTextSize(14);
-			ColomnNamaMaKul.setPadding(20, 5, 10, 5);
 			ColomnNamaMaKul.setGravity(Gravity.CENTER);
-			ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
+			ColomnNamaMaKul.setBackgroundResource(R.drawable.tv_bg);
 			rowHeader.addView(ColomnNamaMaKul, cellLp);
 
 			// Setting up ColomnNilaiHuruf parameters
 			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
-			ColomnNilaiHuruf = new TextView(getActivity());
-			ColomnNilaiHuruf.setText("Nilai Huruf");
-			ColomnNilaiHuruf.setTextColor(Color.BLACK);
+			ColomnNilaiHuruf =  new CustomTextView(getActivity());
+			ColomnNilaiHuruf.setText("NILAI HURUF");
+			ColomnNilaiHuruf.setTextColor(Color.WHITE);
 			ColomnNilaiHuruf.setTextSize(14);
 			ColomnNilaiHuruf.setGravity(Gravity.CENTER);
-			// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
-			ColomnNilaiHuruf.setBackgroundResource(R.drawable.garis);
+			ColomnNilaiHuruf.setBackgroundResource(R.drawable.tv_bg);
 			rowHeader.addView(ColomnNilaiHuruf, cellLp);
 
 			// Setting up ColomnSKS parameters
 			Log.d("Skripsi", "mengambil data colom SKS");
-			ColomnSKS = new TextView(getActivity());
+			ColomnSKS =  new CustomTextView(getActivity());
 			ColomnSKS.setText("SKS");
-			ColomnSKS.setTextColor(Color.BLACK);
+			ColomnSKS.setTextColor(Color.WHITE);
 			ColomnSKS.setTextSize(14);
 			ColomnSKS.setGravity(Gravity.CENTER);
-			// ColomnSKS.setPadding(20, 5, 20, 5);
-			ColomnSKS.setBackgroundResource(R.drawable.garis);
+			ColomnSKS.setBackgroundResource(R.drawable.tv_bg);
 			rowHeader.addView(ColomnSKS, cellLp);
 			tableLayout.addView(rowHeader, rowLp);
 
@@ -192,36 +190,33 @@ public class KHS extends Fragment {
 
 				// Setting up the ColomnNamaMaKul parameters
 				Log.d("Skripsi", "mengambil data colom NamaMakul");
-				ColomnNamaMaKul = new TextView(getActivity());
+				ColomnNamaMaKul =  new CustomTextView(getActivity());
 				ColomnNamaMaKul.setText(c.getString(NamaMaKul));
 				ColomnNamaMaKul.setTextColor(Color.BLACK);
 				ColomnNamaMaKul.setTextSize(14);
-				ColomnNamaMaKul.setPadding(20, 5, 10, 5);
-				ColomnNamaMaKul.setBackgroundResource(R.drawable.garis);
+				ColomnNamaMaKul.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnNamaMaKul, cellLp); // adding column to row
 				Log.d("skripsi", c.getString(NamaMaKul));
 
 				// Setting up ColomnNilaiHuruf parameters
 				Log.d("Skripsi", "mengambil data colom NilaiHuruf");
-				ColomnNilaiHuruf = new TextView(getActivity());
+				ColomnNilaiHuruf =  new CustomTextView(getActivity());
 				ColomnNilaiHuruf.setText(c.getString(NilaiHuruf));
 				ColomnNilaiHuruf.setTextColor(Color.BLACK);
 				ColomnNilaiHuruf.setTextSize(14);
 				ColomnNilaiHuruf.setGravity(Gravity.CENTER);
-				// ColomnNilaiHuruf.setPadding(20, 5, 20, 5);
-				ColomnNilaiHuruf.setBackgroundResource(R.drawable.garis);
+				ColomnNilaiHuruf.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnNilaiHuruf, cellLp);
 				Log.d("skripsi", c.getString(NilaiHuruf));
 
 				// Setting up ColomnSKS parameters
 				Log.d("Skripsi", "mengambil data colom SKS");
-				ColomnSKS = new TextView(getActivity());
+				ColomnSKS =  new CustomTextView(getActivity());
 				ColomnSKS.setText(c.getString(SKS));
 				ColomnSKS.setTextColor(Color.BLACK);
 				ColomnSKS.setTextSize(14);
 				ColomnSKS.setGravity(Gravity.CENTER);
-				// ColomnSKS.setPadding(20, 5, 20, 5);
-				ColomnSKS.setBackgroundResource(R.drawable.garis);
+				ColomnSKS.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnSKS, cellLp);
 				Log.d("skripsi", c.getString(SKS));
 				tableLayout.addView(row, rowLp);

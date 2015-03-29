@@ -11,32 +11,82 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_centerInParent="true"
-        android:background="@drawable/bg"
         android:scaleType="centerCrop" />
 
-    <TextView
-        android:id="@+id/Nim"
+    <com.ukietux.pamobile.utils.CustomTextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="10dip"
+        android:paddingTop="10dip" />
 
-    <TextView
+    <com.ukietux.pamobile.utils.CustomTextView
         android:id="@+id/Nama"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_nama"
+        android:textColor="@color/janda"
+        android:textSize="17.0dip" />
 
-    <TextView
-        android:id="@+id/IPK"
+    <com.ukietux.pamobile.utils.CustomTextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:paddingBottom="55dip"
+        android:paddingTop="55dip" />
 
-    <TextView
-        android:id="@+id/JumSKS"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/Semester"
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:id="@+id/Nim"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bg"
+            android:textColor="@color/white"
+            android:textSize="15.0dip" />
+
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip" />
+
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:id="@+id/Semester"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bg"
+            android:textColor="@color/white"
+            android:textSize="15.0dip" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:id="@+id/IPK"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bg"
+            android:textColor="@color/white"
+            android:textSize="15.0dip" />
+
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dip"
+            android:paddingRight="5dip" />
+
+        <com.ukietux.pamobile.utils.CustomTextView
+            android:id="@+id/JumSKS"
+            android:layout_width="150dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/tv_bg"
+            android:textColor="@color/white"
+            android:textSize="15.0dip" />
+    </LinearLayout>
 
 </LinearLayout>

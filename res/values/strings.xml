@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">PENASEHAT AKADEMIK</string>
+    <string name="app_name">Penasehat Akademik</string>
     <string name="about">Tentang Aplikasi</string>
+    <string name="test">Profil</string>
     <string name="exit">Keluar</string>
     <string name="update">Perbarui Data</string>
     <string name="imgdesc">imgdesc</string>
@@ -14,19 +15,15 @@
         <item>PROFIL</item>
         <item>KARTU HASIL STUDI</item>
         <item>TRANSKIP NILAI</item>
-        <item>REKOMENDASI MATA KULIAH</item>
+        <item>REKOMENDASI MATAKULIAH</item>
     </string-array>
 
     <!-- Icon -->
     <array name="icons">
         <item>@drawable/ic_profil</item>
-        <item>@drawable/ic_ceknilai</item>
-        <item>@drawable/ic_settings</item>
+        <item>@drawable/ic_khs</item>
+        <item>@drawable/ic_transkip</item>
         <item>@drawable/ic_krs</item>
     </array>
-
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_activity_product_detail">Product Detail</string>
 
 </resources>

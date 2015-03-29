@@ -4,13 +4,19 @@
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
+    <com.ukietux.pamobile.utils.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dip" />
+
     <Spinner
         android:id="@+id/Spinner_Semester"
-        android:layout_width="100dip"
-        android:layout_height="20dip"
-        android:layout_gravity="center_horizontal" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/spx" />
 
-    <TextView
+    <com.ukietux.pamobile.utils.CustomTextView
         android:id="@+id/IPS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
@@ -19,12 +25,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
-        <TableLayout
-            android:id="@+id/khs"
+        <HorizontalScrollView
+            android:id="@+id/HorizontalScrollView01"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:stretchColumns="0,1" >
-        </TableLayout>
+            android:layout_height="wrap_content" >
+
+            <TableLayout
+                android:id="@+id/khs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="0,1" >
+            </TableLayout>
+        </HorizontalScrollView>
     </ScrollView>
 
 </LinearLayout>
