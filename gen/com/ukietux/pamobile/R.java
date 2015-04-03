@@ -1659,12 +1659,12 @@ containing a value of this type.
         public static final int edt_bg=0x7f02003c;
         public static final int garis=0x7f02003d;
         public static final int ic_about=0x7f02003e;
-        public static final int ic_ceknilai=0x7f02003f;
-        public static final int ic_drawer=0x7f020040;
+        public static final int ic_drawer=0x7f02003f;
+        public static final int ic_khs=0x7f020040;
         public static final int ic_krs=0x7f020041;
         public static final int ic_launcher=0x7f020042;
         public static final int ic_profil=0x7f020043;
-        public static final int ic_settings=0x7f020044;
+        public static final int ic_transkip=0x7f020044;
         public static final int ic_warning=0x7f020045;
         public static final int list_view_selector=0x7f020046;
         public static final int login_screen=0x7f020047;

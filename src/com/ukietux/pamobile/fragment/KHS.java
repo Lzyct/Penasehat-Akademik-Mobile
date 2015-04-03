@@ -67,8 +67,8 @@ public class KHS extends Fragment {
 				// clean all before add view
 				tableLayout.removeAllViews();
 				TotNilai();
-				displayDataMHS();
-				Log.d("semester", "Masuk ke displayDataMHS");
+				displayTRANSKIP();
+				Log.d("semester", "Masuk ke displayTRANSKIP");
 			}
 
 			@Override
@@ -85,13 +85,13 @@ public class KHS extends Fragment {
 	}
 
 	private void TotNilai() {
-		Log.d("Skripsix", "query ke dataMHS");
+		Log.d("Skripsix", "query ke TRANSKIP");
 		String query = "SELECT Nama,Nim,NilaiHuruf,SKS,SUM(SKS) as JumSKS,"
 				+ "SUM(CASE WHEN NilaiHuruf= 'A' THEN 4*SKS "
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS "
-				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 " + "AS IPS FROM DataMHS "
+				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 " + "AS IPS FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' and Semester=" + Semester;
 		Cursor a = db.rawQuery(query, null);
 		Integer IPS = a.getColumnIndex("IPS");
@@ -120,10 +120,10 @@ public class KHS extends Fragment {
 	}
 
 	@SuppressLint({ "InlinedApi", "NewApi" })
-	private void displayDataMHS() {
-		Log.d("skripsi", "query ke dataMHS");
+	private void displayTRANSKIP() {
+		Log.d("skripsi", "query ke TRANSKIP");
 		Cursor c = db.rawQuery(
-				"SELECT * FROM DataMHS Where NilaiHuruf!='' and Semester="
+				"SELECT * FROM TRANSKIP Where NilaiHuruf!='' and Semester="
 						+ Semester + " ORDER BY Semester", null);
 		Integer NamaMaKul = c.getColumnIndex("NamaMaKul");
 		Integer NilaiHuruf = c.getColumnIndex("NilaiHuruf");
@@ -148,7 +148,7 @@ public class KHS extends Fragment {
 			rowHeader = new TableRow(getActivity());
 			rowHeader.setId(100);
 
-			// Clean All View before display dataMHS
+			// Clean All View before display TRANSKIP
 
 			// Setting up the ColomnNamaMaKul parameters
 			Log.d("Skripsi", "mengambil data colom NamaMakul");
@@ -186,7 +186,7 @@ public class KHS extends Fragment {
 				row = new TableRow(getActivity());
 				row.setId(100);
 
-				// Clean All View before display dataMHS
+				// Clean All View before display TRANSKIP
 
 				// Setting up the ColomnNamaMaKul parameters
 				Log.d("Skripsi", "mengambil data colom NamaMakul");
@@ -236,7 +236,7 @@ public class KHS extends Fragment {
 
 			Cursor allrows = db
 					.rawQuery(
-							"SELECT DISTINCT Semester from DataMHS where NilaiHuruf!='' ORDER BY Semester ",
+							"SELECT DISTINCT Semester from TRANSKIP where NilaiHuruf!='' ORDER BY Semester ",
 							null);
 			System.out.println("COUNT : " + allrows.getCount());
 

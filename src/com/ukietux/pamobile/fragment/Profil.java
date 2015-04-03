@@ -184,7 +184,7 @@ public class Profil extends Fragment {
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
-				+ "AS IPK " + "FROM DataMHS WHERE NilaiHuruf!=''";
+				+ "AS IPK " + "FROM TRANSKIP WHERE NilaiHuruf!=''";
 		Cursor a = db.rawQuery(query, null);
 		Integer Nim = a.getColumnIndex("Nim");
 		Integer Nama = a.getColumnIndex("Nama");
@@ -221,7 +221,7 @@ public class Profil extends Fragment {
 
 				// Setting up the ColomnNama parameters
 				Log.d("Skripsi", "mengambil data colom Nama");
-				JumSKSx.setText("SKS DILUSUSI \n" + a.getString(JumSKS));
+				JumSKSx.setText("SKS DILULUSI \n" + a.getString(JumSKS));
 				JumSKSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(JumSKS));
 

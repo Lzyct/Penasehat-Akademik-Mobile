@@ -69,28 +69,28 @@ public class TranskipNilai extends Fragment {
 	private void displayDB() {
 		Log.d("Skripsi", "query ke dataMHS");
 		Cursor c = db.rawQuery(
-				"SELECT * FROM DataMHS Where NilaiHuruf!='' ORDER BY Semester",
+				"SELECT * FROM TRANSKIP Where NilaiHuruf!='' ORDER BY Semester",
 				null);
 
 		Cursor A = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from DataMHS where NilaiHuruf='A' ",
+						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='A' ",
 						null);
 		Cursor B = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from DataMHS where NilaiHuruf='B' ",
+						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='B' ",
 						null);
 		Cursor C = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from DataMHS where NilaiHuruf='C' ",
+						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='C' ",
 						null);
 		Cursor D = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from DataMHS where NilaiHuruf='D' ",
+						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='D' ",
 						null);
 		Cursor E = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from DataMHS where NilaiHuruf='E' ",
+						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='E' ",
 						null);
 
 		Integer NilA = A.getColumnIndex("Nilai");

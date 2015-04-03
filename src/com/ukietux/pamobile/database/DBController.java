@@ -13,7 +13,7 @@ import android.util.Log;
 public class DBController extends SQLiteOpenHelper {
 
 	public DBController(Context applicationcontext) {
-		super(applicationcontext, "Skripsi.db", null, 1);
+		super(applicationcontext, "PAMobile.db", null, 1);
 		Log.d("Skripsi", "membuat database");
 	}
 
@@ -21,10 +21,10 @@ public class DBController extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase database) {
 		String DataMHS, NamaMaKul;
-		DataMHS = "CREATE TABLE DataMHS (Nim TEXT, Nama TEXT, NamaMaKul TEXT,KodeMaKul TEXT, NilaiHuruf TEXT, Semester TEXT, SKS INT)";
+		DataMHS = "CREATE TABLE TRANSKIP (Nim TEXT, Nama TEXT, KodeMaKul TEXT, NamaMaKul TEXT, NilaiHuruf TEXT, Semester TEXT, SKS INT)";
 		database.execSQL(DataMHS);
 
-		NamaMaKul = "CREATE TABLE MataKuliah (KodeMaKul TEXT,NamaMaKul TEXT, SKSTeori INT, SKSPraktikum INT, PaketSemester TEXT, SifatMaKul TEXT, JKurikulum TXT)";
+		NamaMaKul = "CREATE TABLE KRS (KodeMaKul TEXT,NamaMaKul TEXT, SKSTeori INT, SKSPraktikum INT, PaketSemester TEXT, SifatMaKul TEXT, JKurikulum TXT)";
 		database.execSQL(NamaMaKul);
 
 		Log.d("Skripsi", "membuat table DataMHS");
@@ -34,9 +34,9 @@ public class DBController extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase database, int version_old,
 			int current_version) {
 		String DataMHS, NamaMaKul;
-		DataMHS = "DROP TABLE IF EXISTS DataMHS";
+		DataMHS = "DROP TABLE IF EXISTS TRANSKIP";
 		database.execSQL(DataMHS);
-		NamaMaKul = "DROP TABLE IF EXISTS MataKuliah ";
+		NamaMaKul = "DROP TABLE IF EXISTS KRS ";
 		database.execSQL(NamaMaKul);
 
 		onCreate(database);
@@ -47,19 +47,19 @@ public class DBController extends SQLiteOpenHelper {
 	 * 
 	 * @param queryValues
 	 */
-	public void insertDataMHS(HashMap<String, String> queryValues) {
+	public void insertTRANSKIP(HashMap<String, String> queryValues) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("Nama", queryValues.get("Nama"));
 		values.put("Nim", queryValues.get("Nim"));
-		values.put("NamaMaKul", queryValues.get("NamaMaKul"));
 		values.put("KodeMaKul", queryValues.get("KodeMaKul"));
+		values.put("NamaMaKul", queryValues.get("NamaMaKul"));
 		values.put("NilaiHuruf", queryValues.get("NilaiHuruf"));
 		values.put("Semester", queryValues.get("Semester"));
 		values.put("SKS", queryValues.get("SKS"));
-		database.insert("DataMHS", null, values);
+		database.insert("TRANSKIP", null, values);
 		database.close();
-		Log.d("Skripsi", "Insert dataMHS ke SQLite");
+		Log.d("Skripsi", "Insert TRANSKIP ke SQLite");
 	}
 
 	/**
@@ -67,7 +67,7 @@ public class DBController extends SQLiteOpenHelper {
 	 * 
 	 * @param queryValues
 	 */
-	public void insertMataKuliah(HashMap<String, String> queryValues) {
+	public void insertKRS(HashMap<String, String> queryValues) {
 		SQLiteDatabase database = this.getWritableDatabase();
 		ContentValues values = new ContentValues();
 		values.put("KodeMaKul", queryValues.get("KodeMaKul"));
@@ -77,9 +77,9 @@ public class DBController extends SQLiteOpenHelper {
 		values.put("PaketSemester", queryValues.get("PaketSemester"));
 		values.put("SifatMaKul", queryValues.get("SifatMaKul"));
 		values.put("JKurikulum", queryValues.get("JKurikulum"));
-		database.insert("MataKuliah", null, values);
+		database.insert("KRS", null, values);
 		database.close();
-		Log.d("Skripsi", "Insert MataKuliah ke SQLite");
+		Log.d("Skripsi", "Insert KRS ke SQLite");
 	}
 
 	/*
@@ -96,8 +96,8 @@ public class DBController extends SQLiteOpenHelper {
 				HashMap<String, String> map = new HashMap<String, String>();
 				map.put("Nim", cursor.getString(0));
 				map.put("Nama", cursor.getString(1));
-				map.put("NamaMaKul", cursor.getString(2));
-				map.put("KodeMaKul", cursor.getString(3));
+				map.put("KodeMaKul", cursor.getString(2));
+				map.put("NamaMaKul", cursor.getString(3));
 				map.put("NilaiHuruf", cursor.getString(4));
 				map.put("Semester", cursor.getString(5));
 				map.put("SKS", cursor.getString(6));
@@ -139,8 +139,8 @@ public class DBController extends SQLiteOpenHelper {
 	// delete All
 	public void deleteAll() {
 		SQLiteDatabase database = this.getWritableDatabase();
-		database.delete("DataMHS", null, null);
-		database.delete("MataKuliah", null, null);
+		database.delete("TRANSKIP", null, null);
+		database.delete("KRS", null, null);
 	}
 
 }

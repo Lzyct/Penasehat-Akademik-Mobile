@@ -103,8 +103,8 @@ public class MainActivity extends ActionBarActivity {
 		nim = user.get(SessionManager.KEY_NIM);
 		// id = user.get(SessionManager.KEY_ID);
 
-		url = "http://192.168.0.101/PAMobile/masuk.php?" + "Nim=" + nim;
-		url1 = "http://192.168.0.101/PAMobile/matakuliah.php";
+		url = "http://ukietux.ngrok.com/PAMobile/masuk.php?" + "Nim=" + nim;
+		url1 = "http://ukietux.ngrok.com/PAMobile/matakuliah.php";
 
 		mTitle = getTitle();
 		
@@ -495,7 +495,7 @@ public class MainActivity extends ActionBarActivity {
 					// Add SKS extracted from Object
 					queryValues.put("SKS", jsonobj.get("SKS").toString());
 					// Insert User into SQLite DB
-					controler.insertDataMHS(queryValues);
+					controler.insertTRANSKIP(queryValues);
 					Log.d("Skripsi", "insert data ke dataMHS");
 				}
 
@@ -523,7 +523,7 @@ public class MainActivity extends ActionBarActivity {
 					queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
 							.toString());
 					// Insert User into SQLite DB
-					controler.insertMataKuliah(queryValues);
+					controler.insertKRS(queryValues);
 					Log.d("Skripsi", "insert data ke MataKuliah");
 				}
 

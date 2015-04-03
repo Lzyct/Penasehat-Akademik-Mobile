@@ -354,12 +354,12 @@ int drawable drawer_bg 0x7f02003b
 int drawable edt_bg 0x7f02003c
 int drawable garis 0x7f02003d
 int drawable ic_about 0x7f02003e
-int drawable ic_ceknilai 0x7f02003f
-int drawable ic_drawer 0x7f020040
+int drawable ic_drawer 0x7f02003f
+int drawable ic_khs 0x7f020040
 int drawable ic_krs 0x7f020041
 int drawable ic_launcher 0x7f020042
 int drawable ic_profil 0x7f020043
-int drawable ic_settings 0x7f020044
+int drawable ic_transkip 0x7f020044
 int drawable ic_warning 0x7f020045
 int drawable list_view_selector 0x7f020046
 int drawable login_screen 0x7f020047

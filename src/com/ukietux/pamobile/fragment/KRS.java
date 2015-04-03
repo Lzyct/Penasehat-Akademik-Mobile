@@ -104,7 +104,7 @@ public class KRS extends Fragment {
 		// get semester
 		Cursor allrows = db
 				.rawQuery(
-						"SELECT DISTINCT Semester from DataMHS where NilaiHuruf!='' ORDER BY Semester ",
+						"SELECT DISTINCT Semester from TRANSKIP where NilaiHuruf!='' ORDER BY Semester ",
 						null);
 		System.out.println("COUNT : " + allrows.getCount());
 
@@ -113,13 +113,13 @@ public class KRS extends Fragment {
 	}
 
 	public void getLastIPS() {
-		Log.d("Skripsix", "query ke dataMHS");
+		Log.d("Skripsix", "query ke TRANSKIP");
 		String query = "SELECT Nama,Nim,NilaiHuruf,SKS,SUM(SKS) as JumSKS,"
 				+ "SUM(CASE WHEN NilaiHuruf= 'A' THEN 4*SKS "
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS "
-				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 " + "AS IPS FROM DataMHS "
+				+ "ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 " + "AS IPS FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' and Semester=" + Semester;
 		Cursor a = db.rawQuery(query, null);
 		Integer IPS = a.getColumnIndex("IPS");
@@ -160,16 +160,16 @@ public class KRS extends Fragment {
 
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	private void CekKRS() {
-		Log.d("Skripsix", "query ke dataMHS");
-		String query = "SELECT DISTINCT Semester as TotSmt " + "FROM DataMHS "
+		Log.d("Skripsix", "query ke TRANSKIP");
+		String query = "SELECT DISTINCT Semester as TotSmt " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "order by TotSmt";
-		String ganjil = "SELECT DISTINCT Semester as TotSmt " + "FROM DataMHS "
+		String ganjil = "SELECT DISTINCT Semester as TotSmt " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' and Semester like '%1' "
 				+ "order by TotSmt";
 		String genap = "SELECT DISTINCT Semester as TotSmt "
-				+ "FROM DataMHS WHERE NilaiHuruf!='' "
+				+ "FROM TRANSKIP WHERE NilaiHuruf!='' "
 				+ "and Semester like '%2' " + "order by TotSmt";
-		String getSmt = "SELECT Count(DISTINCT Semester) as TotSmt FROM DataMHS WHERE NilaiHuruf!='' ";
+		String getSmt = "SELECT Count(DISTINCT Semester) as TotSmt FROM TRANSKIP WHERE NilaiHuruf!='' ";
 		Cursor all = db.rawQuery(query, null);
 		Cursor CGanjil = db.rawQuery(ganjil, null);
 		Cursor CGenap = db.rawQuery(genap, null);
@@ -217,13 +217,13 @@ public class KRS extends Fragment {
 	public void UlangKRSGanjil() {
 
 		Cursor UIN = db.rawQuery("SELECT DISTINCT Semester," + "NamaMakul,"
-				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM DataMHS "
+				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "and Semester like '%1' "
-				+ "and NilaiHuruf='E' " + "order by KodeMakul desc", null);
+				+ "and NilaiHuruf='E' or NilaiHuruf='D' " + "order by KodeMakul desc", null);
 
 		Cursor UINTotSKS = db.rawQuery("SELECT SUM(SKS) as TotSKS"
-				+ " FROM DataMHS " + "WHERE NilaiHuruf!='' "
-				+ "and Semester like '%1' " + "and NilaiHuruf='E' "
+				+ " FROM TRANSKIP " + "WHERE NilaiHuruf!='' "
+				+ "and Semester like '%1' " + "and NilaiHuruf='E' or NilaiHuruf='D' "
 				+ "order by KodeMakul desc", null);
 
 		// untuk MakulUIN
@@ -379,13 +379,13 @@ public class KRS extends Fragment {
 	public void UlangKRSGenap() {
 
 		Cursor UIN = db.rawQuery("SELECT DISTINCT Semester," + "NamaMakul,"
-				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM DataMHS "
+				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "and Semester like '%2' "
-				+ "and NilaiHuruf='E' " + "order by KodeMakul desc", null);
+				+ "and NilaiHuruf='E' or NilaiHuruf='D' " + "order by KodeMakul desc", null);
 
 		Cursor UINTotSKS = db.rawQuery("SELECT SUM(SKS) as TotSKS"
-				+ " FROM DataMHS " + "WHERE NilaiHuruf!='' "
-				+ "and Semester like '%2' " + "and NilaiHuruf='E' "
+				+ " FROM TRANSKIP " + "WHERE NilaiHuruf!='' "
+				+ "and Semester like '%2' " + "and NilaiHuruf='E' or NilaiHuruf='D' "
 				+ "order by KodeMakul desc", null);
 
 		// untuk MakulUIN
@@ -542,7 +542,7 @@ public class KRS extends Fragment {
 	}
 
 	public void AllKRSWajib() {
-		Log.d("Skripsix", "query ke dataMHS");
+		Log.d("Skripsix", "query ke TRANSKIP");
 		String query = "SELECT "
 				+ "Nama,"
 				+ "Nim,"
@@ -554,7 +554,7 @@ public class KRS extends Fragment {
 				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
 				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
-				+ "AS IPK " + "FROM DataMHS WHERE NilaiHuruf!=''";
+				+ "AS IPK " + "FROM TRANSKIP WHERE NilaiHuruf!=''";
 
 		Cursor a = db.rawQuery(query, null);
 		Integer JumSKS = a.getColumnIndex("JumSKS");
@@ -580,7 +580,7 @@ public class KRS extends Fragment {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul" + ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -589,7 +589,7 @@ public class KRS extends Fragment {
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul"
 							+ ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B' and KodeMaKul!='TIN4259'";
 				}
@@ -600,7 +600,7 @@ public class KRS extends Fragment {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul" + ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -609,7 +609,7 @@ public class KRS extends Fragment {
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul"
 							+ ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ SMTx
 							+ " and  SifatMakul='W' and JKurikulum='B' and KodeMaKul!='UIN4411'";
@@ -620,7 +620,7 @@ public class KRS extends Fragment {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul" + ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -629,7 +629,7 @@ public class KRS extends Fragment {
 							+ ",SKSTeori + SKSPraktikum as SKS "
 							+ ",SifatMakul"
 							+ ",PaketSemester "
-							+ "from MataKuliah "
+							+ "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B' and KodeMaKul!='TIN4461' and KodeMaKul!='TIN4461'";
 				}
@@ -637,13 +637,13 @@ public class KRS extends Fragment {
 			} else {
 				QueryKRS = "select KodeMaKul," + "NamaMakul"
 						+ ",SKSTeori + SKSPraktikum as SKS " + ",SifatMakul"
-						+ ",PaketSemester " + "from MataKuliah "
+						+ ",PaketSemester " + "from KRS "
 						+ "where PaketSemester=" + SMTx
 						+ " and  SifatMakul='W' and JKurikulum='B'";
 			}
 
 			String TotQuery = "select sum(SKSTeori + SKSPraktikum) as TotSKS "
-					+ "from MataKuliah " + "where PaketSemester=" + SMTx
+					+ "from KRS " + "where PaketSemester=" + SMTx
 					+ " and  SifatMakul='W' and JKurikulum='B'";
 			Cursor AllKRS = db.rawQuery(QueryKRS, null);
 
@@ -783,12 +783,12 @@ public class KRS extends Fragment {
 
 		String QueryKRSPilihan = "select KodeMaKul," + "NamaMakul"
 				+ ",SKSTeori + SKSPraktikum as SKS " + ",SifatMakul"
-				+ ",PaketSemester " + "from MataKuliah "
+				+ ",PaketSemester " + "from KRS "
 				+ "where PaketSemester=" + SMTx
 				+ " and  SifatMakul='P' and JKurikulum='B'";
 
 		String TotQuery = "select sum(SKSTeori + SKSPraktikum) as TotSKS "
-				+ "from MataKuliah " + "where PaketSemester=" + SMTx
+				+ "from KRS " + "where PaketSemester=" + SMTx
 				+ " and  SifatMakul='P' and JKurikulum='B'";
 		Cursor AllKRSPilihan = db.rawQuery(QueryKRSPilihan, null);
 

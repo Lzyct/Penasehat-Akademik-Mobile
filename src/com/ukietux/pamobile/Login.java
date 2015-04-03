@@ -50,9 +50,9 @@ public class Login extends ActionBarActivity {
 
 			@Override
 			public void onClick(View v) {
-				url = "http://192.168.0.101/PAMobile/masuk.php?" + "Nim="
+				url = "http://ukietux.ngrok.com/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
-				url1 = "http://192.168.0.101/PAMobile/matakuliah.php";
+				url1 = "http://ukietux.ngrok.com/PAMobile/matakuliah.php";
 
 				ConnectionStatus cs = new ConnectionStatus(
 						getApplicationContext());
@@ -138,7 +138,7 @@ public class Login extends ActionBarActivity {
 					// Add SKS extracted from Object
 					queryValues.put("SKS", jsonobj.get("SKS").toString());
 					// Insert User into SQLite DB
-					controller.insertDataMHS(queryValues);
+					controller.insertTRANSKIP(queryValues);
 					Log.d("Skripsi", "insert data ke dataMHS");
 				}
 
@@ -166,7 +166,7 @@ public class Login extends ActionBarActivity {
 					queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
 							.toString());
 					// Insert User into SQLite DB
-					controller.insertMataKuliah(queryValues);
+					controller.insertKRS(queryValues);
 					Log.d("Skripsi", "insert data ke MataKuliah");
 				}
 
