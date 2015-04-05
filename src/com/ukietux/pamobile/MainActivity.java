@@ -357,14 +357,25 @@ public class MainActivity extends ActionBarActivity {
 	public void about() {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setCancelable(false)
-				.setTitle("About")
+				.setTitle("Tentang Aplikasi")
 				.setMessage(
-						"Penasehat Akademik Mobile 1.0\n"
-								+ "Development by : Mudassir\n\n\n\n\n\n\n"
-								+ "+--------------------------------+\n"
-								+ "   Contact Developer:\n"
+						"Penasehat Akademik Personal "
+						+ "\n"
+						+ "versi 1.0"
+						+ "\n"
+						+ "\n"
+						+ "\n"
+						+"Penasehat Akademik Personal merupakan aplikasi untuk menampilkan nilai "
+						+ "mahasiswa dan untuk membantu mahasiswa untuk memprogramkan matakuliahnya \n"
+						+ "\n"
+						+ "\n"
+						+ "\n"
+						+ "\n"
+								+ "Dikembangkan oleh: Mudassir\n\n"
+								+ "+-------------------------+\n"
+								+ "   Kontak Pengembang:\n"
 								+ "   ukie.tux@gmail.com\n"
-								+ "+--------------------------------+")
+								+ "+-------------------------+")
 				.setIcon(R.drawable.ic_about)
 				.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {

@@ -111,19 +111,13 @@ public class TranskipNilai extends Fragment {
 		NilaiA.setGravity(Gravity.CENTER);
 		NilaiA.setBackgroundResource(R.drawable.tv_bg);
 
-		NilaiA.setText("A = " + A.getString(NilA));
-		NilaiA.setTextColor(Color.WHITE);
-		NilaiA.setTextSize(14);
-		NilaiA.setGravity(Gravity.CENTER);
-		NilaiA.setBackgroundResource(R.drawable.tv_bg);
-
 		NilaiB.setText("B = " + B.getString(NilB));
 		NilaiB.setTextColor(Color.WHITE);
 		NilaiB.setTextSize(14);
 		NilaiB.setGravity(Gravity.CENTER);
 		NilaiB.setBackgroundResource(R.drawable.tv_bg);
 		
-		NilaiC.setText("C = " + B.getString(NilC));
+		NilaiC.setText("C = " + C.getString(NilC));
 		NilaiC.setTextColor(Color.WHITE);
 		NilaiC.setTextSize(14);
 		NilaiC.setGravity(Gravity.CENTER);
