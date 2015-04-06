@@ -12,6 +12,7 @@ import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
+import android.opengl.Visibility;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -21,21 +22,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 @SuppressLint({ "InlinedApi", "ResourceAsColor" })
 public class KRS extends Fragment {
 	SQLiteDatabase db;
 	String Semester, LastIPS;
-	int MaxSKS;
+
+	int MaxSKS, totalSKSGanjil, totalSKSGenap, totalSKSWajib;
+
 	CustomTextView IPSTerakhir, Semesterx, ListSemester, ListSemesterGanjil,
 			ListSemesterGenap, MaksimumSKS;
 	List<String> listSemester = new ArrayList<String>();
 	List<String> listSemesterGanjil = new ArrayList<String>();
 	List<String> listSemesterGenap = new ArrayList<String>();
+
 	TableLayout tableLayout, tableLayoutCurrent, tableLayoutCurrentPilihan;
 	TableRow row, rowCurrent, rowPilihan;
 	TableRow rowHeader1, rowHeader2, rowHeader3;
+
 	CustomTextView ColomnNamaMakul, ColomnKodeMAkul, ColomnSemester, ColomnSKS,
 			ColomnNilaiHuruf;
 	CustomTextView ColomnNamaMakulSekW, ColomnSifatMAkulSekW,
@@ -44,6 +48,7 @@ public class KRS extends Fragment {
 			ColomnSemesterSekP, ColomnSKSSekP;
 	CustomTextView Notif1, Notif2, Notif3;
 	CustomTextView TotSKSLalu, TotSKSSekar, TotSKSSekarP;
+
 	Double NilaiIPKx;
 	Integer JumSKSx, SMTx;
 	Integer Semes, CurSemester;
@@ -93,10 +98,10 @@ public class KRS extends Fragment {
 				.findViewById(R.id.semesterSekarang);
 		tableLayoutCurrentPilihan = (TableLayout) v
 				.findViewById(R.id.semesterSekarangPilihan);
-		CekKRS();
+
 		getLastSemester();
 		getLastIPS();
-
+		CekKRS();
 		return v;
 	}
 
@@ -163,7 +168,8 @@ public class KRS extends Fragment {
 		Log.d("Skripsix", "query ke TRANSKIP");
 		String query = "SELECT DISTINCT Semester as TotSmt " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "order by TotSmt";
-		String ganjil = "SELECT DISTINCT Semester as TotSmt " + "FROM TRANSKIP "
+		String ganjil = "SELECT DISTINCT Semester as TotSmt "
+				+ "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' and Semester like '%1' "
 				+ "order by TotSmt";
 		String genap = "SELECT DISTINCT Semester as TotSmt "
@@ -197,7 +203,15 @@ public class KRS extends Fragment {
 				AllKRSWajib();
 				Notif3.setText("Rekomendasi Matakuliah Pilihan yang diprogramkan pada "
 						+ "\n" + "Semester Ganjil");
-				AllKRSPilihan();
+				Integer totSKS = totalSKSGanjil + totalSKSWajib;
+				Log.d("SKSGanjil", "Total SKS Ganjil" + totalSKSGanjil);
+				if (MaxSKS > totSKS) {
+					AllKRSPilihan();
+				} else {
+					Notif3.setVisibility(View.GONE);
+					tableLayoutCurrentPilihan.setVisibility(View.GONE);
+					TotSKSSekarP.setVisibility(View.GONE);
+				}
 			} else {
 				Semesterx.setText("Semester " + Semes + " (Ganjil)");
 				Notif1.setText("Rekomendasi Matakuliah yang diprogramkan ulang pada "
@@ -208,7 +222,15 @@ public class KRS extends Fragment {
 				AllKRSWajib();
 				Notif3.setText("Rekomendasi Matakuliah Pilihan yang diprogramkan pada "
 						+ "\n" + "Semester Genap");
-				AllKRSPilihan();
+				Integer totSKS = totalSKSGenap + totalSKSWajib;
+				Log.d("SKSGenap", "Total SKS Genap" + totSKS);
+				if (MaxSKS > totSKS) {
+					AllKRSPilihan();
+				} else {
+					Notif3.setVisibility(View.GONE);
+					tableLayoutCurrentPilihan.setVisibility(View.GONE);
+					TotSKSSekarP.setVisibility(View.GONE);
+				}
 			}
 		}
 	}
@@ -219,11 +241,13 @@ public class KRS extends Fragment {
 		Cursor UIN = db.rawQuery("SELECT DISTINCT Semester," + "NamaMakul,"
 				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "and Semester like '%1' "
-				+ "and NilaiHuruf='E' or NilaiHuruf='D' " + "order by KodeMakul desc", null);
+				+ "and (NilaiHuruf='E' or NilaiHuruf='D') "
+				+ "order by KodeMakul desc", null);
 
 		Cursor UINTotSKS = db.rawQuery("SELECT SUM(SKS) as TotSKS"
 				+ " FROM TRANSKIP " + "WHERE NilaiHuruf!='' "
-				+ "and Semester like '%1' " + "and NilaiHuruf='E' or NilaiHuruf='D' "
+				+ "and Semester like '%1' "
+				+ "and (NilaiHuruf='E' or NilaiHuruf='D') "
 				+ "order by KodeMakul desc", null);
 
 		// untuk MakulUIN
@@ -240,8 +264,10 @@ public class KRS extends Fragment {
 				cek = UINTotSKS.getString(TotSKS);
 			} while (UINTotSKS.moveToNext());
 			if (cek == null) {
+				totalSKSGanjil = 0;
 				TotSKSLalu.setVisibility(View.GONE);
 			} else {
+				totalSKSGanjil = Integer.valueOf(cek);
 				TotSKSLalu.setText("TOTAL SKS : " + cek);
 			}
 		}
@@ -381,11 +407,13 @@ public class KRS extends Fragment {
 		Cursor UIN = db.rawQuery("SELECT DISTINCT Semester," + "NamaMakul,"
 				+ "KodeMakul as blao," + "NilaiHuruf,SKS " + "FROM TRANSKIP "
 				+ "WHERE NilaiHuruf!='' " + "and Semester like '%2' "
-				+ "and NilaiHuruf='E' or NilaiHuruf='D' " + "order by KodeMakul desc", null);
+				+ "and (NilaiHuruf='E' or NilaiHuruf='D') "
+				+ "order by KodeMakul desc", null);
 
 		Cursor UINTotSKS = db.rawQuery("SELECT SUM(SKS) as TotSKS"
 				+ " FROM TRANSKIP " + "WHERE NilaiHuruf!='' "
-				+ "and Semester like '%2' " + "and NilaiHuruf='E' or NilaiHuruf='D' "
+				+ "and Semester like '%2' "
+				+ "and (NilaiHuruf='E' or NilaiHuruf='D') "
 				+ "order by KodeMakul desc", null);
 
 		// untuk MakulUIN
@@ -403,8 +431,10 @@ public class KRS extends Fragment {
 				cek = UINTotSKS.getString(TotSKS);
 			} while (UINTotSKS.moveToNext());
 			if (cek == null) {
+				totalSKSGenap = 0;
 				TotSKSLalu.setVisibility(View.GONE);
 			} else {
+				totalSKSGenap = Integer.valueOf(cek);
 				TotSKSLalu.setText("TOTAL SKS : " + cek);
 			}
 		}
@@ -579,8 +609,7 @@ public class KRS extends Fragment {
 				if (JumSKSx >= 100) {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
-							+ ",SifatMakul" + ",PaketSemester "
-							+ "from KRS "
+							+ ",SifatMakul" + ",PaketSemester " + "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -599,8 +628,7 @@ public class KRS extends Fragment {
 						|| (NilaiIPKx < 3.00 && JumSKSx >= 110)) {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
-							+ ",SifatMakul" + ",PaketSemester "
-							+ "from KRS "
+							+ ",SifatMakul" + ",PaketSemester " + "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -619,8 +647,7 @@ public class KRS extends Fragment {
 				if (JumSKSx >= 130) {
 					QueryKRS = "select KodeMaKul," + "NamaMakul"
 							+ ",SKSTeori + SKSPraktikum as SKS "
-							+ ",SifatMakul" + ",PaketSemester "
-							+ "from KRS "
+							+ ",SifatMakul" + ",PaketSemester " + "from KRS "
 							+ "where (PaketSemester='7' or PaketSemester='8')"
 							+ " and  SifatMakul='W' and JKurikulum='B'";
 				} else {
@@ -663,8 +690,10 @@ public class KRS extends Fragment {
 					cek = TotSKSSekarang.getString(TotSKSSek);
 				} while (TotSKSSekarang.moveToNext());
 				if (cek == null) {
+					totalSKSWajib = 0;
 					TotSKSSekar.setVisibility(View.GONE);
 				} else {
+					totalSKSWajib = Integer.valueOf(cek);
 					TotSKSSekar.setText("TOTAL SKS : " + cek);
 				}
 			}
@@ -783,9 +812,8 @@ public class KRS extends Fragment {
 
 		String QueryKRSPilihan = "select KodeMaKul," + "NamaMakul"
 				+ ",SKSTeori + SKSPraktikum as SKS " + ",SifatMakul"
-				+ ",PaketSemester " + "from KRS "
-				+ "where PaketSemester=" + SMTx
-				+ " and  SifatMakul='P' and JKurikulum='B'";
+				+ ",PaketSemester " + "from KRS " + "where PaketSemester="
+				+ SMTx + " and  SifatMakul='P' and JKurikulum='B'";
 
 		String TotQuery = "select sum(SKSTeori + SKSPraktikum) as TotSKS "
 				+ "from KRS " + "where PaketSemester=" + SMTx
