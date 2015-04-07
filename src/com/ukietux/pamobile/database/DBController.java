@@ -20,12 +20,15 @@ public class DBController extends SQLiteOpenHelper {
 	// Creates Table
 	@Override
 	public void onCreate(SQLiteDatabase database) {
-		String DataMHS, NamaMaKul;
+		String DataMHS, NamaMaKul,PenyetMaKul;
 		DataMHS = "CREATE TABLE TRANSKIP (Nim TEXT, Nama TEXT, KodeMaKul TEXT, NamaMaKul TEXT, NilaiHuruf TEXT, Semester TEXT, SKS INT)";
 		database.execSQL(DataMHS);
 
 		NamaMaKul = "CREATE TABLE KRS (KodeMaKul TEXT,NamaMaKul TEXT, SKSTeori INT, SKSPraktikum INT, PaketSemester TEXT, SifatMaKul TEXT, JKurikulum TXT)";
 		database.execSQL(NamaMaKul);
+		
+		PenyetMaKul = "CREATE TABLE Penyetaraan (KodeMKBaru TEXT,KodeMKLama TEXT)";
+		database.execSQL(PenyetMaKul);
 
 		Log.d("Skripsi", "membuat table DataMHS");
 	}
@@ -33,11 +36,13 @@ public class DBController extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase database, int version_old,
 			int current_version) {
-		String DataMHS, NamaMaKul;
+		String DataMHS, NamaMaKul,PenyetMaKul;
 		DataMHS = "DROP TABLE IF EXISTS TRANSKIP";
 		database.execSQL(DataMHS);
 		NamaMaKul = "DROP TABLE IF EXISTS KRS ";
 		database.execSQL(NamaMaKul);
+		PenyetMaKul = "DROP TABLE IF EXISTS Penyetaraan";
+		database.execSQL(PenyetMaKul);
 
 		onCreate(database);
 	}
@@ -81,7 +86,21 @@ public class DBController extends SQLiteOpenHelper {
 		database.close();
 		Log.d("Skripsi", "Insert KRS ke SQLite");
 	}
-
+	
+	/**
+	 * Inserts User into SQLite DB
+	 * 
+	 * @param queryValues
+	 */
+	public void insertPenyetaraan(HashMap<String, String> queryValues) {
+		SQLiteDatabase database = this.getWritableDatabase();
+		ContentValues values = new ContentValues();
+		values.put("KodeMKBaru", queryValues.get("KodeMKBaru"));
+		values.put("KodeMKLama", queryValues.get("KodeMKLama"));
+		database.insert("Penyetaraan", null, values);
+		database.close();
+		Log.d("Skripsi", "Insert Penyetaraan ke SQLite");
+	}
 	/*
 	 * getAlldataMHS menampilkan data seluruh dataMHS ke listview
 	 */
@@ -141,6 +160,7 @@ public class DBController extends SQLiteOpenHelper {
 		SQLiteDatabase database = this.getWritableDatabase();
 		database.delete("TRANSKIP", null, null);
 		database.delete("KRS", null, null);
+		database.delete("Penyetaraan", null, null);
 	}
 
 }

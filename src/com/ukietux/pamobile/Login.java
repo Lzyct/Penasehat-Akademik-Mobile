@@ -28,7 +28,7 @@ public class Login extends ActionBarActivity {
 	Button daftar, login;
 	Intent a;
 	EditText nim;
-	String url, url1, success;
+	String url, url1, url2, success;
 	SessionManager session;
 	DBController controller = new DBController(this);
 	HashMap<String, String> queryValues;
@@ -39,9 +39,9 @@ public class Login extends ActionBarActivity {
 		setContentView(R.layout.login);
 
 		session = new SessionManager(getApplicationContext());
-//		Toast.makeText(getApplicationContext(),
-//				"User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
-//				.show();
+		// Toast.makeText(getApplicationContext(),
+		// "User Login Status: " + session.isLoggedIn(), Toast.LENGTH_LONG)
+		// .show();
 
 		login = (Button) findViewById(R.id.login);
 		nim = (EditText) findViewById(R.id.nim);
@@ -53,6 +53,7 @@ public class Login extends ActionBarActivity {
 				url = "http://ukietux.ngrok.com/PAMobile/masuk.php?" + "Nim="
 						+ nim.getText().toString();
 				url1 = "http://ukietux.ngrok.com/PAMobile/matakuliah.php";
+				url2 = "http://ukietux.ngrok.com/PAMobile/penyetaraan.php";
 
 				ConnectionStatus cs = new ConnectionStatus(
 						getApplicationContext());
@@ -106,6 +107,7 @@ public class Login extends ActionBarActivity {
 
 			JSONObject json = jParser.getJSONFromUrl(url);
 			JSONObject json1 = jParser.getJSONFromUrl(url1);
+			JSONObject json2 = jParser.getJSONFromUrl(url2);
 
 			try {
 				success = json.getString("success");
@@ -114,6 +116,7 @@ public class Login extends ActionBarActivity {
 
 				JSONArray hasil = json.getJSONArray("login");
 				JSONArray hasil1 = json1.getJSONArray("matakuliah");
+				JSONArray hasil2 = json2.getJSONArray("setara");
 
 				Log.d("Skripsi", "insert looping data ke dataMHS");
 				for (int i = 0; i < hasil.length(); i++) {
@@ -170,6 +173,19 @@ public class Login extends ActionBarActivity {
 					Log.d("Skripsi", "insert data ke MataKuliah");
 				}
 
+				for (int i = 0; i < hasil2.length(); i++) {
+					JSONObject jsonobj = hasil2.getJSONObject(i);
+					queryValues = new HashMap<String, String>();
+					// Add nim extracted from Object
+					queryValues.put("KodeMKBaru", jsonobj.get("KodeMKBaru")
+							.toString());
+					queryValues.put("KodeMKLama", jsonobj.get("KodeMKLama")
+							.toString());
+					// Insert User into SQLite DB
+					controller.insertPenyetaraan(queryValues);
+					Log.d("Skripsi", "insert data ke MataKuliah");
+				}
+
 				if (success.equals("1")) {
 
 					for (int i = 0; i < hasil.length(); i++) {
@@ -189,8 +205,8 @@ public class Login extends ActionBarActivity {
 
 			} catch (Exception e) {
 				// TODO: handle exception
-//				Toast.makeText(getApplicationContext(), "Server sedang down",
-//						Toast.LENGTH_LONG).show();
+				// Toast.makeText(getApplicationContext(), "Server sedang down",
+				// Toast.LENGTH_LONG).show();
 				Log.d("gagal", "tidak bisa ambil data 1");
 
 			}
@@ -212,8 +228,10 @@ public class Login extends ActionBarActivity {
 				finish();
 			} else {
 
-				Toast.makeText(getApplicationContext(), "Maaf, untuk sementara aplikasi ini hanya untuk \n"
-						+ "Mahasiswa Teknik Informatika angkatan 2012 kebawah",
+				Toast.makeText(
+						getApplicationContext(),
+						"Maaf, untuk sementara aplikasi ini hanya untuk \n"
+								+ "Mahasiswa Teknik Informatika angkatan 2012 kebawah",
 						Toast.LENGTH_LONG).show();
 			}
 
