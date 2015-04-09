@@ -69,28 +69,35 @@ public class TranskipNilai extends Fragment {
 	private void displayDB() {
 		Log.d("Skripsi", "query ke dataMHS");
 		Cursor c = db.rawQuery(
-				"SELECT * FROM TRANSKIP Where NilaiHuruf!='' ORDER BY Semester",
+				"SELECT  NamaMaKul,"
+				+ "NilaiHuruf,"
+				+ "Semester,"
+				+ "SKS,"
+				+ "KodeMaKul "
+				+ "FROM TRANSKIP "
+				+ "Where NilaiHuruf!=''  "
+				+ "order by Semester ",
 				null);
 
 		Cursor A = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='A' ",
+						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul from TRANSKIP where NilaiHuruf='A' ",
 						null);
 		Cursor B = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='B' ",
+						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul  from TRANSKIP where NilaiHuruf='B'",
 						null);
 		Cursor C = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='C' ",
+						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul from TRANSKIP where NilaiHuruf='C' ",
 						null);
 		Cursor D = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='D' ",
+						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul from TRANSKIP where NilaiHuruf='D' ",
 						null);
 		Cursor E = db
 				.rawQuery(
-						"select count(NilaiHuruf) as Nilai from TRANSKIP where NilaiHuruf='E' ",
+						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul  from TRANSKIP where NilaiHuruf='E'",
 						null);
 
 		Integer NilA = A.getColumnIndex("Nilai");
@@ -135,8 +142,7 @@ public class TranskipNilai extends Fragment {
 		NilaiE.setGravity(Gravity.CENTER);
 		NilaiE.setBackgroundResource(R.drawable.tv_bg);
 
-		Integer Nim = c.getColumnIndex("Nim");
-		Integer Nama = c.getColumnIndex("Nama");
+
 		Integer NamaMaKul = c.getColumnIndex("NamaMaKul");
 		Integer NilaiHuruf = c.getColumnIndex("NilaiHuruf");
 		Integer Semester = c.getColumnIndex("Semester");
