@@ -88,13 +88,29 @@
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/TotSKSLalu"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
 
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dip"
                     android:paddingTop="5dip" />
+
+                <com.ukietux.pamobile.utils.CustomTextView
+                    android:id="@+id/Notif2Setara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="2" />
+
+                <TableLayout
+                    android:id="@+id/semesterSekarangSetara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:stretchColumns="1" >
+                </TableLayout>
+
 
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif2"
@@ -123,10 +139,26 @@
                     android:paddingTop="5dip" />
 
                 <com.ukietux.pamobile.utils.CustomTextView
+                    android:id="@+id/Notif3Setara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="2" />
+
+                <TableLayout
+                    android:id="@+id/semesterSekarangPilihanSetara"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:stretchColumns="1" >
+                </TableLayout>
+
+
+                <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:lines="2"/>
+                    android:lines="2" />
 
                 <TableLayout
                     android:id="@+id/semesterSekarangPilihan"
@@ -140,7 +172,7 @@
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/TotSKSSekP"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </HorizontalScrollView>
     </ScrollView>
