@@ -371,7 +371,7 @@ public class KRS extends Fragment {
 				TotalSKSWSetara = Total1WSetara + Total2WSetara;
 				if (TotalSKSWSetara == 0) {
 					Notif2Setara
-							.setText("Tidak Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
+							.setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
 									+ "di konversi ke kurikulum baru pada Semester Genap");
 					tableLayoutCurrentSetara.setVisibility(View.GONE);
 				}
@@ -379,7 +379,7 @@ public class KRS extends Fragment {
 				TotalSKSPSetara = Total1PSetara + Total2PSetara;
 				if (TotalSKSPSetara == 0){
 					Notif3Setara
-					.setText("Tidak Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
+					.setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
 							+ "di konversi ke kurikulum baru pada Semester Genap");
 					tableLayoutCurrentPilihanSetara.setVisibility(View.GONE);
 				}
@@ -518,7 +518,7 @@ public class KRS extends Fragment {
 				TotalSKSWSetara = Total1WSetara + Total2WSetara;
 				if (TotalSKSWSetara == 0) {
 					Notif2Setara
-							.setText("Tidak Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
+							.setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
 									+ "di konversi ke kurikulum baru pada Semester Genap");
 					tableLayoutCurrentSetara.setVisibility(View.GONE);
 				}
@@ -526,7 +526,7 @@ public class KRS extends Fragment {
 				TotalSKSPSetara = Total1PSetara + Total2PSetara;
 				if (TotalSKSPSetara == 0){
 					Notif3Setara
-					.setText("Tidak Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
+					.setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
 							+ "di konversi ke kurikulum baru pada Semester Genap");
 					tableLayoutCurrentPilihanSetara.setVisibility(View.GONE);
 				}
