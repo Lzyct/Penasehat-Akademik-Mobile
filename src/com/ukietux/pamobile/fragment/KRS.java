@@ -27,8 +27,9 @@ public class KRS extends Fragment {
 	SQLiteDatabase db;
 	String Semester, LastIPS, GenapGanjil;
 
-	int MaxSKS, totalSKSWajib,totalSKSPilihan, Total1, Total2, Total1WSetara, Total2WSetara,Total1PSetara, Total2PSetara,
-			TotalSKSUlang, TotalSKSWSetara,TotalSKSPSetara, SMT;
+	int MaxSKS, totalSKSWajib, totalSKSPilihan, Total1, Total2, Total1WSetara,
+			Total2WSetara, Total1PSetara, Total2PSetara, TotalSKSUlang,
+			TotalSKSWSetara, TotalSKSPSetara, SMT;
 
 	CustomTextView IPSTerakhir, Semesterx, ListSemester, ListSemesterGanjil,
 			ListSemesterGenap, MaksimumSKS;
@@ -39,7 +40,8 @@ public class KRS extends Fragment {
 	TableLayout tableLayout, tableLayoutCurrent, tableLayoutCurrentSetara,
 			tableLayoutCurrentPilihan, tableLayoutCurrentPilihanSetara;
 	TableRow row, rowCurrent, rowPilihan;
-	TableRow rowHeader1, rowHeader2, rowHeader3, rowHeaderWSetara;
+	TableRow rowHeader1, rowHeader2, rowHeader3, rowHeaderWSetara,
+			rowHeaderMakulTerkait;
 
 	CustomTextView ColomnNamaMakul, ColomnKodeMAkul, ColomnSemester, ColomnSKS,
 			ColomnNilaiHuruf, ColomnSifatMakul;
@@ -47,8 +49,8 @@ public class KRS extends Fragment {
 			ColomnSemesterSekW, ColomnSKSSekW;
 	CustomTextView ColomnNamaMakulSekP, ColomnSifatMAkulSekP,
 			ColomnSemesterSekP, ColomnSKSSekP;
-	CustomTextView Notif1, Notif2, Notif3, Notif2Setara, Notif3Setara;
-	CustomTextView TotSKSLalu, TotSKSSekar, TotSKSSekarP;
+	CustomTextView Notif1, Notif2, Notif3, Notif4, Notif2Setara, Notif3Setara;
+	CustomTextView TotSKSLalu, TotSKSSekar, TotSKSSekarP, TotSKSTerkait;
 
 	Double NilaiIPKx;
 	Integer JumSKSx, SMTx;
@@ -73,6 +75,7 @@ public class KRS extends Fragment {
 		Notif1 = (CustomTextView) v.findViewById(R.id.Notif1);
 		Notif2 = (CustomTextView) v.findViewById(R.id.Notif2);
 		Notif3 = (CustomTextView) v.findViewById(R.id.Notif3);
+		Notif4 = (CustomTextView) v.findViewById(R.id.Notif4);
 		Notif2Setara = (CustomTextView) v.findViewById(R.id.Notif2Setara);
 		Notif3Setara = (CustomTextView) v.findViewById(R.id.Notif3Setara);
 
@@ -87,6 +90,10 @@ public class KRS extends Fragment {
 		Notif3.setBackgroundResource(R.drawable.tv_bg);
 		Notif3.setTextColor(Color.WHITE);
 		Notif3.setTextSize(14);
+
+		Notif4.setBackgroundResource(R.drawable.tv_bg);
+		Notif4.setTextColor(Color.WHITE);
+		Notif4.setTextSize(14);
 
 		Notif2Setara.setBackgroundResource(R.drawable.tv_bg);
 		Notif2Setara.setTextColor(Color.WHITE);
@@ -108,6 +115,12 @@ public class KRS extends Fragment {
 		TotSKSSekarP.setBackgroundResource(R.drawable.edt_bg);
 		TotSKSSekarP.setTextSize(14);
 
+		TotSKSTerkait = (CustomTextView) v.findViewById(R.id.TotSKSSekTerkait);
+		TotSKSTerkait.setBackgroundResource(R.drawable.edt_bg);
+		TotSKSTerkait.setTextSize(14);
+
+		tableLayout = (TableLayout) v
+				.findViewById(R.id.semesterSekarangTerkait);
 		tableLayout = (TableLayout) v.findViewById(R.id.semesterLalu);
 		tableLayoutCurrentSetara = (TableLayout) v
 				.findViewById(R.id.semesterSekarangSetara);
@@ -370,20 +383,22 @@ public class KRS extends Fragment {
 
 				TotalSKSWSetara = Total1WSetara + Total2WSetara;
 				if (TotalSKSWSetara == 0) {
-					Notif2Setara
-							.setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
-									+ "di konversi ke kurikulum baru pada Semester Genap");
+					// Notif2Setara
+					// .setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
+					// + "di konversi ke kurikulum baru pada Semester Genap");
+					Notif2Setara.setVisibility(View.GONE);
 					tableLayoutCurrentSetara.setVisibility(View.GONE);
 				}
 
 				TotalSKSPSetara = Total1PSetara + Total2PSetara;
-				if (TotalSKSPSetara == 0){
-					Notif3Setara
-					.setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
-							+ "di konversi ke kurikulum baru pada Semester Genap");
+				if (TotalSKSPSetara == 0) {
+					// Notif3Setara
+					// .setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
+					// + "di konversi ke kurikulum baru pada Semester Genap");
+					Notif3Setara.setVisibility(View.GONE);
 					tableLayoutCurrentPilihanSetara.setVisibility(View.GONE);
 				}
-				
+
 				TotalSKSUlang = Total1 + Total2;
 				if (TotalSKSUlang == 0) {
 					Notif1.setText("Tidak ada rekomendasi matakuliah yang \n"
@@ -517,21 +532,25 @@ public class KRS extends Fragment {
 
 				TotalSKSWSetara = Total1WSetara + Total2WSetara;
 				if (TotalSKSWSetara == 0) {
-					Notif2Setara
-							.setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
-									+ "di konversi ke kurikulum baru pada Semester Genap");
+					// Notif2Setara
+					// .setText("Tidak ada Rekomendasi Matakuliah Wajib yang sudah diprogramkan dan \n"
+					// + "di konversi ke kurikulum baru pada Semester Genap");
+					Notif2Setara.setVisibility(View.GONE);
 					tableLayoutCurrentSetara.setVisibility(View.GONE);
 				}
-				
+
 				TotalSKSPSetara = Total1PSetara + Total2PSetara;
-				if (TotalSKSPSetara == 0){
-					Notif3Setara
-					.setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
-							+ "di konversi ke kurikulum baru pada Semester Genap");
+				if (TotalSKSPSetara == 0) {
+					// Notif3Setara
+					// .setText("Tidak ada Rekomendasi Matakuliah Pilihan yang sudah diprogramkan dan \n"
+					// + "di konversi ke kurikulum baru pada Semester Genap");
+					Notif3Setara.setVisibility(View.GONE);
 					tableLayoutCurrentPilihanSetara.setVisibility(View.GONE);
 				}
-
+				
+				//Mengambil nilai dari fungsi penyetaraan ulang
 				TotalSKSUlang = Total1 + Total2;
+				
 				if (TotalSKSUlang == 0) {
 					Notif1.setText("Tidak ada rekomendasi matakuliah yang \n"
 							+ "diprogramkan ulang pada semester " + GenapGanjil);
@@ -581,21 +600,21 @@ public class KRS extends Fragment {
 				row.setId(100);
 				Log.d("Cek1", cek1.getString(KodeMaKul1));
 
+				//Jika sudah kurikulum baru
 				Cursor cek4 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKBaru = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul4 = cek4.getColumnIndex("blao");
 				cek4.moveToFirst();
 
+				//Query untuk penyetaraan matakuliah
 				Cursor cek2 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKLama = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul2 = cek2.getColumnIndex("blao");
 				cek2.moveToFirst();
 
-				// Konversi kurikulum lama ke kurikulum baru
 				if (!(cek4.getCount() == 0)) {
-					// cek1.moveToNext();
 					Log.d("Cek2", cek4.getString(KodeMaKul4));
 					Cursor cek5 = db
 							.rawQuery(
@@ -686,6 +705,7 @@ public class KRS extends Fragment {
 
 						tableLayout.addView(row, rowLp);
 					}
+					//Konversi Makul lama ke Makul baru
 				} else if (!(cek2.getCount() == 0)) {
 					Log.d("Cek2", cek2.getString(KodeMaKul2));
 					Cursor cek3 = db
@@ -732,9 +752,7 @@ public class KRS extends Fragment {
 						ColomnNamaMakul.setTextSize(14);
 						ColomnNamaMakul
 								.setBackgroundResource(R.drawable.edt_bg);
-						row.addView(ColomnNamaMakul, cellLp); // adding column
-																// to
-																// row
+						row.addView(ColomnNamaMakul, cellLp); 
 
 						// Setting up ColomnSKS parameters
 						Log.d("Skripsi", "mengambil data colom SKS");
@@ -784,15 +802,16 @@ public class KRS extends Fragment {
 			} while (cek1.moveToNext());
 
 		} else {
-			Notif1.setText("Tidak ada rekomendasi matakuliah yang \n"
-					+ "diprogramkan ulang pada semester " + GenapGanjil);
+			// Notif1.setText("Tidak ada rekomendasi matakuliah yang \n"
+			// + "diprogramkan ulang pada semester " + GenapGanjil);
+			Notif1.setVisibility(View.GONE);
 		}
 
 	}
 
 	/*
-	 * Menampilkan penyetaraan mata kuliah wajib telah diprogramkan pada Semester
-	 * Ganjil/Genap lalu dikonversi ke kurikulum baru
+	 * Menampilkan penyetaraan mata kuliah wajib telah diprogramkan pada
+	 * Semester Ganjil/Genap lalu dikonversi ke kurikulum baru
 	 */
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	public void PenyetaraanKRSWajib() {
@@ -805,7 +824,7 @@ public class KRS extends Fragment {
 				+ "and (NilaiHuruf!='' or NilaiHuruf!='E' or NilaiHuruf!='D') "
 				+ "order by KodeMakul desc", null);
 
-		// untuk MakulUIN
+		// untuk kode matakuliah
 		Integer KodeMaKul1 = cek1.getColumnIndex("blao");
 
 		if (cek1.getCount() > 0) {
@@ -887,19 +906,21 @@ public class KRS extends Fragment {
 				row.setId(100);
 				Log.d("Cek1", cek1.getString(KodeMaKul1));
 
+				//Jika sudah kurikulum baru
 				Cursor cek4 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKBaru = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul4 = cek4.getColumnIndex("blao");
 				cek4.moveToFirst();
 
+				//Konversi kurikulum lama ke kurikulum baru
 				Cursor cek2 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKLama = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul2 = cek2.getColumnIndex("blao");
 				cek2.moveToFirst();
 
-				// Konversi kurikulum lama ke kurikulum baru
+				// jika sudah kurikulum baru
 				if (!(cek4.getCount() == 0)) {
 					// cek1.moveToNext();
 					Log.d("Cek2", cek4.getString(KodeMaKul4));
@@ -910,8 +931,9 @@ public class KRS extends Fragment {
 											+ "t1.SKSTeori + t1.SKSPraktikum as SKS ,"
 											+ "t1.SifatMaKul as c,"
 											+ "t1.PaketSemester d,t2.NilaiHuruf e from KRS t1,Transkip t2  "
-											+ "where " + "t1.PaketSemester ='"+ SMTx+ "'"
-											+ "and t1.SifatMaKul='W' " 
+											+ "where " + "t1.PaketSemester ='"
+											+ SMTx + "'"
+											+ "and t1.SifatMaKul='W' "
 											+ "and t2.KodeMaKul='"
 											+ cek1.getString(KodeMaKul1)
 											+ "' and  t1.KodeMaKul = " + "'"
@@ -993,6 +1015,7 @@ public class KRS extends Fragment {
 
 						tableLayout.addView(row, rowLp);
 					}
+					// Konversi kurikulum lama ke kurikulum baru
 				} else if (!(cek2.getCount() == 0)) {
 					Log.d("Cek2", cek2.getString(KodeMaKul2));
 					Cursor cek3 = db
@@ -1002,8 +1025,9 @@ public class KRS extends Fragment {
 											+ "t1.SKSTeori + t1.SKSPraktikum as SKS ,"
 											+ "t1.SifatMaKul as c,"
 											+ "t1.PaketSemester d,t2.NilaiHuruf e from KRS t1,Transkip t2  "
-											+ "where " + "t1.PaketSemester ='"+ SMTx+ "'"
-											+ "and t1.SifatMaKul='W' " 
+											+ "where " + "t1.PaketSemester ='"
+											+ SMTx + "'"
+											+ "and t1.SifatMaKul='W' "
 											+ "and t2.KodeMaKul='"
 											+ cek1.getString(KodeMaKul1)
 											+ "' and t1.KodeMaKul = " + "'"
@@ -1089,17 +1113,17 @@ public class KRS extends Fragment {
 			} while (cek1.moveToNext());
 
 		} else {
-			Notif2Setara.setText("Tidak ada rekomendasi matakuliah wajib yang sudah \n"
-					+ "diprogramkan pada semester lalu dan dikonversi ke kurikulum baru "
-					+ GenapGanjil);
+			Notif2Setara
+					.setText("Tidak ada rekomendasi matakuliah wajib yang sudah \n"
+							+ "diprogramkan pada semester lalu dan dikonversi ke kurikulum baru "
+							+ GenapGanjil);
 		}
 
 	}
 
-	
 	/*
-	 * Menampilkan penyetaraan mata kuliah wajib telah diprogramkan pada Semester
-	 * Ganjil/Genap lalu dikonversi ke kurikulum baru
+	 * Menampilkan penyetaraan mata kuliah wajib telah diprogramkan pada
+	 * Semester Ganjil/Genap lalu dikonversi ke kurikulum baru
 	 */
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	public void PenyetaraanKRSPilihan() {
@@ -1217,8 +1241,9 @@ public class KRS extends Fragment {
 											+ "t1.SKSTeori + t1.SKSPraktikum as SKS ,"
 											+ "t1.SifatMaKul as c,"
 											+ "t1.PaketSemester d,t2.NilaiHuruf e from KRS t1,Transkip t2  "
-											+ "where " + "t1.PaketSemester ='"+ SMTx+ "'"
-											+ "and t1.SifatMaKul='P' " 
+											+ "where " + "t1.PaketSemester ='"
+											+ SMTx + "'"
+											+ "and t1.SifatMaKul='P' "
 											+ "and t2.KodeMaKul='"
 											+ cek1.getString(KodeMaKul1)
 											+ "' and  t1.KodeMaKul = " + "'"
@@ -1309,8 +1334,9 @@ public class KRS extends Fragment {
 											+ "t1.SKSTeori + t1.SKSPraktikum as SKS ,"
 											+ "t1.SifatMaKul as c,"
 											+ "t1.PaketSemester d,t2.NilaiHuruf e from KRS t1,Transkip t2  "
-											+ "where " + "t1.PaketSemester ='"+ SMTx+ "'"
-											+ "and t1.SifatMaKul='P' " 
+											+ "where " + "t1.PaketSemester ='"
+											+ SMTx + "'"
+											+ "and t1.SifatMaKul='P' "
 											+ "and t2.KodeMaKul='"
 											+ cek1.getString(KodeMaKul1)
 											+ "' and t1.KodeMaKul = " + "'"
@@ -1396,14 +1422,14 @@ public class KRS extends Fragment {
 			} while (cek1.moveToNext());
 
 		} else {
-			Notif3Setara.setText("Tidak ada rekomendasi matakuliah wajib yang sudah \n"
-					+ "diprogramkan pada semester lalu dan dikonversi ke kurikulum baru "
-					+ GenapGanjil);
+			Notif3Setara
+					.setText("Tidak ada rekomendasi matakuliah wajib yang sudah \n"
+							+ "diprogramkan pada semester lalu dan dikonversi ke kurikulum baru "
+							+ GenapGanjil);
 		}
 
 	}
-	
-	
+
 	/*
 	 * Menampilkan mata kuliah Wajib
 	 */
@@ -1649,10 +1675,13 @@ public class KRS extends Fragment {
 			if (cek == null) {
 				TotSKSSekarP.setVisibility(View.GONE);
 			} else {
-				totalSKSPilihan = Integer.valueOf(cek)-(Total1PSetara+Total2PSetara);
-				
-				TotSKSSekarP.setText("TOTAL SKS : " + totalSKSPilihan+ 
-						" \n(Matakuliah yang belum di programkan - Matakuliah yang sudah diprogramkan)");
+				totalSKSPilihan = Integer.valueOf(cek)
+						- (Total1PSetara + Total2PSetara);
+
+				TotSKSSekarP
+						.setText("TOTAL SKS : "
+								+ totalSKSPilihan
+								+ " \n(Matakuliah yang belum di programkan - Matakuliah yang sudah diprogramkan)");
 			}
 		}
 
