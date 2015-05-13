@@ -8,12 +8,10 @@ import com.ukietux.pamobile.database.DBController;
 import com.ukietux.pamobile.utils.CustomTextView;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar.LayoutParams;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.renderscript.Sampler.Value;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
@@ -27,7 +25,6 @@ import android.widget.FrameLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
-import android.widget.TextView;
 
 public class KHS extends Fragment {
 
@@ -62,7 +59,16 @@ public class KHS extends Fragment {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int pos, long id) {
 				DBController controler = new DBController(getActivity());
-				Semester = parent.getItemAtPosition(pos).toString();
+				String testX= parent.getItemAtPosition(pos).toString();
+				String tX= testX.substring(0,6);
+				
+				if (tX.equals("Gasal ")){
+					Semester = testX.substring(6)+"1";
+				}else if (tX.equals("Genap ")){
+					Semester = testX.substring(6)+"2";
+				}
+				
+//				Semester = parent.getItemAtPosition(pos).toString();
 				Log.d("semester", Semester);
 				// clean all before add view
 				tableLayout.removeAllViews();
@@ -242,8 +248,16 @@ public class KHS extends Fragment {
 
 			if (allrows.moveToFirst()) {
 				do {
-					String NAME = allrows.getString(0);
-					my_array.add(NAME);
+					String Semes = allrows.getString(0);
+					String test = Semes.substring(Semes.length() - 1);
+					String SemesterX = null;
+					if (test.equals("1")){
+						SemesterX = "Gasal " +Semes.substring(0,Semes.length() - 1);
+					} else if (test.equals("2")) {
+						SemesterX = "Genap " +Semes.substring(0,Semes.length() - 1);
+					}
+					my_array.add(SemesterX);
+					Log.d("Semester", SemesterX);
 
 				} while (allrows.moveToNext());
 			}

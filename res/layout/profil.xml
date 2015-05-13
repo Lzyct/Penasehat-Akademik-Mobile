@@ -6,6 +6,12 @@
     android:gravity="center"
     android:orientation="vertical" >
 
+    <com.ukietux.pamobile.utils.CustomTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" />
+
     <com.ukietux.pamobile.utils.CustomImageView
         android:id="@+id/profilImage"
         android:layout_width="120dp"
@@ -30,63 +36,42 @@
     <com.ukietux.pamobile.utils.CustomTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="55dip"
-        android:paddingTop="55dip" />
+        android:paddingBottom="5dip"
+        android:paddingTop="5dip" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:background="@drawable/bg_text_profil"
+        android:orientation="vertical" >
 
         <com.ukietux.pamobile.utils.CustomTextView
             android:id="@+id/Nim"
-            android:layout_width="150dip"
-            android:layout_height="wrap_content"
-            android:background="@drawable/tv_bg"
-            android:textColor="@color/white"
-            android:textSize="15.0dip" />
-
-        <com.ukietux.pamobile.utils.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip" />
+            android:textColor="@color/white"
+            android:textSize="12.0dip" />
 
         <com.ukietux.pamobile.utils.CustomTextView
             android:id="@+id/Semester"
-            android:layout_width="150dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/tv_bg"
             android:textColor="@color/white"
-            android:textSize="15.0dip" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            android:textSize="12.0dip" />
 
         <com.ukietux.pamobile.utils.CustomTextView
             android:id="@+id/IPK"
-            android:layout_width="150dip"
-            android:layout_height="wrap_content"
-            android:background="@drawable/tv_bg"
-            android:textColor="@color/white"
-            android:textSize="15.0dip" />
-
-        <com.ukietux.pamobile.utils.CustomTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dip"
-            android:paddingRight="5dip" />
+            android:textColor="@color/white"
+            android:textSize="12.0dip" />
 
         <com.ukietux.pamobile.utils.CustomTextView
             android:id="@+id/JumSKS"
-            android:layout_width="150dip"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/tv_bg"
             android:textColor="@color/white"
-            android:textSize="15.0dip" />
+            android:textSize="12.0dip" />
     </LinearLayout>
 
 </LinearLayout>

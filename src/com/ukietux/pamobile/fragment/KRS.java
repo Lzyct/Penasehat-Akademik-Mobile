@@ -38,8 +38,9 @@ public class KRS extends Fragment {
 	List<String> listSemesterGenap = new ArrayList<String>();
 
 	TableLayout tableLayout, tableLayoutCurrent, tableLayoutCurrentSetara,
-			tableLayoutCurrentPilihan, tableLayoutCurrentPilihanSetara;
-	TableRow row, rowCurrent, rowPilihan;
+			tableLayoutCurrentPilihan, tableLayoutCurrentPilihanSetara,
+			tableLayoutTerkait;
+	TableRow row, rowCurrent, rowPilihan, rowTerkait;
 	TableRow rowHeader1, rowHeader2, rowHeader3, rowHeaderWSetara,
 			rowHeaderMakulTerkait;
 
@@ -49,6 +50,10 @@ public class KRS extends Fragment {
 			ColomnSemesterSekW, ColomnSKSSekW;
 	CustomTextView ColomnNamaMakulSekP, ColomnSifatMAkulSekP,
 			ColomnSemesterSekP, ColomnSKSSekP;
+	CustomTextView ColomnNamaMakulTerkait, ColomnKodeMAkulTerkait,
+			ColomnSemesterTerkait, ColomnSKSTerkait, ColomnNilaiHurufTerkait,
+			ColomnSifatMakulTerkait;
+
 	CustomTextView Notif1, Notif2, Notif3, Notif4, Notif2Setara, Notif3Setara;
 	CustomTextView TotSKSLalu, TotSKSSekar, TotSKSSekarP, TotSKSTerkait;
 
@@ -94,6 +99,7 @@ public class KRS extends Fragment {
 		Notif4.setBackgroundResource(R.drawable.tv_bg);
 		Notif4.setTextColor(Color.WHITE);
 		Notif4.setTextSize(14);
+		Notif4.setVisibility(View.GONE);
 
 		Notif2Setara.setBackgroundResource(R.drawable.tv_bg);
 		Notif2Setara.setTextColor(Color.WHITE);
@@ -118,6 +124,7 @@ public class KRS extends Fragment {
 		TotSKSTerkait = (CustomTextView) v.findViewById(R.id.TotSKSSekTerkait);
 		TotSKSTerkait.setBackgroundResource(R.drawable.edt_bg);
 		TotSKSTerkait.setTextSize(14);
+		TotSKSTerkait.setVisibility(View.GONE);
 
 		tableLayout = (TableLayout) v
 				.findViewById(R.id.semesterSekarangTerkait);
@@ -547,10 +554,10 @@ public class KRS extends Fragment {
 					Notif3Setara.setVisibility(View.GONE);
 					tableLayoutCurrentPilihanSetara.setVisibility(View.GONE);
 				}
-				
-				//Mengambil nilai dari fungsi penyetaraan ulang
+
+				// Mengambil nilai dari fungsi penyetaraan ulang
 				TotalSKSUlang = Total1 + Total2;
-				
+
 				if (TotalSKSUlang == 0) {
 					Notif1.setText("Tidak ada rekomendasi matakuliah yang \n"
 							+ "diprogramkan ulang pada semester " + GenapGanjil);
@@ -600,14 +607,14 @@ public class KRS extends Fragment {
 				row.setId(100);
 				Log.d("Cek1", cek1.getString(KodeMaKul1));
 
-				//Jika sudah kurikulum baru
+				// Jika sudah kurikulum baru
 				Cursor cek4 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKBaru = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul4 = cek4.getColumnIndex("blao");
 				cek4.moveToFirst();
 
-				//Query untuk penyetaraan matakuliah
+				// Query untuk penyetaraan matakuliah
 				Cursor cek2 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKLama = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
@@ -705,7 +712,7 @@ public class KRS extends Fragment {
 
 						tableLayout.addView(row, rowLp);
 					}
-					//Konversi Makul lama ke Makul baru
+					// Konversi Makul lama ke Makul baru
 				} else if (!(cek2.getCount() == 0)) {
 					Log.d("Cek2", cek2.getString(KodeMaKul2));
 					Cursor cek3 = db
@@ -752,7 +759,7 @@ public class KRS extends Fragment {
 						ColomnNamaMakul.setTextSize(14);
 						ColomnNamaMakul
 								.setBackgroundResource(R.drawable.edt_bg);
-						row.addView(ColomnNamaMakul, cellLp); 
+						row.addView(ColomnNamaMakul, cellLp);
 
 						// Setting up ColomnSKS parameters
 						Log.d("Skripsi", "mengambil data colom SKS");
@@ -906,14 +913,14 @@ public class KRS extends Fragment {
 				row.setId(100);
 				Log.d("Cek1", cek1.getString(KodeMaKul1));
 
-				//Jika sudah kurikulum baru
+				// Jika sudah kurikulum baru
 				Cursor cek4 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKBaru = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
 				Integer KodeMaKul4 = cek4.getColumnIndex("blao");
 				cek4.moveToFirst();
 
-				//Konversi kurikulum lama ke kurikulum baru
+				// Konversi kurikulum lama ke kurikulum baru
 				Cursor cek2 = db.rawQuery(
 						"select KodeMKBaru as blao from Penyetaraan where KodeMKLama = "
 								+ "'" + cek1.getString(KodeMaKul1) + "'", null);
@@ -1429,6 +1436,163 @@ public class KRS extends Fragment {
 		}
 
 	}
+
+//	public void MakulTerkait() {
+//
+//		if (SMTx == 2) {
+//			QueryKRS = "select KodeMaKul,NamaMakul,NilaiHuruf, SKS,Semester "
+//					+ "from Transkip "
+//					+ "where (KodeMaKul='TIN1313' or KodeMaKul='TIN1314') "
+//					+ "and (NilaiHuruf='D' or NilaiHuruf='E' or NilaiHuruf='')  " ;
+//
+//		} else if (SMTx == 3) {
+//			QueryKRS = "select KodeMaKul,NamaMakul,NilaiHuruf, SKS,Semester "
+//					+ "from Transkip "
+//					+ "where (KodeMaKul='TIN1313' or KodeMaKul='TIN1314' "
+//					+ "or KodeMaKul='TIN') "
+//					+ "and (NilaiHuruf='D' or NilaiHuruf='E' or NilaiHuruf='')  " ;
+//		}
+//
+//		String TotQuery = "select sum(SKSTeori + SKSPraktikum) as TotSKS "
+//				+ "from KRS " + "where PaketSemester=" + SMTx
+//				+ " and  SifatMakul='W' and JKurikulum='B'";
+//		Cursor AllKRS = db.rawQuery(QueryKRS, null);
+//
+//		Cursor TotSKSSekarang = db.rawQuery(TotQuery, null);
+//
+//		// untuk MakulUIN
+//		Integer NamaMaKul = AllKRS.getColumnIndex("NamaMaKul");
+//		Integer SKS = AllKRS.getColumnIndex("SKS");
+//		Integer SifatMakul = AllKRS.getColumnIndex("SifatMaKul");
+//		Integer SemesterJ = AllKRS.getColumnIndex("PaketSemester");
+//
+//		Integer TotSKSSek = TotSKSSekarang.getColumnIndex("TotSKS");
+//
+//		if (TotSKSSekarang.getCount() > 0) {
+//			TotSKSSekarang.moveToFirst();
+//			do {
+//				cek = TotSKSSekarang.getString(TotSKSSek);
+//			} while (TotSKSSekarang.moveToNext());
+//			if (cek == null) {
+//				totalSKSWajib = 0;
+//				TotSKSSekar.setVisibility(View.GONE);
+//			} else {
+//				totalSKSWajib = Integer.valueOf(cek)
+//						- (Total1WSetara + Total2WSetara);
+//
+//				TotSKSSekar
+//						.setText("TOTAL SKS : "
+//								+ totalSKSWajib
+//								+ " \n(Matakuliah yang belum di programkan - Matakuliah yang sudah diprogramkan)");
+//			}
+//		}
+//
+//		tableLayoutCurrent.setStretchAllColumns(true);
+//		TableLayout.LayoutParams rowLpx = new TableLayout.LayoutParams(
+//				TableLayout.LayoutParams.FILL_PARENT,
+//				TableLayout.LayoutParams.FILL_PARENT, 1.0f);
+//		TableRow.LayoutParams cellLpx = new TableRow.LayoutParams(
+//				TableRow.LayoutParams.FILL_PARENT,
+//				TableRow.LayoutParams.FILL_PARENT, 1.0f);
+//
+//		if (AllKRS.getCount() > 0) {
+//			// Setting Up Header table
+//			rowHeader2 = new TableRow(getActivity());
+//			rowHeader2.setId(200);
+//
+//			Log.d("Skripsi", "mengambil data colom NamaMakul");
+//			ColomnNamaMakulSekW = new CustomTextView(getActivity());
+//			ColomnNamaMakulSekW.setText("NAMA MATAKULIAH");
+//			ColomnNamaMakulSekW.setTextColor(Color.WHITE);
+//			ColomnNamaMakulSekW.setTextSize(14);
+//			ColomnNamaMakulSekW.setGravity(Gravity.CENTER);
+//			ColomnNamaMakulSekW.setBackgroundResource(R.drawable.tv_bg);
+//			rowHeader2.addView(ColomnNamaMakulSekW, cellLpx);
+//
+//			// Setting up ColomnSKS parameters
+//			Log.d("Skripsi", "mengambil data colom SKS");
+//			ColomnSKSSekW = new CustomTextView(getActivity());
+//			ColomnSKSSekW.setText("SKS");
+//			ColomnSKSSekW.setTextColor(Color.WHITE);
+//			ColomnSKSSekW.setGravity(Gravity.CENTER);
+//			ColomnSKSSekW.setTextSize(14);
+//			ColomnSKSSekW.setBackgroundResource(R.drawable.tv_bg);
+//			rowHeader2.addView(ColomnSKSSekW, cellLpx);
+//
+//			// Setting up ColomnNilaiHuruf parameters
+//			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
+//			ColomnSifatMAkulSekW = new CustomTextView(getActivity());
+//			ColomnSifatMAkulSekW.setText("SIFAT MATAKULIAH");
+//			ColomnSifatMAkulSekW.setTextColor(Color.WHITE);
+//			ColomnSifatMAkulSekW.setGravity(Gravity.CENTER);
+//			ColomnSifatMAkulSekW.setTextSize(14);
+//			ColomnSifatMAkulSekW.setBackgroundResource(R.drawable.tv_bg);
+//			rowHeader2.addView(ColomnSifatMAkulSekW, cellLpx);
+//
+//			// Setting up ColomnSemester parameters
+//			Log.d("Skripsi", "mengambil data colom Semester");
+//			ColomnSemesterSekW = new CustomTextView(getActivity());
+//			ColomnSemesterSekW.setText("SEMESTER");
+//			ColomnSemesterSekW.setTextColor(Color.WHITE);
+//			ColomnSemesterSekW.setTextSize(14);
+//			ColomnSemesterSekW.setGravity(Gravity.CENTER);
+//			ColomnSemesterSekW.setBackgroundResource(R.drawable.tv_bg);
+//			rowHeader2.addView(ColomnSemesterSekW, cellLpx);
+//			tableLayoutCurrent.addView(rowHeader2, rowLpx);
+//
+//			AllKRS.moveToFirst();
+//			do {
+//				rowCurrent = new TableRow(getActivity());
+//				rowCurrent.setId(200);
+//				// Setting up the ColomnNamaMaKul parameters
+//				Log.d("Skripsi", "mengambil data colom NamaMakul");
+//				ColomnNamaMakulSekW = new CustomTextView(getActivity());
+//				ColomnNamaMakulSekW.setText(AllKRS.getString(NamaMaKul));
+//				ColomnNamaMakulSekW.setTextColor(Color.BLACK);
+//				ColomnNamaMakulSekW.setTextSize(14);
+//				ColomnNamaMakulSekW.setBackgroundResource(R.drawable.edt_bg);
+//				rowCurrent.addView(ColomnNamaMakulSekW, cellLpx);
+//
+//				// Setting up ColomnSKS parameters
+//				Log.d("Skripsi", "mengambil data colom SKS");
+//				ColomnSKSSekW = new CustomTextView(getActivity());
+//				ColomnSKSSekW.setText(AllKRS.getString(SKS));
+//				ColomnSKSSekW.setTextColor(Color.BLACK);
+//				ColomnSKSSekW.setGravity(Gravity.CENTER);
+//				ColomnSKSSekW.setTextSize(14);
+//				ColomnSKSSekW.setBackgroundResource(R.drawable.edt_bg);
+//				rowCurrent.addView(ColomnSKSSekW, cellLpx);
+//
+//				// Setting up ColomnNilaiHuruf parameters
+//				Log.d("Skripsi", "mengambil data colom NilaiHuruf");
+//				ColomnSifatMAkulSekW = new CustomTextView(getActivity());
+//				ColomnSifatMAkulSekW.setText(AllKRS.getString(SifatMakul));
+//				ColomnSifatMAkulSekW.setTextColor(Color.BLACK);
+//				ColomnSifatMAkulSekW.setGravity(Gravity.CENTER);
+//				ColomnSifatMAkulSekW.setTextSize(14);
+//				ColomnSifatMAkulSekW.setBackgroundResource(R.drawable.edt_bg);
+//				rowCurrent.addView(ColomnSifatMAkulSekW, cellLpx);
+//
+//				// Setting up ColomnSemester parameters
+//				Log.d("Skripsi", "mengambil data colom Semester");
+//				ColomnSemesterSekW = new CustomTextView(getActivity());
+//				ColomnSemesterSekW.setText(AllKRS.getString(SemesterJ));
+//				ColomnSemesterSekW.setTextColor(Color.BLACK);
+//				ColomnSemesterSekW.setTextSize(14);
+//				ColomnSemesterSekW.setGravity(Gravity.CENTER);
+//				ColomnSemesterSekW.setBackgroundResource(R.drawable.edt_bg);
+//				rowCurrent.addView(ColomnSemesterSekW, cellLpx);
+//
+//				tableLayoutCurrent.addView(rowCurrent, rowLpx);
+//			} while (AllKRS.moveToNext());
+//			// db.close();
+//		} else {
+//			// Toast.makeText(getActivity().getApplicationContext(),
+//			// "Event occurred.", Toast.LENGTH_LONG).show();
+//			Notif2.setText("Tidak ada rekomendasi matakuliah wajib \n"
+//					+ "yang perlu diprogramkan");
+//		}
+//	}
 
 	/*
 	 * Menampilkan mata kuliah Wajib

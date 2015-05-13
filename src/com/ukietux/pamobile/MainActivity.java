@@ -8,7 +8,6 @@ import java.util.Locale;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.ukietux.pamobile.Login.Masuk;
 import com.ukietux.pamobile.database.DBController;
 import com.ukietux.pamobile.database.JSONParser;
 import com.ukietux.pamobile.fragment.TranskipNilai;
@@ -17,7 +16,6 @@ import com.ukietux.pamobile.fragment.Profil;
 import com.ukietux.pamobile.fragment.KHS;
 import com.ukietux.pamobile.utils.ConnectionStatus;
 import com.ukietux.pamobile.utils.CustomAdapter;
-import com.ukietux.pamobile.utils.CustomImageView;
 import com.ukietux.pamobile.utils.RowItem;
 
 import android.annotation.SuppressLint;
@@ -25,12 +23,9 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
@@ -79,7 +74,7 @@ public class MainActivity extends ActionBarActivity {
 	DBController controler;
 	JSONArray contacts = null;
 	String nim;
-	String url, url1, success;
+	String url, url1, url2, success;
 
 	SQLiteDatabase db;
 	HashMap<String, String> queryValues;
@@ -105,10 +100,9 @@ public class MainActivity extends ActionBarActivity {
 
 		url = "http://ukietux.ngrok.com/PAMobile/masuk.php?" + "Nim=" + nim;
 		url1 = "http://ukietux.ngrok.com/PAMobile/matakuliah.php";
+		url2 = "http://ukietux.ngrok.com/PAMobile/penyetaraan.php";
 
 		mTitle = getTitle();
-		
-		
 
 		// menampung string array ke variable
 		menutitles = getResources().getStringArray(R.array.titles);
@@ -150,7 +144,7 @@ public class MainActivity extends ActionBarActivity {
 		getSupportActionBar().setBackgroundDrawable(
 				new ColorDrawable(Color.parseColor("#8E44AD")));
 		getSupportActionBar().setTitle("PENASEHAT AKADEMIK");
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,toolbar,
+		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar,
 				R.string.test, R.string.test) {
 
 			@SuppressLint("ResourceAsColor")
@@ -360,17 +354,14 @@ public class MainActivity extends ActionBarActivity {
 				.setTitle("Tentang Aplikasi")
 				.setMessage(
 						"Penasehat Akademik Personal "
-						+ "\n"
-						+ "versi 1.0"
-						+ "\n"
-						+ "\n"
-						+ "\n"
-						+"Penasehat Akademik Personal merupakan aplikasi untuk menampilkan nilai "
-						+ "mahasiswa dan untuk membantu mahasiswa untuk memprogramkan matakuliahnya \n"
-						+ "\n"
-						+ "\n"
-						+ "\n"
-						+ "\n"
+								+ "\n"
+								+ "versi 1.0"
+								+ "\n"
+								+ "\n"
+								+ "\n"
+								+ "Penasehat Akademik Personal merupakan aplikasi untuk menampilkan nilai "
+								+ "mahasiswa dan untuk membantu mahasiswa dalam memprogramkan matakuliahnya \n"
+								+ "\n" + "\n" + "\n" + "\n"
 								+ "Dikembangkan oleh: Mudassir\n\n"
 								+ "+-------------------------+\n"
 								+ "   Kontak Pengembang:\n"
@@ -438,7 +429,7 @@ public class MainActivity extends ActionBarActivity {
 		Boolean isInternetPresent = cs.isConnectingToInternet();
 
 		if (isInternetPresent == true) {
-			controler.deleteAll();
+
 			new Masuk().execute();
 
 		} else {
@@ -461,110 +452,126 @@ public class MainActivity extends ActionBarActivity {
 			super.onPreExecute();
 
 			pDialog = new ProgressDialog(MainActivity.this);
-			pDialog.setMessage("Mengambil data dari server");
+			pDialog.setMessage("Sedang mengambil data dari server");
 			pDialog.setIndeterminate(false);
-			pDialog.setCancelable(true);
+			pDialog.setCancelable(false);
 			pDialog.show();
 		}
 
 		@Override
 		protected String doInBackground(String... arg0) {
+			controler.deleteAll();
 			Log.d("Skripsi", "insert data ke dataMHS");
 			JSONParser jParser = new JSONParser();
 
 			JSONObject json = jParser.getJSONFromUrl(url);
 			JSONObject json1 = jParser.getJSONFromUrl(url1);
+			JSONObject json2 = jParser.getJSONFromUrl(url2);
+			if (json != null && json1 != null && json2 != null) {
+				controler.deleteAll();
+				try {
+					success = json.getString("success");
 
-			try {
-				success = json.getString("success");
+					Log.e("error", "nilai sukses=" + success);
 
-				Log.e("error", "nilai sukses=" + success);
+					JSONArray hasil = json.getJSONArray("login");
+					JSONArray hasil1 = json1.getJSONArray("matakuliah");
+					JSONArray hasil2 = json2.getJSONArray("setara");
 
-				JSONArray hasil = json.getJSONArray("login");
-				JSONArray hasil1 = json1.getJSONArray("matakuliah");
-
-				Log.d("Skripsi", "insert looping data ke dataMHS");
-				for (int i = 0; i < hasil.length(); i++) {
-					JSONObject jsonobj = hasil.getJSONObject(i);
-					queryValues = new HashMap<String, String>();
-					// Add nim extracted from Object
-					queryValues.put("Nim", jsonobj.get("Nim").toString());
-					// Add Nama extracted from Object
-					queryValues.put("Nama", jsonobj.get("Nama").toString());
-					// Add NamaMaKul extracted from Object
-					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
-							.toString());
-					// Add KodeNamaMaKul extracted from Object
-					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
-							.toString());
-					// Add NilaiHuruf extracted from Object
-					queryValues.put("NilaiHuruf", jsonobj.get("NilaiHuruf")
-							.toString());
-					// Add Semester extracted from Object
-					queryValues.put("Semester", jsonobj.get("Semester")
-							.toString());
-					// Add SKS extracted from Object
-					queryValues.put("SKS", jsonobj.get("SKS").toString());
-					// Insert User into SQLite DB
-					controler.insertTRANSKIP(queryValues);
-					Log.d("Skripsi", "insert data ke dataMHS");
-				}
-
-				for (int i = 0; i < hasil1.length(); i++) {
-					JSONObject jsonobj = hasil1.getJSONObject(i);
-					queryValues = new HashMap<String, String>();
-					// Add nim extracted from Object
-					queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
-							.toString());
-					queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
-							.toString());
-					// Add Nama extracted from Object
-					queryValues.put("SKSTeori", jsonobj.get("SKSTeori")
-							.toString());
-					// Add NamaMaKul extracted from Object
-					queryValues.put("SKSPraktikum", jsonobj.get("SKSPraktikum")
-							.toString());
-					// Add NilaiHuruf extracted from Object
-					queryValues.put("PaketSemester",
-							jsonobj.get("PaketSemester").toString());
-					// Add Semester extracted from Object
-					queryValues.put("SifatMaKul", jsonobj.get("SifatMaKul")
-							.toString());
-					// Add SKS extracted from Object
-					queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
-							.toString());
-					// Insert User into SQLite DB
-					controler.insertKRS(queryValues);
-					Log.d("Skripsi", "insert data ke MataKuliah");
-				}
-
-				if (success.equals("1")) {
-
+					Log.d("Skripsi", "insert looping data ke dataMHS");
 					for (int i = 0; i < hasil.length(); i++) {
-
-						JSONObject c = hasil.getJSONObject(i);
-
-						String nim = c.getString("Nim").trim();
-						session.createLoginSession(nim);
-						Log.e("ok", " ambil data");
-
+						JSONObject jsonobj = hasil.getJSONObject(i);
+						queryValues = new HashMap<String, String>();
+						// Add nim extracted from Object
+						queryValues.put("Nim", jsonobj.get("Nim").toString());
+						// Add Nama extracted from Object
+						queryValues.put("Nama", jsonobj.get("Nama").toString());
+						// Add NamaMaKul extracted from Object
+						queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
+								.toString());
+						// Add KodeNamaMaKul extracted from Object
+						queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+								.toString());
+						// Add NilaiHuruf extracted from Object
+						queryValues.put("NilaiHuruf", jsonobj.get("NilaiHuruf")
+								.toString());
+						// Add Semester extracted from Object
+						queryValues.put("Semester", jsonobj.get("Semester")
+								.toString());
+						// Add SKS extracted from Object
+						queryValues.put("SKS", jsonobj.get("SKS").toString());
+						// Insert User into SQLite DB
+						controler.insertTRANSKIP(queryValues);
+						Log.d("Skripsi", "insert data ke dataMHS");
 					}
-				} else {
+
+					for (int i = 0; i < hasil1.length(); i++) {
+						JSONObject jsonobj = hasil1.getJSONObject(i);
+						queryValues = new HashMap<String, String>();
+						// Add nim extracted from Object
+						queryValues.put("KodeMaKul", jsonobj.get("KodeMaKul")
+								.toString());
+						queryValues.put("NamaMaKul", jsonobj.get("NamaMaKul")
+								.toString());
+						// Add Nama extracted from Object
+						queryValues.put("SKSTeori", jsonobj.get("SKSTeori")
+								.toString());
+						// Add NamaMaKul extracted from Object
+						queryValues.put("SKSPraktikum",
+								jsonobj.get("SKSPraktikum").toString());
+						// Add NilaiHuruf extracted from Object
+						queryValues.put("PaketSemester",
+								jsonobj.get("PaketSemester").toString());
+						// Add Semester extracted from Object
+						queryValues.put("SifatMaKul", jsonobj.get("SifatMaKul")
+								.toString());
+						// Add SKS extracted from Object
+						queryValues.put("JKurikulum", jsonobj.get("JKurikulum")
+								.toString());
+						// Insert User into SQLite DB
+						controler.insertKRS(queryValues);
+						Log.d("Skripsi", "insert data ke MataKuliah");
+					}
+
+					for (int i = 0; i < hasil2.length(); i++) {
+						JSONObject jsonobj = hasil2.getJSONObject(i);
+						queryValues = new HashMap<String, String>();
+						// Add nim extracted from Object
+						queryValues.put("KodeMKBaru", jsonobj.get("KodeMKBaru")
+								.toString());
+						queryValues.put("KodeMKLama", jsonobj.get("KodeMKLama")
+								.toString());
+						// Insert User into SQLite DB
+						controler.insertPenyetaraan(queryValues);
+						Log.d("Skripsi", "insert data ke MataKuliah");
+					}
+
+					if (success.equals("1")) {
+
+						for (int i = 0; i < hasil.length(); i++) {
+
+							JSONObject c = hasil.getJSONObject(i);
+
+							String nim = c.getString("Nim").trim();
+							session.createLoginSession(nim);
+							Log.e("ok", " ambil data");
+
+						}
+					} else {
+						Toast.makeText(getApplicationContext(),
+								"Server sedang down", Toast.LENGTH_LONG).show();
+						Log.e("erro", "tidak bisa ambil data 0");
+					}
+
+				} catch (Exception e) {
+					// TODO: handle exception
 					Toast.makeText(getApplicationContext(),
 							"Server sedang down", Toast.LENGTH_LONG).show();
-					Log.e("erro", "tidak bisa ambil data 0");
+					Log.e("erro", "tidak bisa ambil data 1");
+
 				}
-
-			} catch (Exception e) {
-				// TODO: handle exception
-				Toast.makeText(getApplicationContext(), "Server sedang down",
-						Toast.LENGTH_LONG).show();
-				Log.e("erro", "tidak bisa ambil data 1");
-
 			}
-
 			return null;
-
 		}
 
 		@Override

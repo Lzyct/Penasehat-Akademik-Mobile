@@ -64,7 +64,7 @@ public class Login extends ActionBarActivity {
 						new Masuk().execute();
 					} else {
 						Toast.makeText(getApplicationContext(),
-								"Masukkan Nim yang benar", Toast.LENGTH_LONG)
+								"Maaf , nim Anda tidak ditemukan", Toast.LENGTH_LONG)
 								.show();
 					}
 				} else {
@@ -93,7 +93,7 @@ public class Login extends ActionBarActivity {
 			super.onPreExecute();
 
 			pDialog = new ProgressDialog(Login.this);
-			pDialog.setMessage("Mengambil data dari server");
+			pDialog.setMessage("Sedang mengambil data dari server");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(true);
 			pDialog.show();

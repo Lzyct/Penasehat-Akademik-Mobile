@@ -1,5 +1,7 @@
 package com.ukietux.pamobile.fragment;
 
+import java.text.DecimalFormat;
+
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 import com.ukietux.pamobile.utils.CustomTextView;
@@ -48,13 +50,13 @@ public class TranskipNilai extends Fragment {
 		Judul.setGravity(Gravity.CENTER);
 		Judul.setText("JUMLAH NILAI HURUF");
 		Judul.setBackgroundResource(R.drawable.tv_bg);
-		
-		
+
 		NilaiA = (CustomTextView) view.findViewById(R.id.a);
 		NilaiB = (CustomTextView) view.findViewById(R.id.b);
 		NilaiC = (CustomTextView) view.findViewById(R.id.c);
 		NilaiD = (CustomTextView) view.findViewById(R.id.d);
 		NilaiE = (CustomTextView) view.findViewById(R.id.e);
+		totIPK = (CustomTextView) view.findViewById(R.id.IPK);
 
 		Log.d("Skripsi", "memanggil DBController");
 		DBController controler = new DBController(getActivity());
@@ -67,16 +69,25 @@ public class TranskipNilai extends Fragment {
 	@SuppressLint({ "InlinedApi", "NewApi" })
 	private void displayDB() {
 		Log.d("Skripsi", "query ke dataMHS");
-		Cursor c = db.rawQuery(
-				"SELECT  NamaMaKul,"
+
+		String query = "SELECT "
+				+ "Nama,"
+				+ "Nim,"
 				+ "NilaiHuruf,"
-				+ "Semester,"
 				+ "SKS,"
-				+ "KodeMaKul "
-				+ "FROM TRANSKIP "
-				+ "Where NilaiHuruf!=''  "
-				+ "order by Semester ",
-				null);
+				+ "SUM(SKS) as JumSKS,"
+				+ "count(distinct Semester)+1 as Semester,"
+				+ "SUM(CASE WHEN NilaiHuruf= 'A' THEN 4*SKS "
+				+ "WHEN NilaiHuruf= 'B' THEN 3*SKS "
+				+ "WHEN NilaiHuruf= 'C' THEN 2*SKS "
+				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
+				+ "AS IPK " + "FROM TRANSKIP WHERE NilaiHuruf!=''";
+		Cursor a = db.rawQuery(query, null);
+		Integer IPK = a.getColumnIndex("IPK");
+
+		Cursor c = db.rawQuery("SELECT  NamaMaKul," + "NilaiHuruf,"
+				+ "Semester," + "SKS," + "KodeMaKul " + "FROM TRANSKIP "
+				+ "Where NilaiHuruf!=''  " + "order by Semester ", null);
 
 		Cursor A = db
 				.rawQuery(
@@ -105,11 +116,19 @@ public class TranskipNilai extends Fragment {
 		Integer NilD = D.getColumnIndex("Nilai");
 		Integer NilE = E.getColumnIndex("Nilai");
 
+		a.moveToFirst();
 		A.moveToFirst();
 		B.moveToFirst();
 		C.moveToFirst();
 		D.moveToFirst();
 		E.moveToFirst();
+
+		Double IPKx = Double.valueOf(a.getString(IPK));
+		totIPK.setText("IPK = " + new DecimalFormat("#.##").format(IPKx));
+		totIPK.setTextColor(Color.WHITE);
+		totIPK.setTextSize(14);
+		totIPK.setGravity(Gravity.CENTER);
+		totIPK.setBackgroundResource(R.drawable.tv_bg);
 
 		NilaiA.setText("A = " + A.getString(NilA));
 		NilaiA.setTextColor(Color.WHITE);
@@ -122,7 +141,7 @@ public class TranskipNilai extends Fragment {
 		NilaiB.setTextSize(14);
 		NilaiB.setGravity(Gravity.CENTER);
 		NilaiB.setBackgroundResource(R.drawable.tv_bg);
-		
+
 		NilaiC.setText("C = " + C.getString(NilC));
 		NilaiC.setTextColor(Color.WHITE);
 		NilaiC.setTextSize(14);
@@ -140,7 +159,6 @@ public class TranskipNilai extends Fragment {
 		NilaiE.setTextSize(14);
 		NilaiE.setGravity(Gravity.CENTER);
 		NilaiE.setBackgroundResource(R.drawable.tv_bg);
-
 
 		Integer NamaMaKul = c.getColumnIndex("NamaMaKul");
 		Integer NilaiHuruf = c.getColumnIndex("NilaiHuruf");

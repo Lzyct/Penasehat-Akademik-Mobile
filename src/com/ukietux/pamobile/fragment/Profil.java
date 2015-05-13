@@ -35,12 +35,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ukietux.pamobile.utils.CustomImageView;
+import com.ukietux.pamobile.utils.CustomTextView;
 import com.ukietux.pamobile.R;
 import com.ukietux.pamobile.database.DBController;
 
 public class Profil extends Fragment {
 	SQLiteDatabase db;
-	TextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
+	CustomTextView Nimx, Namax, JumSKSx, NilaiIPKx, SMTx;
 	CustomImageView ProfileImage;
 
 	private String selectedImagePath;
@@ -52,11 +53,11 @@ public class Profil extends Fragment {
 			Bundle savedInstanceState) {
 		final View v = inflater.inflate(R.layout.profil, container, false);
 		v.setBackgroundResource(R.drawable.profil_bg);
-		Namax = (TextView) v.findViewById(R.id.Nama);
-		Nimx = (TextView) v.findViewById(R.id.Nim);
-		NilaiIPKx = (TextView) v.findViewById(R.id.IPK);
-		JumSKSx = (TextView) v.findViewById(R.id.JumSKS);
-		SMTx = (TextView) v.findViewById(R.id.Semester);
+		Namax = (CustomTextView) v.findViewById(R.id.Nama);
+		Nimx = (CustomTextView) v.findViewById(R.id.Nim);
+		NilaiIPKx = (CustomTextView) v.findViewById(R.id.IPK);
+		JumSKSx = (CustomTextView) v.findViewById(R.id.JumSKS);
+		SMTx = (CustomTextView) v.findViewById(R.id.Semester);
 
 		ProfileImage = (CustomImageView) v.findViewById(R.id.profilImage);
 
@@ -154,7 +155,8 @@ public class Profil extends Fragment {
 		if (resultCode == Activity.RESULT_OK) {
 			if (requestCode == SELECT_PICTURE) {
 
-				selectedImagePath = mCropImagedUri.getPath(); // To get image path															// path
+				selectedImagePath = mCropImagedUri.getPath(); // To get image
+																// path // path
 				SharedPreferences pref = getActivity().getSharedPreferences(
 						"Profil", 0);
 				SharedPreferences.Editor edt = pref.edit();
@@ -200,12 +202,11 @@ public class Profil extends Fragment {
 				Log.d("Skripsi", "mengambil data colom Nama");
 				Namax.setText(a.getString(Nama));
 				Namax.setGravity(Gravity.CENTER_HORIZONTAL);
-				
+
 				// Setting up the ColomnNim parameters
-				
-				
+
 				Log.d("Skripsi", "mengambil data colom nim");
-				Nimx.setText("NIM \n" + a.getString(Nim));
+				Nimx.setText("> \tNIM = " + a.getString(Nim));
 				Nimx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(Nim));
 
@@ -214,19 +215,19 @@ public class Profil extends Fragment {
 				Log.d("Skripsi", "mengambil data colom nim");
 
 				Double IPKx = Double.valueOf(a.getString(IPK));
-				NilaiIPKx.setText("IPK \n"
+				NilaiIPKx.setText("> \tIPK =  "
 						+ new DecimalFormat("#.##").format(IPKx));
 				NilaiIPKx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(IPK));
 
 				// Setting up the ColomnNama parameters
 				Log.d("Skripsi", "mengambil data colom Nama");
-				JumSKSx.setText("SKS DILULUSI \n" + a.getString(JumSKS));
+				JumSKSx.setText("> \tSKS DILULUSI = " + a.getString(JumSKS));
 				JumSKSx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(JumSKS));
 
 				Log.d("Skripsi", "mengambil data colom Nama");
-				SMTx.setText("SEMESTER \n" + a.getString(Semester));
+				SMTx.setText("> \tSEMESTER  = " + a.getString(Semester));
 				SMTx.setGravity(Gravity.CENTER_HORIZONTAL);
 				Log.d("Skripsix", a.getString(Semester));
 
