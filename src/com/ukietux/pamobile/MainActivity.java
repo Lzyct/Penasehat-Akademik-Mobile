@@ -452,7 +452,8 @@ public class MainActivity extends ActionBarActivity {
 			super.onPreExecute();
 
 			pDialog = new ProgressDialog(MainActivity.this);
-			pDialog.setMessage("Sedang mengambil data dari server");
+			pDialog.setMessage("Sedang mengambil data dari server \n"
+					+ "Harap tidak menghentikan proses ini");
 			pDialog.setIndeterminate(false);
 			pDialog.setCancelable(false);
 			pDialog.show();

@@ -59,6 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
+            <!-- Table Semester Lalu -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -96,6 +98,25 @@
                     android:paddingBottom="5dip"
                     android:paddingTop="5dip" />
 
+                <!-- Table Semester Terkait -->
+
+                <com.ukietux.pamobile.utils.CustomTextView
+                    android:id="@+id/Notif4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:lines="2" />
+
+                <TableLayout
+                    android:id="@+id/semesterSekarangTerkait"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="10dip"
+                    android:paddingTop="10dip"
+                    android:stretchColumns="1" >
+                </TableLayout>
+
+                <!-- Table Semester Setara -->
+
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif2Setara"
                     android:layout_width="wrap_content"
@@ -110,30 +131,14 @@
                     android:paddingTop="10dip"
                     android:stretchColumns="1" >
                 </TableLayout>
-                <com.ukietux.pamobile.utils.CustomTextView
-                    android:id="@+id/Notif4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:lines="2" />
-                <TableLayout
-                    android:id="@+id/semesterSekarangTerkait"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dip"
-                    android:paddingTop="10dip"
-                    android:stretchColumns="1" >
-                </TableLayout>
-
-                <com.ukietux.pamobile.utils.CustomTextView
-                    android:id="@+id/TotSKSSekTerkait"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
 
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingBottom="5dip"
                     android:paddingTop="5dip" />
+
+                <!-- Table Semester Sekarang -->
 
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif2"
@@ -161,6 +166,8 @@
                     android:paddingBottom="5dip"
                     android:paddingTop="5dip" />
 
+                <!-- Table Semester Pillihan Setara -->
+
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif3Setara"
                     android:layout_width="wrap_content"
@@ -175,6 +182,8 @@
                     android:paddingTop="10dip"
                     android:stretchColumns="1" >
                 </TableLayout>
+
+                <!-- Table Semester Pilihan -->
 
                 <com.ukietux.pamobile.utils.CustomTextView
                     android:id="@+id/Notif3"
