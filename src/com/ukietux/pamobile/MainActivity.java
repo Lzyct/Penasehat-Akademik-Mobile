@@ -336,7 +336,7 @@ public class MainActivity extends ActionBarActivity {
 			Keluar();
 			return true;
 		case R.id.update:
-			Update();
+			AlertUpdate();
 			return true;
 		case R.id.about:
 			about();
@@ -377,6 +377,47 @@ public class MainActivity extends ActionBarActivity {
 		alert.show();
 	}
 
+	public void AlertUpdate() {
+
+		// connect to dbcontroller
+
+		controler = new DBController(getApplicationContext());
+		Log.d("Skripsi", "mengakses database");
+		db = controler.getWritableDatabase();
+
+		Context context = MainActivity.this;
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
+		builder.setCancelable(false)
+				.setTitle("Peringatan!")
+				.setMessage("Jangan menghentikan proses selama mengambil data dari server "
+						+ "dan pastikan koneksi internet Anda stabil, "
+						+ "jika proses terhenti silakan masuk \n\n"
+						+ "ke Pengaturan -> Aplikasi -> Di Unduh -> Penasehat Akademik \n"
+						+ "\n\nPilih bersihkan data")
+				.setIcon(R.drawable.ic_warning)
+				.setCancelable(false)
+				.setPositiveButton("Perbarui Data",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, close
+								// current activity
+								Update();
+							}
+						})
+				.setNegativeButton("Batal",
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int id) {
+								// if this button is clicked, just close
+								// the dialog box and do nothing
+								dialog.cancel();
+
+							}
+						});
+		AlertDialog alert = builder.create();
+		alert.show();
+
+	}
+	
 	public void Keluar() {
 
 		// connect to dbcontroller
