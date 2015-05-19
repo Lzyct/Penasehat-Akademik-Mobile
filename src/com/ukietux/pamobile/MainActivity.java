@@ -390,10 +390,7 @@ public class MainActivity extends ActionBarActivity {
 		builder.setCancelable(false)
 				.setTitle("Peringatan!")
 				.setMessage("Jangan menghentikan proses selama mengambil data dari server "
-						+ "dan pastikan koneksi internet Anda stabil, "
-						+ "jika proses terhenti silakan masuk \n\n"
-						+ "ke Pengaturan -> Aplikasi -> Di Unduh -> Penasehat Akademik \n"
-						+ "\n\nPilih bersihkan data")
+						+ "dan pastikan koneksi internet Anda stabil")
 				.setIcon(R.drawable.ic_warning)
 				.setCancelable(false)
 				.setPositiveButton("Perbarui Data",
@@ -502,7 +499,6 @@ public class MainActivity extends ActionBarActivity {
 
 		@Override
 		protected String doInBackground(String... arg0) {
-			controler.deleteAll();
 			Log.d("Skripsi", "insert data ke dataMHS");
 			JSONParser jParser = new JSONParser();
 
@@ -588,29 +584,29 @@ public class MainActivity extends ActionBarActivity {
 						Log.d("Skripsi", "insert data ke MataKuliah");
 					}
 
-					if (success.equals("1")) {
-
-						for (int i = 0; i < hasil.length(); i++) {
-
-							JSONObject c = hasil.getJSONObject(i);
-
-							String nim = c.getString("Nim").trim();
-							session.createLoginSession(nim);
-							Log.e("ok", " ambil data");
-
-						}
-					} else {
-						Toast.makeText(getApplicationContext(),
-								"Server sedang down", Toast.LENGTH_LONG).show();
-						Log.e("erro", "tidak bisa ambil data 0");
-					}
+//					if (success.equals("1")) {
+//
+//						for (int i = 0; i < hasil.length(); i++) {
+//
+//							JSONObject c = hasil.getJSONObject(i);
+//
+//							String nim = c.getString("Nim").trim();
+//							session.createLoginSession(nim);
+//							Log.e("ok", " ambil data");
+//
+//						}
+//					} else {
+//						Toast.makeText(getApplicationContext(),
+//								"Server sedang down", Toast.LENGTH_LONG).show();
+//						Log.e("erro", "tidak bisa ambil data 0");
+//					}
 
 				} catch (Exception e) {
 					// TODO: handle exception
 					Toast.makeText(getApplicationContext(),
 							"Server sedang down", Toast.LENGTH_LONG).show();
 					Log.e("erro", "tidak bisa ambil data 1");
-
+					
 				}
 			}
 			return null;

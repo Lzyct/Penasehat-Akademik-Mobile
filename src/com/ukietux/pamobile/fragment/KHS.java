@@ -59,16 +59,16 @@ public class KHS extends Fragment {
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int pos, long id) {
 				DBController controler = new DBController(getActivity());
-				String testX= parent.getItemAtPosition(pos).toString();
-				String tX= testX.substring(0,6);
-				
-				if (tX.equals("Gasal ")){
-					Semester = testX.substring(6)+"1";
-				}else if (tX.equals("Genap ")){
-					Semester = testX.substring(6)+"2";
+				String testX = parent.getItemAtPosition(pos).toString();
+				String tX = testX.substring(0, 6);
+
+				if (tX.equals("Gasal ")) {
+					Semester = testX.substring(6) + "1";
+				} else if (tX.equals("Genap ")) {
+					Semester = testX.substring(6) + "2";
 				}
-				
-//				Semester = parent.getItemAtPosition(pos).toString();
+
+				// Semester = parent.getItemAtPosition(pos).toString();
 				Log.d("semester", Semester);
 				// clean all before add view
 				tableLayout.removeAllViews();
@@ -107,16 +107,19 @@ public class KHS extends Fragment {
 			a.moveToFirst();
 			do {
 
-				Log.d("Skripsi", "mengambil data colom Nama");
+				if (a.getString(IPS) == null) {
 
-				Double IPSter = Double.valueOf(a.getString(IPS));
-				IPSx.setText("IPS : "
-						+ new DecimalFormat("#.##").format(IPSter));
-				IPSx.setTextColor(Color.WHITE);
-				IPSx.setBackgroundResource(R.drawable.tv_bg);
-				IPSx.setGravity(Gravity.CENTER_HORIZONTAL);
-				Log.d("Skripsix", a.getString(IPS));
+				} else {
+					Log.d("Skripsi", "mengambil data colom Nama");
 
+					Double IPSter = Double.valueOf(a.getString(IPS));
+					IPSx.setText("IPS : "
+							+ new DecimalFormat("#.##").format(IPSter));
+					IPSx.setTextColor(Color.WHITE);
+					IPSx.setBackgroundResource(R.drawable.tv_bg);
+					IPSx.setGravity(Gravity.CENTER_HORIZONTAL);
+					Log.d("Skripsix", a.getString(IPS));
+				}
 			} while (a.moveToNext());
 			// db.close();
 		} else {
@@ -168,7 +171,7 @@ public class KHS extends Fragment {
 
 			// Setting up ColomnNilaiHuruf parameters
 			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
-			ColomnNilaiHuruf =  new CustomTextView(getActivity());
+			ColomnNilaiHuruf = new CustomTextView(getActivity());
 			ColomnNilaiHuruf.setText("NILAI HURUF");
 			ColomnNilaiHuruf.setTextColor(Color.WHITE);
 			ColomnNilaiHuruf.setTextSize(14);
@@ -178,7 +181,7 @@ public class KHS extends Fragment {
 
 			// Setting up ColomnSKS parameters
 			Log.d("Skripsi", "mengambil data colom SKS");
-			ColomnSKS =  new CustomTextView(getActivity());
+			ColomnSKS = new CustomTextView(getActivity());
 			ColomnSKS.setText("SKS");
 			ColomnSKS.setTextColor(Color.WHITE);
 			ColomnSKS.setTextSize(14);
@@ -196,7 +199,7 @@ public class KHS extends Fragment {
 
 				// Setting up the ColomnNamaMaKul parameters
 				Log.d("Skripsi", "mengambil data colom NamaMakul");
-				ColomnNamaMaKul =  new CustomTextView(getActivity());
+				ColomnNamaMaKul = new CustomTextView(getActivity());
 				ColomnNamaMaKul.setText(c.getString(NamaMaKul));
 				ColomnNamaMaKul.setTextColor(Color.BLACK);
 				ColomnNamaMaKul.setTextSize(14);
@@ -206,7 +209,7 @@ public class KHS extends Fragment {
 
 				// Setting up ColomnNilaiHuruf parameters
 				Log.d("Skripsi", "mengambil data colom NilaiHuruf");
-				ColomnNilaiHuruf =  new CustomTextView(getActivity());
+				ColomnNilaiHuruf = new CustomTextView(getActivity());
 				ColomnNilaiHuruf.setText(c.getString(NilaiHuruf));
 				ColomnNilaiHuruf.setTextColor(Color.BLACK);
 				ColomnNilaiHuruf.setTextSize(14);
@@ -217,7 +220,7 @@ public class KHS extends Fragment {
 
 				// Setting up ColomnSKS parameters
 				Log.d("Skripsi", "mengambil data colom SKS");
-				ColomnSKS =  new CustomTextView(getActivity());
+				ColomnSKS = new CustomTextView(getActivity());
 				ColomnSKS.setText(c.getString(SKS));
 				ColomnSKS.setTextColor(Color.BLACK);
 				ColomnSKS.setTextSize(14);
@@ -251,10 +254,12 @@ public class KHS extends Fragment {
 					String Semes = allrows.getString(0);
 					String test = Semes.substring(Semes.length() - 1);
 					String SemesterX = null;
-					if (test.equals("1")){
-						SemesterX = "Gasal " +Semes.substring(0,Semes.length() - 1);
+					if (test.equals("1")) {
+						SemesterX = "Gasal "
+								+ Semes.substring(0, Semes.length() - 1);
 					} else if (test.equals("2")) {
-						SemesterX = "Genap " +Semes.substring(0,Semes.length() - 1);
+						SemesterX = "Genap "
+								+ Semes.substring(0, Semes.length() - 1);
 					}
 					my_array.add(SemesterX);
 					Log.d("Semester", SemesterX);

@@ -1995,8 +1995,8 @@ public class KRS extends Fragment {
 				TotSKSSekar
 						.setText("TOTAL SKS : "
 								+ totalSKSWajib
-								+ " \n(Matakuliah yang belum di programkan - \n"
-								+ "(Matakuliah yang sudah diprogramkan-MataKuliah Terkait)");
+								+ " \nMatakuliah yang belum di programkan - \n"
+								+ "(Matakuliah yang sudah diprogramkan+MataKuliah Terkait)");
 			}
 		}
 
@@ -2136,7 +2136,7 @@ public class KRS extends Fragment {
 				TotSKSSekarP
 						.setText("TOTAL SKS : "
 								+ totalSKSPilihan
-								+ " \n(Matakuliah yang belum di programkan - \n"
+								+ " \nMatakuliah yang belum di programkan - \n"
 								+ "(Matakuliah yang sudah diprogramkan+Mata Kuliah Terkait)");
 			}
 		}
