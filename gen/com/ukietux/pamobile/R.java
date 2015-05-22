@@ -1677,10 +1677,10 @@ containing a value of this type.
         public static final int tv_bg=0x7f02004e;
     }
     public static final class id {
-        public static final int HorizontalScrollView01=0x7f090044;
         public static final int IPK=0x7f09005e;
         public static final int IPS=0x7f090043;
         public static final int JumSKS=0x7f09005f;
+        public static final int Keterangan=0x7f090044;
         public static final int MaksimumSKS=0x7f090048;
         public static final int Nama=0x7f09005b;
         public static final int Nim=0x7f09005c;

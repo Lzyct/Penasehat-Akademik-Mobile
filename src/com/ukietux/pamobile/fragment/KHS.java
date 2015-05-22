@@ -32,7 +32,7 @@ public class KHS extends Fragment {
 	CustomTextView ColomnNamaMaKul;
 	CustomTextView ColomnNilaiHuruf;
 	CustomTextView ColomnSKS;
-	CustomTextView IPSx;
+	CustomTextView IPSx, ket;
 	TableRow row, rowIPK, rowHeader;
 	TableLayout tableLayout, tableIPK;
 	String Semester;
@@ -50,6 +50,13 @@ public class KHS extends Fragment {
 
 		IPSx = (CustomTextView) v.findViewById(R.id.IPS);
 
+		ket = (CustomTextView) v.findViewById(R.id.Keterangan);
+		ket.setBackgroundResource(R.drawable.tv_bg);
+		ket.setTextColor(Color.WHITE);
+		ket.setTextSize(14);
+
+		ket.setText("Keterangan :\n" + "\tMK \t= Matakuliah\n"
+				+ "\tNH \t= Nilai Huruf\n" + "\tSMT \t= Semester");
 		ArrayList<String> my_array = new ArrayList<String>();
 		my_array = getTableValues();
 
@@ -162,7 +169,7 @@ public class KHS extends Fragment {
 			// Setting up the ColomnNamaMaKul parameters
 			Log.d("Skripsi", "mengambil data colom NamaMakul");
 			ColomnNamaMaKul = new CustomTextView(getActivity());
-			ColomnNamaMaKul.setText("NAMA MATAKULIAH");
+			ColomnNamaMaKul.setText("MK");
 			ColomnNamaMaKul.setTextColor(Color.WHITE);
 			ColomnNamaMaKul.setTextSize(14);
 			ColomnNamaMaKul.setGravity(Gravity.CENTER);
@@ -172,7 +179,7 @@ public class KHS extends Fragment {
 			// Setting up ColomnNilaiHuruf parameters
 			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
 			ColomnNilaiHuruf = new CustomTextView(getActivity());
-			ColomnNilaiHuruf.setText("NILAI HURUF");
+			ColomnNilaiHuruf.setText("NH");
 			ColomnNilaiHuruf.setTextColor(Color.WHITE);
 			ColomnNilaiHuruf.setTextSize(14);
 			ColomnNilaiHuruf.setGravity(Gravity.CENTER);

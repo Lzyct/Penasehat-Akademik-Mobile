@@ -35,7 +35,7 @@ public class TranskipNilai extends Fragment {
 	CustomTextView ColomnSKS;
 
 	CustomTextView NHuruf, SKSx, totIPK, totSKS, NilaiA, NilaiB, NilaiC,
-			NilaiD, NilaiE, Judul;
+			NilaiD, NilaiE, Judul, ket;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,6 +57,14 @@ public class TranskipNilai extends Fragment {
 		NilaiD = (CustomTextView) view.findViewById(R.id.d);
 		NilaiE = (CustomTextView) view.findViewById(R.id.e);
 		totIPK = (CustomTextView) view.findViewById(R.id.IPK);
+
+		ket = (CustomTextView) view.findViewById(R.id.Keterangan);
+		ket.setBackgroundResource(R.drawable.tv_bg);
+		ket.setTextColor(Color.WHITE);
+		ket.setTextSize(14);
+		ket.setText("Keterangan :\n" + "\tMK \t= Matakuliah\n"
+				+ "\tNH \t= Nilai Huruf\n"
+				+ "\tSKS \t= Satuan Kredit Semester\n" + "\tSMT \t= Semester");
 
 		Log.d("Skripsi", "memanggil DBController");
 		DBController controler = new DBController(getActivity());
@@ -83,7 +91,6 @@ public class TranskipNilai extends Fragment {
 				+ "WHEN NilaiHuruf= 'D' THEN 1*SKS ELSE 0*SKS END)*1.0/SUM(SKS)*1.0 "
 				+ "AS IPK " + "FROM TRANSKIP WHERE NilaiHuruf!=''";
 		Cursor a = db.rawQuery(query, null);
-		Integer IPK = a.getColumnIndex("IPK");
 
 		Cursor c = db.rawQuery("SELECT  NamaMaKul," + "NilaiHuruf,"
 				+ "Semester," + "SKS," + "KodeMaKul " + "FROM TRANSKIP "
@@ -110,55 +117,63 @@ public class TranskipNilai extends Fragment {
 						"select count(NilaiHuruf) as Nilai ,min(KodeMaKul) as KodeMaKul  from TRANSKIP where NilaiHuruf='E'",
 						null);
 
-		Integer NilA = A.getColumnIndex("Nilai");
-		Integer NilB = B.getColumnIndex("Nilai");
-		Integer NilC = C.getColumnIndex("Nilai");
-		Integer NilD = D.getColumnIndex("Nilai");
-		Integer NilE = E.getColumnIndex("Nilai");
+		if (a.getCount() > 0) {
+			a.moveToFirst();
+			Integer IPK = a.getColumnIndex("IPK");
+			Double IPKx = Double.valueOf(a.getString(IPK));
+			totIPK.setText("IPK = " + new DecimalFormat("#.##").format(IPKx));
+			totIPK.setTextColor(Color.WHITE);
+			totIPK.setTextSize(14);
+			totIPK.setGravity(Gravity.CENTER);
+			totIPK.setBackgroundResource(R.drawable.tv_bg);
+		}
+		if (A.getCount() > 0) {
+			A.moveToFirst();
+			Integer NilA = A.getColumnIndex("Nilai");
+			NilaiA.setText("A = " + A.getString(NilA));
+			NilaiA.setTextColor(Color.WHITE);
+			NilaiA.setTextSize(14);
+			NilaiA.setGravity(Gravity.CENTER);
+			NilaiA.setBackgroundResource(R.drawable.tv_bg);
 
-		a.moveToFirst();
-		A.moveToFirst();
-		B.moveToFirst();
-		C.moveToFirst();
-		D.moveToFirst();
-		E.moveToFirst();
+		}
+		if (B.getCount() > 0) {
+			B.moveToFirst();
+			Integer NilB = B.getColumnIndex("Nilai");
+			NilaiB.setText("B = " + B.getString(NilB));
+			NilaiB.setTextColor(Color.WHITE);
+			NilaiB.setTextSize(14);
+			NilaiB.setGravity(Gravity.CENTER);
+			NilaiB.setBackgroundResource(R.drawable.tv_bg);
+		}
+		if (C.getCount() > 0) {
+			C.moveToFirst();
+			Integer NilC = C.getColumnIndex("Nilai");
+			NilaiC.setText("C = " + C.getString(NilC));
+			NilaiC.setTextColor(Color.WHITE);
+			NilaiC.setTextSize(14);
+			NilaiC.setGravity(Gravity.CENTER);
+			NilaiC.setBackgroundResource(R.drawable.tv_bg);
+		}
+		if (D.getCount() > 0) {
+			D.moveToFirst();
+			Integer NilD = D.getColumnIndex("Nilai");
+			NilaiD.setText("D = " + D.getString(NilD));
+			NilaiD.setTextColor(Color.WHITE);
+			NilaiD.setTextSize(14);
+			NilaiD.setGravity(Gravity.CENTER);
+			NilaiD.setBackgroundResource(R.drawable.tv_bg);
+		}
+		if (E.getCount() > 0) {
+			E.moveToFirst();
+			Integer NilE = E.getColumnIndex("Nilai");
+			NilaiE.setText("E = " + E.getString(NilE));
+			NilaiE.setTextColor(Color.WHITE);
+			NilaiE.setTextSize(14);
+			NilaiE.setGravity(Gravity.CENTER);
+			NilaiE.setBackgroundResource(R.drawable.tv_bg);
 
-		Double IPKx = Double.valueOf(a.getString(IPK));
-		totIPK.setText("IPK = " + new DecimalFormat("#.##").format(IPKx));
-		totIPK.setTextColor(Color.WHITE);
-		totIPK.setTextSize(14);
-		totIPK.setGravity(Gravity.CENTER);
-		totIPK.setBackgroundResource(R.drawable.tv_bg);
-
-		NilaiA.setText("A = " + A.getString(NilA));
-		NilaiA.setTextColor(Color.WHITE);
-		NilaiA.setTextSize(14);
-		NilaiA.setGravity(Gravity.CENTER);
-		NilaiA.setBackgroundResource(R.drawable.tv_bg);
-
-		NilaiB.setText("B = " + B.getString(NilB));
-		NilaiB.setTextColor(Color.WHITE);
-		NilaiB.setTextSize(14);
-		NilaiB.setGravity(Gravity.CENTER);
-		NilaiB.setBackgroundResource(R.drawable.tv_bg);
-
-		NilaiC.setText("C = " + C.getString(NilC));
-		NilaiC.setTextColor(Color.WHITE);
-		NilaiC.setTextSize(14);
-		NilaiC.setGravity(Gravity.CENTER);
-		NilaiC.setBackgroundResource(R.drawable.tv_bg);
-
-		NilaiD.setText("D = " + D.getString(NilD));
-		NilaiD.setTextColor(Color.WHITE);
-		NilaiD.setTextSize(14);
-		NilaiD.setGravity(Gravity.CENTER);
-		NilaiD.setBackgroundResource(R.drawable.tv_bg);
-
-		NilaiE.setText("E = " + E.getString(NilE));
-		NilaiE.setTextColor(Color.WHITE);
-		NilaiE.setTextSize(14);
-		NilaiE.setGravity(Gravity.CENTER);
-		NilaiE.setBackgroundResource(R.drawable.tv_bg);
+		}
 
 		Integer NamaMaKul = c.getColumnIndex("NamaMaKul");
 		Integer NilaiHuruf = c.getColumnIndex("NilaiHuruf");
@@ -186,17 +201,18 @@ public class TranskipNilai extends Fragment {
 			// Setting up the ColomnNamaMaKul parameters
 			Log.d("Skripsi", "mengambil data colom NamaMakul");
 			ColomnNamaMaKul = new CustomTextView(getActivity());
-			ColomnNamaMaKul.setText("NAMA MATAKULIAH");
+			ColomnNamaMaKul.setText("MK");
 			ColomnNamaMaKul.setTextColor(Color.WHITE);
 			ColomnNamaMaKul.setTextSize(14);
 			ColomnNamaMaKul.setGravity(Gravity.CENTER);
 			ColomnNamaMaKul.setBackgroundResource(R.drawable.tv_bg);
+
 			rowHeader.addView(ColomnNamaMaKul, cellLp); // adding column to row
 
 			// Setting up ColomnNilaiHuruf parameters
 			Log.d("Skripsi", "mengambil data colom NilaiHuruf");
 			ColomnNilaiHuruf = new CustomTextView(getActivity());
-			ColomnNilaiHuruf.setText("NILAI HURUF");
+			ColomnNilaiHuruf.setText("NH");
 			ColomnNilaiHuruf.setTextColor(Color.WHITE);
 			ColomnNilaiHuruf.setGravity(Gravity.CENTER);
 			ColomnNilaiHuruf.setTextSize(14);
@@ -206,7 +222,7 @@ public class TranskipNilai extends Fragment {
 			// Setting up ColomnSemester parameters
 			Log.d("Skripsi", "mengambil data colom Semester");
 			ColomnSemester = new CustomTextView(getActivity());
-			ColomnSemester.setText("SEMESTER");
+			ColomnSemester.setText("SMT");
 			ColomnSemester.setTextColor(Color.WHITE);
 			ColomnSemester.setTextSize(14);
 			ColomnSemester.setGravity(Gravity.CENTER);
@@ -235,6 +251,7 @@ public class TranskipNilai extends Fragment {
 				ColomnNamaMaKul.setText(c.getString(NamaMaKul));
 				ColomnNamaMaKul.setTextColor(Color.BLACK);
 				ColomnNamaMaKul.setTextSize(14);
+				ColomnNamaMaKul.setWidth(70);
 				ColomnNamaMaKul.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnNamaMaKul, cellLp); // adding column to row
 				Log.d("Skripsi", c.getString(NamaMaKul));
@@ -247,6 +264,7 @@ public class TranskipNilai extends Fragment {
 				ColomnNilaiHuruf.setTextColor(Color.BLACK);
 				ColomnNilaiHuruf.setGravity(Gravity.CENTER);
 				ColomnNilaiHuruf.setTextSize(14);
+				ColomnNilaiHuruf.setWidth(1);
 				ColomnNilaiHuruf.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnNilaiHuruf, cellLp);
 				Log.d("Skripsi", c.getString(NilaiHuruf));
@@ -258,6 +276,7 @@ public class TranskipNilai extends Fragment {
 				ColomnSemester.setTextColor(Color.BLACK);
 				ColomnSemester.setTextSize(14);
 				ColomnSemester.setGravity(Gravity.CENTER);
+				ColomnSemester.setWidth(1);
 				ColomnSemester.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnSemester, cellLp);
 				Log.d("Skripsi", c.getString(Semester));
@@ -269,12 +288,13 @@ public class TranskipNilai extends Fragment {
 				ColomnSKS.setTextColor(Color.BLACK);
 				ColomnSKS.setGravity(Gravity.CENTER);
 				ColomnSKS.setTextSize(14);
+				ColomnSKS.setWidth(1);
 				ColomnSKS.setBackgroundResource(R.drawable.edt_bg);
 				row.addView(ColomnSKS, cellLp);
 				Log.d("Skripsi", c.getString(SKS));
 				tableLayout.addView(row, rowLp);
 			} while (c.moveToNext());
-			db.close();
+			// db.close();
 		} else {
 			// Toast.makeText(getActivity().getApplicationContext(),
 			// "Event occurred.", Toast.LENGTH_LONG).show();

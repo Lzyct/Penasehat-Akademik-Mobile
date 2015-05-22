@@ -293,7 +293,7 @@ public class Profil extends Fragment {
 					// Log.d("Skripsix", a.getString(Semester));
 				}
 			} while (a.moveToNext());
-			db.close();
+//			db.close();
 		} else {
 			// Toast.makeText(getActivity().getApplicationContext(),
 			// "Event occurred.", Toast.LENGTH_LONG).show();

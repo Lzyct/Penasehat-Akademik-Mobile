@@ -370,10 +370,10 @@ int drawable profil_bg 0x7f02004b
 int drawable splash_screen 0x7f02004c
 int drawable spx 0x7f02004d
 int drawable tv_bg 0x7f02004e
-int id HorizontalScrollView01 0x7f090044
 int id IPK 0x7f09005e
 int id IPS 0x7f090043
 int id JumSKS 0x7f09005f
+int id Keterangan 0x7f090044
 int id MaksimumSKS 0x7f090048
 int id Nama 0x7f09005b
 int id Nim 0x7f09005c
